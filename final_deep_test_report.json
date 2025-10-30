@@ -1,0 +1,297 @@
+{
+  "timestamp": "2025-10-09T12:31:04.536483",
+  "summary": {
+    "total_tests": 46,
+    "working_count": 30,
+    "broken_count": 10,
+    "missing_count": 5,
+    "auth_required_count": 1,
+    "success_rate": 65.21739130434783
+  },
+  "results": {
+    "working": [
+      {
+        "method": "POST",
+        "url": "/api/v1/user/pin/create/",
+        "status": 200,
+        "category": "auth"
+      },
+      {
+        "method": "GET",
+        "url": "/health/",
+        "status": 200,
+        "category": "core"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/health/",
+        "status": 200,
+        "category": "core"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/category/list/",
+        "status": 200,
+        "category": "core"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/market/list/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/market/public/list/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/order/list",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/order/orders",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/chat/rooms/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/wallet/balance/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/wallet/transactions/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/payments/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/affiliate/products/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/affiliate/commissions/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/bank/info/list/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/comment/product/550e8400-e29b-41d4-a716-446655440000/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/comment/market/550e8400-e29b-41d4-a716-446655440000/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/inquiries/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/referral/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/market/list/",
+        "status": 200,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/product/list/550e8400-e29b-41d4-a716-446655440000",
+        "status": 200,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/order/list",
+        "status": 200,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/inquiries/",
+        "status": 200,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/analytics/users/",
+        "status": 200,
+        "category": "analytics"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/analytics/products/",
+        "status": 200,
+        "category": "analytics"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/analytics/markets/",
+        "status": 200,
+        "category": "analytics"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/analytics/sales/",
+        "status": 200,
+        "category": "analytics"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/sms/owner/line/",
+        "status": 200,
+        "category": "sms"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/sms/owner/template/",
+        "status": 200,
+        "category": "sms"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/advertisements/",
+        "status": 200,
+        "category": "advertisement"
+      }
+    ],
+    "broken": [
+      {
+        "method": "GET",
+        "url": "/flutter/markets",
+        "status": 400,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/flutter/products",
+        "status": 400,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/flutter/advertisements",
+        "status": 400,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/market/create/",
+        "status": 405,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/order/verify",
+        "status": 405,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/reservation/user/service/",
+        "status": 400,
+        "category": "reservation"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/reservation/user/specialist/",
+        "status": 400,
+        "category": "reservation"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/reservation/owner/service/",
+        "status": 500,
+        "category": "reservation"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/reservation/owner/specialist/",
+        "status": 500,
+        "category": "reservation"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/analytics/dashboard/",
+        "status": 500,
+        "category": "analytics"
+      }
+    ],
+    "missing": [
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/affiliate/",
+        "status": 404,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/sms/admin/line/",
+        "status": 404,
+        "category": "sms"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/sms/admin/template/",
+        "status": 404,
+        "category": "sms"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/discount/",
+        "status": 404,
+        "category": "discount"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/wallet/",
+        "status": 404,
+        "category": "wallet"
+      }
+    ],
+    "auth_required": [
+      {
+        "method": "POST",
+        "url": "/api/v1/user/pin/verify/",
+        "status": 401,
+        "category": "auth"
+      }
+    ]
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "project_info": {
+    "name": "Asoud API",
+    "version": "1.0.0",
+    "description": "API کامل برای پلتفرم آسود",
+    "created_at": "2025-10-13T19:33:58.356002",
+    "database_type": "SQLite (Development) / PostgreSQL (Production)"
+  },
+  "api_endpoints": {
+    "base_url": "http://localhost:8000/api/v1",
+    "authentication_required": true,
+    "endpoints": {
+      "cities": "/region/city/list/",
+      "provinces": "/region/province/list/",
+      "countries": "/region/country/list/",
+      "markets": "/user/market/",
+      "products": "/user/product/",
+      "categories": "/category/list/"
+    }
+  },
+  "sample_data": {
+    "cities": [
+      {
+        "id": "70fa70b7-2347-4d10-a187-ca6925b66d06",
+        "name": "تهران"
+      },
+      {
+        "id": "a50a3018-7840-418e-96de-008588219ad3",
+        "name": "کرج"
+      },
+      {
+        "id": "1f7d5847-6cd3-455c-af44-25a142585c62",
+        "name": "ورامین"
+      },
+      {
+        "id": "97cc3d9f-1692-4b1a-b218-ba85f8eb52f2",
+        "name": "دماوند"
+      },
+      {
+        "id": "0cd42ba3-3e88-4476-832e-6dfdad0567e4",
+        "name": "رودهن"
+      },
+      {
+        "id": "db5553e6-3921-45d1-a637-d5e0db08b052",
+        "name": "شهریار"
+      },
+      {
+        "id": "b5ec4d46-8994-4ff0-b675-1c4bcc753e0e",
+        "name": "اسلامشهر"
+      },
+      {
+        "id": "3f02c77e-81a5-405a-b9ed-f8413efe496d",
+        "name": "پاکدشت"
+      },
+      {
+        "id": "3b40e9ff-1c19-416f-a853-477697f27790",
+        "name": "اصفهان"
+      },
+      {
+        "id": "9b3cde02-f9b8-44fd-85ae-a3cfddf5d5fd",
+        "name": "شیراز"
+      }
+    ],
+    "markets": [
+      {
+        "id": "5b293630-8df4-4c01-9f8b-e7ea3a3aea49",
+        "name": "بازار نمونه 1",
+        "business_id": "market_001"
+      },
+      {
+        "id": "d502d25b-1f4e-4948-9818-a36db481d285",
+        "name": "بازار نمونه 2",
+        "business_id": "market_002"
+      },
+      {
+        "id": "5479360c-3a73-4ddf-b4a2-411c819cdb3b",
+        "name": "بازار نمونه 3",
+        "business_id": "market_003"
+      },
+      {
+        "id": "20d3dee9-4234-44ee-908b-65edc4702bf1",
+        "name": "بازار نمونه 4",
+        "business_id": "market_004"
+      },
+      {
+        "id": "fe963b45-dbee-4e0e-938d-565653a37699",
+        "name": "بازار نمونه 5",
+        "business_id": "market_005"
+      }
+    ],
+    "categories": [
+      {
+        "id": "adc24f1e-eda8-41d4-a40f-e4ee17a47d7b",
+        "name": "غذا و نوشیدنی"
+      },
+      {
+        "id": "d1b3d1f2-93fa-44b2-bfa4-e7f454f46ab5",
+        "name": "پوشاک و مد"
+      },
+      {
+        "id": "936d1194-b53d-4c25-897a-6a5472e056a9",
+        "name": "دیجیتال و الکترونیک"
+      },
+      {
+        "id": "816a9d22-4381-4182-a330-45569ac07b0e",
+        "name": "خانه و آشپزخانه"
+      },
+      {
+        "id": "d8681e7a-3853-4b19-9dc7-e50e05e4ef70",
+        "name": "ورزش و تفریح"
+      }
+    ]
+  },
+  "response_formats": {
+    "city_list": {
+      "success": true,
+      "code": 200,
+      "data": [
+        {
+          "id": "70fa70b7-2347-4d10-a187-ca6925b66d06",
+          "name": "تهران"
+        }
+      ],
+      "message": "Data retrieved successfully"
+    },
+    "market_detail": {
+      "success": true,
+      "code": 200,
+      "data": {
+        "id": "5b293630-8df4-4c01-9f8b-e7ea3a3aea49",
+        "name": "بازار نمونه",
+        "business_id": "market_001",
+        "description": "توضیحات بازار نمونه",
+        "type": "shop",
+        "status": "published",
+        "is_paid": true
+      },
+      "message": "Market retrieved successfully"
+    }
+  },
+  "authentication": {
+    "type": "Token Authentication",
+    "header": "Authorization: Bearer YOUR_TOKEN",
+    "login_endpoint": "/auth/login/",
+    "register_endpoint": "/auth/register/"
+  },
+  "uuid_info": {
+    "city_uuid_format": "UUID4 (36 characters)",
+    "market_uuid_format": "UUID4 (36 characters)",
+    "example_city_uuid": "70fa70b7-2347-4d10-a187-ca6925b66d06",
+    "example_market_uuid": "5b293630-8df4-4c01-9f8b-e7ea3a3aea49",
+    "total_cities": 157,
+    "total_markets": "Variable (depends on data)"
+  },
+  "frontend_guidelines": {
+    "encoding": "UTF-8 (Persian text)",
+    "api_base_url": "http://localhost:8000/api/v1",
+    "required_headers": [
+      "Authorization",
+      "Content-Type"
+    ],
+    "error_handling": "Check success field in response",
+    "pagination": "Not implemented yet"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "security": {
+    "score": 72.22222222222223,
+    "items": [
+      "\u2705 ALLOWED_HOSTS configured (12 hosts)",
+      "\u2705 Password validators configured (5)",
+      "\u2705 Authentication required by default",
+      "\u2705 CSRF middleware enabled",
+      "\u2705 Security headers middleware enabled",
+      "\u2705 Rate limiting middleware enabled",
+      "\u2705 Security audit middleware enabled",
+      "\u2705 CORS configured",
+      "\u2705 Sensitive file not found: secrets.json",
+      "\u2705 Sensitive file not found: private_key.pem",
+      "\u2705 Sensitive file not found: database.ini"
+    ],
+    "critical": [
+      "DEBUG mode enabled in production",
+      "SECRET_KEY not properly configured",
+      "\u274c JWT Authentication not configured"
+    ],
+    "warnings": [
+      "\u26a0\ufe0f HTTPS redirect not enabled",
+      "\u26a0\ufe0f Secure session cookies not enabled",
+      "\u26a0\ufe0f CSRF test failed: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "\u26a0\ufe0f Sensitive file found: .env"
+    ]
+  },
+  "performance": {
+    "score": 50.0,
+    "items": [
+      "\u2705 Static directory exists: media/"
+    ],
+    "critical": [
+      "\u274c Database performance test failed: could not translate host name \"db\" to address: Name or service not known\n"
+    ],
+    "warnings": [
+      "\u26a0\ufe0f Redis caching not available",
+      "\u26a0\ufe0f API test failed: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))",
+      "\u26a0\ufe0f Memory test failed: No module named 'psutil'",
+      "\u26a0\ufe0f Static directory missing: static/css/",
+      "\u26a0\ufe0f Static directory missing: static/js/",
+      "\u26a0\ufe0f Static directory missing: static/images/"
+    ]
+  },
+  "production": {
+    "score": 84.21052631578948,
+    "items": [
+      "\u2705 Configuration file exists: config/settings/production.py",
+      "\u2705 Configuration file exists: docker-compose.prod.yaml",
+      "\u2705 Configuration file exists: deploy_production.py",
+      "\u2705 Configuration file exists: gunicorn.conf.py",
+      "\u2705 Configuration file exists: nginx.conf",
+      "\u2705 Configuration file exists: asoud.service",
+      "\u2705 Dependency available: redis",
+      "\u2705 Dependency available: PIL",
+      "\u2705 Logging configured",
+      "\u2705 Error handling in apps/core/exception_handler.py",
+      "\u2705 Error handling in apps/core/caching.py",
+      "\u2705 Error handling in config/middleware.py",
+      "\u2705 Monitoring file exists: apps/core/management/commands/performance_monitor.py",
+      "\u2705 Monitoring file exists: ultimate_validation_script.py",
+      "\u2705 Monitoring file exists: security_validation_complete.py",
+      "\u2705 Monitoring file exists: monitor.sh"
+    ],
+    "critical": [
+      "\u274c Dependency missing: psutil",
+      "\u274c Dependency missing: django_redis",
+      "\u274c Dependency missing: gunicorn"
+    ],
+    "warnings": []
+  },
+  "code_quality": {
+    "score": 92.85714285714286,
+    "items": [
+      "\u2705 Found 236 try blocks",
+      "\u2705 Found 146 logger calls",
+      "\u2705 Documentation exists: PHASE1_SECURITY_IMPLEMENTATION.md",
+      "\u2705 Documentation exists: PHASE2_PERFORMANCE_IMPLEMENTATION.md",
+      "\u2705 Documentation exists: ULTIMATE_PHASES_1_2_REVIEW.md",
+      "\u2705 Documentation exists: FINAL_100_PERCENT_COMPLETION.md"
+    ],
+    "critical": [],
+    "warnings": [
+      "\u26a0\ufe0f Found 10 TODO/FIXME comments"
+    ]
+  },
+  "overall": {
+    "score": 74.82247284878864,
+    "status": "CRITICAL"
+  }
+}

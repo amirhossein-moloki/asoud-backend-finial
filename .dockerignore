@@ -1,0 +1,83 @@
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+env/
+ENV/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+/media
+/staticfiles
+/static_collected
+
+# Tests
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+!README.md
+
+# Backups
+backups/
+*.bak
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Test scripts
+test_*.py
+test_*.sh
+*_test.py
+comprehensive_*.py
+setup_test_data.py
+
+# Reports
+*_REPORT.md
+*_DOCUMENTATION.md
+*_VALIDATION.py
+

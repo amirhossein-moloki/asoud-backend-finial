@@ -1,0 +1,189 @@
+{
+  "timestamp": "2025-10-09T12:18:12.763613",
+  "summary": {
+    "total_tests": 28,
+    "working_count": 16,
+    "broken_count": 5,
+    "missing_count": 6,
+    "auth_required_count": 1,
+    "success_rate": 57.14285714285714
+  },
+  "results": {
+    "working": [
+      {
+        "method": "POST",
+        "url": "/api/v1/user/pin/create/",
+        "status": 200,
+        "category": "auth"
+      },
+      {
+        "method": "GET",
+        "url": "/health/",
+        "status": 200,
+        "category": "core"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/health/",
+        "status": 200,
+        "category": "core"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/category/list/",
+        "status": 200,
+        "category": "core"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/market/list/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/order/list",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/chat/rooms/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/wallet/balance/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/wallet/transactions/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/payments/history/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/affiliate/products/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/affiliate/commissions/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/bank/info/list/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/comment/product/550e8400-e29b-41d4-a716-446655440000/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/user/comment/market/550e8400-e29b-41d4-a716-446655440000/",
+        "status": 200,
+        "category": "user"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/analytics/users/",
+        "status": 200,
+        "category": "analytics"
+      }
+    ],
+    "broken": [
+      {
+        "method": "GET",
+        "url": "/flutter/markets",
+        "status": 400,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/flutter/products",
+        "status": 400,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/flutter/advertisements",
+        "status": 400,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/reservation/user/service/",
+        "status": 400,
+        "category": "reservation"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/reservation/user/specialist/",
+        "status": 400,
+        "category": "reservation"
+      }
+    ],
+    "missing": [
+      {
+        "method": "GET",
+        "url": "/flutter/markets?id=550e8400-e29b-41d4-a716-446655440000",
+        "status": 404,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/flutter/products?id=550e8400-e29b-41d4-a716-446655440000",
+        "status": 404,
+        "category": "flutter"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/market/",
+        "status": 404,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/product/",
+        "status": 404,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/owner/order/",
+        "status": 404,
+        "category": "owner"
+      },
+      {
+        "method": "GET",
+        "url": "/api/v1/analytics/overview/",
+        "status": 404,
+        "category": "analytics"
+      }
+    ],
+    "auth_required": [
+      {
+        "method": "POST",
+        "url": "/api/v1/user/pin/verify/",
+        "status": 401,
+        "category": "auth"
+      }
+    ]
+  }
+}
