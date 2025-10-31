@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات فرآیند ثبت دفتر کار - ASOUD</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .structure-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(255, 154, 158, 0.3);
+        }
+        
+        .file-structure {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+        
+        .file-structure .folder {
+            color: #007bff;
+            font-weight: bold;
+        }
+        
+        .file-structure .file {
+            color: #28a745;
+        }
+        
+        .file-structure .description {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #4facfe;
+        }
+
+        .nav h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav li {
+            margin: 8px 0;
+            padding: 8px 15px;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #4facfe;
+            transition: all 0.3s ease;
+        }
+
+        .nav li:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-right: 5px solid #4facfe;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #34495e;
+            margin: 20px 0 15px 0;
+            font-size: 1.4em;
+        }
+
+        .section h4 {
+            color: #7f8c8d;
+            margin: 15px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            border-left: 4px solid #4facfe;
+        }
+
+        .api-endpoint {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .method.post {
+            background: #28a745;
+            color: white;
+        }
+
+        .method.put {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .method.get {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-right: 4px solid #f39c12;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-right: 4px solid #dc3545;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            border-right: 4px solid #28a745;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th {
+            background: #4facfe;
+            color: white;
+            padding: 15px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .table tr:hover {
+            background: #e3f2fd;
+        }
+
+        .step {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            border-right: 4px solid #4facfe;
+        }
+
+        .step-number {
+            background: #4facfe;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 مستندات فرآیند ثبت دفتر کار</h1>
+            <p>سیستم مدیریت دفتر کار ASOUD - نسخه 3.0</p>
+        </div>
+
+        <div class="nav">
+            <h2>📋 فهرست مطالب</h2>
+            <ul>
+                <li><a href="#overview">نمای کلی سیستم</a></li>
+                <li><a href="#structure">ساختار فایل‌ها</a></li>
+                <li><a href="#problems">مشکلات موجود</a></li>
+                <li><a href="#solutions">راه‌حل‌های پیشنهادی</a></li>
+                <li><a href="#api-endpoints">API Endpoints</a></li>
+                <li><a href="#database-changes">تغییرات Database</a></li>
+                <li><a href="#implementation">مراحل پیاده‌سازی</a></li>
+                <li><a href="#examples">مثال‌های کاربردی</a></li>
+            </ul>
+        </div>
+
+        <div class="section" id="overview">
+            <h2>🔍 نمای کلی سیستم</h2>
+            <p>سیستم ثبت دفتر کار ASOUD شامل سه مرحله اصلی است:</p>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>مشخصات پایه:</strong> انتخاب قالب، شناسه کسب‌وکار، نام، توضیحات، دسته‌بندی
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>مشخصات ارتباطی:</strong> شماره تماس، ایمیل، سایت، شبکه‌های اجتماعی، ساعت کاری
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>مشخصات مکانی:</strong> کشور، استان، شهر، آدرس، کد پستی، نقشه
+            </div>
+        </div>
+
+        <div class="structure-section" id="structure">
+            <h2>📁 ساختار فایل‌های اصلاح شده</h2>
+            <p>فایل‌های اصلاح شده در ساختار منظم زیر قرار دارند:</p>
+            
+            <div class="file-structure">
+<span class="folder">ASOUD_Office_Registration_Complete_Fixed.zip</span>
+├── <span class="folder">01_Models/</span>
+│   ├── <span class="file">office_registration_models.py</span> <span class="description"># مدل‌های اصلاح شده Market</span>
+│   ├── <span class="file">category_models.py</span> <span class="description"># مدل‌های اصلاح شده Category</span>
+│   └── <span class="file">category_admin.py</span> <span class="description"># پنل ادمین اصلاح شده</span>
+├── <span class="folder">02_Serializers/</span>
+│   ├── <span class="file">office_registration_serializers.py</span> <span class="description"># Serializerهای Market</span>
+│   └── <span class="file">category_serializers.py</span> <span class="description"># Serializerهای Category</span>
+├── <span class="folder">03_Views/</span>
+│   ├── <span class="file">office_registration_views.py</span> <span class="description"># Viewهای Market</span>
+│   └── <span class="file">category_views.py</span> <span class="description"># Viewهای Category</span>
+├── <span class="folder">04_URLs/</span>
+│   ├── <span class="file">office_registration_urls.py</span> <span class="description"># URLهای Market</span>
+│   ├── <span class="file">office_registration_new_endpoints.py</span> <span class="description"># URLهای جدید Market</span>
+│   └── <span class="file">category_urls.py</span> <span class="description"># URLهای Category</span>
+├── <span class="folder">05_Documentation/</span>
+│   └── <span class="file">ASOUD_Store_Registration_Documentation.html</span> <span class="description"># این مستندات</span>
+├── <span class="file">ASOUD_Fixed_Code_Complete.zip</span> <span class="description"># فایل قبلی (حذف نشده)</span>
+├── <span class="file">README.md</span> <span class="description"># راهنمای اصلی</span>
+└── <span class="file">README_Office_Registration.md</span> <span class="description"># راهنمای ثبت دفتر کار</span>
+            </div>
+            
+            <div class="info">
+                <h3>📋 دستورالعمل کپی فایل‌ها:</h3>
+                <ul>
+                    <li><strong>مدل‌ها:</strong> کپی از <code>01_Models/</code> به <code>apps/market/</code> و <code>apps/category/</code></li>
+                    <li><strong>Serializerها:</strong> کپی از <code>02_Serializers/</code> به <code>apps/market/</code> و <code>apps/category/</code></li>
+                    <li><strong>Viewها:</strong> کپی از <code>03_Views/</code> به <code>apps/market/</code> و <code>apps/category/</code></li>
+                    <li><strong>URLها:</strong> کپی از <code>04_URLs/</code> به <code>apps/market/</code> و <code>apps/category/</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="problems">
+            <h2>⚠️ مشکلات موجود در سیستم ثبت دفتر کار</h2>
+            
+            <h3>🔴 مشکلات اصلی:</h3>
+            <ul>
+                <li><strong>فرآیند پراکنده:</strong> 3 endpoint جداگانه به جای فرآیند یکپارچه ثبت دفتر کار</li>
+                <li><strong>عدم validation:</strong> شناسه کسب‌وکار و کد ملی بدون validation</li>
+                <li><strong>فیلدهای ناقص:</strong> عدم وجود قالب، ساعت کاری، کشور/استان</li>
+                <li><strong>عدم اتصال درگاه:</strong> فرآیند پرداخت حق اشتراک ناقص</li>
+                <li><strong>مدیریت حق اشتراک:</strong> عدم امکان مدیریت از پنل ادمین</li>
+            </ul>
+
+            <h3>🔶 مشکلات جزئی:</h3>
+            <ul>
+                <li>عدم جداسازی Instagram/Telegram IDs</li>
+                <li>عدم وجود فیلد working_hours</li>
+                <li>عدم وجود template selection</li>
+                <li>عدم وجود country/province fields</li>
+            </ul>
+        </div>
+
+        <div class="section" id="solutions">
+            <h2>✅ راه‌حل‌های پیشنهادی</h2>
+            
+            <h3>🏗️ تغییرات ساختاری:</h3>
+            <div class="success">
+                <strong>✅ ایجاد فرآیند یکپارچه:</strong> یک endpoint برای ثبت کامل فروشگاه
+            </div>
+            
+            <div class="success">
+                <strong>✅ اضافه کردن validation:</strong> اعتبارسنجی شناسه کسب‌وکار و کد ملی
+            </div>
+            
+            <div class="success">
+                <strong>✅ بهبود فیلدها:</strong> اضافه کردن قالب، ساعت کاری، کشور/استان
+            </div>
+            
+            <div class="success">
+                <strong>✅ اتصال درگاه پرداخت:</strong> فرآیند کامل پرداخت حق اشتراک
+            </div>
+            
+            <div class="success">
+                <strong>✅ مدیریت حق اشتراک:</strong> امکان مدیریت از پنل ادمین
+            </div>
+
+            <h3>🔧 تغییرات فنی:</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>مولفه</th>
+                        <th>تغییرات</th>
+                        <th>مزایا</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Models</td>
+                        <td>اضافه کردن فیلدهای جدید</td>
+                        <td>ساختار کامل‌تر</td>
+                    </tr>
+                    <tr>
+                        <td>Serializers</td>
+                        <td>Validation و serialization بهتر</td>
+                        <td>امنیت بیشتر</td>
+                    </tr>
+                    <tr>
+                        <td>Views</td>
+                        <td>فرآیند یکپارچه</td>
+                        <td>UX بهتر</td>
+                    </tr>
+                    <tr>
+                        <td>Admin</td>
+                        <td>مدیریت حق اشتراک</td>
+                        <td>کنترل بهتر</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section" id="api-endpoints">
+            <h2>🔗 API Endpoints</h2>
+            
+            <h3>📝 ایجاد فروشگاه:</h3>
+            <div class="api-endpoint">
+                <span class="method post">POST</span>
+                <strong>/api/v1/owner/market/integrated/create/</strong>
+                <p>ایجاد فروشگاه به صورت یکپارچه</p>
+            </div>
+
+            <h3>💳 انتخاب درگاه پرداخت:</h3>
+            <div class="api-endpoint">
+                <span class="method post">POST</span>
+                <strong>/api/v1/owner/market/payment/gateway/{market_id}/</strong>
+                <p>انتخاب درگاه پرداخت (شخصی/آسود/بعداً)</p>
+            </div>
+
+            <h3>💰 محاسبه حق اشتراک:</h3>
+            <div class="api-endpoint">
+                <span class="method post">POST</span>
+                <strong>/api/v1/owner/market/subscription/fee/calculate/</strong>
+                <p>محاسبه حق اشتراک بر اساس دسته‌بندی</p>
+            </div>
+
+            <h3>💸 پرداخت حق اشتراک:</h3>
+            <div class="api-endpoint">
+                <span class="method post">POST</span>
+                <strong>/api/v1/owner/market/subscription/payment/{market_id}/</strong>
+                <p>پرداخت حق اشتراک از کیف پول یا درگاه</p>
+            </div>
+
+            <h3>⚙️ مدیریت حق اشتراک (ادمین):</h3>
+            <div class="api-endpoint">
+                <span class="method put">PUT</span>
+                <strong>/api/v1/category/market-fee/{model_type}/{id}/</strong>
+                <p>به‌روزرسانی حق اشتراک</p>
+            </div>
+
+            <div class="api-endpoint">
+                <span class="method get">GET</span>
+                <strong>/api/v1/category/market-fee/{model_type}/</strong>
+                <p>لیست حق اشتراک‌ها</p>
+            </div>
+        </div>
+
+        <div class="section" id="database-changes">
+            <h2>🗄️ تغییرات Database</h2>
+            
+            <h3>📊 جدول Market:</h3>
+            <div class="code-block">
+# فیلدهای جدید
+template = CharField(max_length=20, choices=TEMPLATE_CHOICES)
+business_id = CharField(max_length=20, unique=True)
+working_hours = JSONField(blank=True, null=True)
+payment_gateway_type = CharField(max_length=20, choices=GATEWAY_CHOICES)
+subscription_fee = DecimalField(max_digits=14, decimal_places=3)
+subscription_payment_status = CharField(max_length=20, choices=STATUS_CHOICES)
+            </div>
+
+            <h3>📍 جدول MarketLocation:</h3>
+            <div class="code-block">
+# فیلدهای جدید
+country = ForeignKey(Country, on_delete=CASCADE)
+province = ForeignKey(Province, on_delete=CASCADE)
+            </div>
+
+            <h3>📞 جدول MarketContact:</h3>
+            <div class="code-block">
+# فیلدهای جدید
+instagram_id = CharField(max_length=100, blank=True, null=True)
+telegram_id = CharField(max_length=100, blank=True, null=True)
+            </div>
+
+            <h3>💰 جدول‌های Category:</h3>
+            <div class="code-block">
+# اضافه کردن validation
+market_fee = DecimalField(
+    max_digits=14,
+    decimal_places=3,
+    validators=[MinValueValidator(0), MaxValueValidator(999999999999)]
+)
+            </div>
+        </div>
+
+        <div class="section" id="implementation">
+            <h2>🚀 مراحل پیاده‌سازی</h2>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>کپی کردن فایل‌ها:</strong> از فولدر Fixed_Code به پروژه اصلی
+            </div>
+            
+            <div class="step">
+                <span class="step-number">2</span>
+                <strong>اجرای migrations:</strong> برای تغییرات database
+            </div>
+            
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>تنظیم URL patterns:</strong> در main urls.py
+            </div>
+            
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>تست کردن:</strong> تمام endpointها
+            </div>
+            
+            <div class="step">
+                <span class="step-number">5</span>
+                <strong>به‌روزرسانی documentation:</strong> مستندات API
+            </div>
+
+            <div class="warning">
+                <strong>⚠️ نکته مهم:</strong> قبل از پیاده‌سازی، از database backup تهیه کنید.
+            </div>
+        </div>
+
+        <div class="section" id="examples">
+            <h2>💡 مثال‌های کاربردی</h2>
+            
+            <h3>📝 ایجاد فروشگاه یکپارچه:</h3>
+            <div class="code-block">
+POST /api/v1/owner/market/integrated/create/
+{
+  "template": "store",
+  "business_id": "my_store_123",
+  "name": "فروشگاه من",
+  "description": "توضیحات فروشگاه",
+  "sub_category": 1,
+  "first_mobile_number": "09123456789",
+  "country": 1,
+  "province": 1,
+  "city": 1,
+  "address": "آدرس کامل فروشگاه"
+}
+            </div>
+
+            <h3>💳 انتخاب درگاه پرداخت:</h3>
+            <div class="code-block">
+POST /api/v1/owner/market/payment/gateway/123/
+{
+  "gateway_type": "personal",
+  "gateway_key": "your_gateway_key"
+}
+            </div>
+
+            <h3>💰 محاسبه حق اشتراک:</h3>
+            <div class="code-block">
+POST /api/v1/owner/market/subscription/fee/calculate/
+{
+  "sub_category_id": 1
+}
+
+# Response:
+{
+  "success": true,
+  "data": {
+    "sub_category": "فروشگاه تجاری",
+    "base_fee": 1000000,
+    "currency": "تومان"
+  }
+}
+            </div>
+
+            <h3>💸 پرداخت حق اشتراک:</h3>
+            <div class="code-block">
+POST /api/v1/owner/market/subscription/payment/123/
+{
+  "payment_method": "wallet",
+  "discount_code": "DISCOUNT10"
+}
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📧 برای سوالات و پشتیبانی: support@asoud.com</p>
+            <p>📅 آخرین به‌روزرسانی: دسامبر 2024</p>
+        </div>
+    </div>
+</body>
+</html>

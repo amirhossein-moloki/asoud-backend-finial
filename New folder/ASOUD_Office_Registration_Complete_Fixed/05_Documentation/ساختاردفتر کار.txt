@@ -1,0 +1,20 @@
+ASOUD_Office_Registration_Complete_Fixed.zip
+├── 01_Models/
+│   ├── office_registration_models.py    # مدل‌های اصلاح شده Market
+│   ├── category_models.py              # مدل‌های اصلاح شده Category  
+│   └── category_admin.py               # پنل ادمین اصلاح شده
+├── 02_Serializers/
+│   ├── office_registration_serializers.py  # Serializerهای Market
+│   └── category_serializers.py            # Serializerهای Category
+├── 03_Views/
+│   ├── office_registration_views.py        # Viewهای Market
+│   └── category_views.py                  # Viewهای Category
+├── 04_URLs/
+│   ├── office_registration_urls.py         # URLهای Market
+│   ├── office_registration_new_endpoints.py # URLهای جدید Market
+│   └── category_urls.py                    # URLهای Category
+├── 05_Documentation/
+│   └── ASOUD_Store_Registration_Documentation.html
+├── ASOUD_Fixed_Code_Complete.zip          # فایل قبلی (حذف نشده)
+├── README.md                              # راهنمای اصلی
+└── README_Office_Registration.md          # راهنمای ثبت دفتر کار
