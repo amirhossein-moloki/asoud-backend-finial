@@ -63,6 +63,10 @@ urlpatterns = [
         include('apps.market.urls.owner_urls'),
     ),
     path(
+        'api/v1/owner/market/workflow/',
+        include('apps.market.urls.workflow_urls'),
+    ),
+    path(
         'api/v1/owner/product/',
         include('apps.product.urls.owner_urls'),
     ),

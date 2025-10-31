@@ -2119,3 +2119,80 @@ msgstr ""
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+# Share Functionality Translations
+#: apps/market/models.py:946
+msgid "WhatsApp"
+msgstr "واتساپ"
+
+#: apps/market/models.py:947
+msgid "Telegram"
+msgstr "تلگرام"
+
+#: apps/market/models.py:948
+msgid "Twitter"
+msgstr "توییتر"
+
+#: apps/market/models.py:949
+msgid "Facebook"
+msgstr "فیسبوک"
+
+#: apps/market/models.py:950
+msgid "LinkedIn"
+msgstr "لینکدین"
+
+#: apps/market/models.py:952
+msgid "SMS"
+msgstr "پیامک"
+
+#: apps/market/models.py:953
+msgid "Copy Link"
+msgstr "کپی لینک"
+
+#: apps/market/models.py:954
+msgid "QR Code"
+msgstr "کد QR"
+
+#: apps/market/models.py:955
+msgid "Direct Link"
+msgstr "لینک مستقیم"
+
+#: apps/market/models.py:971
+msgid "Shared by"
+msgstr "به اشتراک گذاشته شده توسط"
+
+#: apps/market/models.py:977
+msgid "Share platform"
+msgstr "پلتفرم اشتراک‌گذاری"
+
+#: apps/market/models.py:983
+msgid "IP Address"
+msgstr "آدرس IP"
+
+#: apps/market/models.py:989
+msgid "User Agent"
+msgstr "عامل کاربری"
+
+#: apps/market/models.py:995
+msgid "Referrer URL"
+msgstr "URL ارجاع‌دهنده"
+
+#: apps/market/views/workflow_views.py:193
+msgid "Market must be published to generate share data"
+msgstr "فروشگاه باید منتشر شده باشد تا داده‌های اشتراک‌گذاری تولید شود"
+
+#: apps/market/views/workflow_views.py:226
+msgid "Share data retrieved successfully"
+msgstr "داده‌های اشتراک‌گذاری با موفقیت دریافت شد"
+
+#: apps/market/views/workflow_views.py:240
+msgid "Market must be published to share"
+msgstr "فروشگاه باید منتشر شده باشد تا قابل اشتراک‌گذاری باشد"
+
+#: apps/market/views/workflow_views.py:255
+msgid "Invalid share platform"
+msgstr "پلتفرم اشتراک‌گذاری نامعتبر"
+
+#: apps/market/views/workflow_views.py:282
+msgid "Share tracked successfully"
+msgstr "اشتراک‌گذاری با موفقیت ردیابی شد"

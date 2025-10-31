@@ -134,4 +134,4 @@ if DEBUG:
 
 # Development database optimization - disabled for now
 
-print("🔧 Development settings loaded - SQLite database, in-memory cache, relaxed security")
+print("[DEV] Development settings loaded - SQLite database, in-memory cache, relaxed security")

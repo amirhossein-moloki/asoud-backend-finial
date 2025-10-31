@@ -12,6 +12,10 @@ from .models import (
     MarketView,
     MarketDiscount,
     MarketSchedule,
+    MarketWorkflowHistory,
+    MarketApprovalRequest,
+    MarketSubscription,
+    MarketShare,
 )
 
 # Register your models here.
@@ -203,3 +207,154 @@ class MarketDiscountAdmin(BaseAdmin):
 
 
 admin.site.register(MarketDiscount, MarketDiscountAdmin)
+
+
+class MarketWorkflowHistoryAdmin(BaseAdmin):
+    list_display = [
+        'market',
+        'from_status',
+        'to_status',
+        'changed_by',
+        'created_at',
+    ]
+    
+    list_filter = [
+        'from_status',
+        'to_status',
+        'created_at',
+    ]
+    
+    search_fields = [
+        'market__title',
+        'changed_by__username',
+        'reason',
+    ]
+    
+    fields = (
+        'market',
+        'from_status',
+        'to_status',
+        'changed_by',
+        'reason',
+    ) + BaseAdmin.fields
+    
+    readonly_fields = BaseAdmin.readonly_fields
+
+
+admin.site.register(MarketWorkflowHistory, MarketWorkflowHistoryAdmin)
+
+
+class MarketApprovalRequestAdmin(BaseAdmin):
+    list_display = [
+        'market',
+        'request_type',
+        'status',
+        'requested_by',
+        'reviewed_by',
+        'created_at',
+    ]
+    
+    list_filter = [
+        'request_type',
+        'status',
+        'created_at',
+    ]
+    
+    search_fields = [
+        'market__title',
+        'requested_by__username',
+        'reviewed_by__username',
+        'message',
+    ]
+    
+    fields = (
+        'market',
+        'request_type',
+        'status',
+        'requested_by',
+        'reviewed_by',
+        'message',
+        'admin_response',
+    ) + BaseAdmin.fields
+    
+    readonly_fields = BaseAdmin.readonly_fields
+
+
+admin.site.register(MarketApprovalRequest, MarketApprovalRequestAdmin)
+
+
+class MarketSubscriptionAdmin(BaseAdmin):
+    list_display = [
+        'market',
+        'plan_type',
+        'status',
+        'amount',
+        'start_date',
+        'end_date',
+    ]
+    
+    list_filter = [
+        'plan_type',
+        'status',
+        'start_date',
+        'end_date',
+    ]
+    
+    search_fields = [
+        'market__title',
+        'transaction_id',
+    ]
+    
+    fields = (
+        'market',
+        'plan_type',
+        'status',
+        'amount',
+        'start_date',
+        'end_date',
+        'transaction_id',
+        'auto_renew',
+    ) + BaseAdmin.fields
+    
+    readonly_fields = BaseAdmin.readonly_fields
+
+
+admin.site.register(MarketSubscription, MarketSubscriptionAdmin)
+
+
+@admin.register(MarketShare)
+class MarketShareAdmin(BaseAdmin):
+    list_display = [
+        'market',
+        'shared_by',
+        'platform',
+        'ip_address',
+        'created_at',
+    ]
+    
+    list_filter = [
+        'platform',
+        'created_at',
+        'market__status',
+    ]
+    
+    search_fields = [
+        'market__name',
+        'shared_by__mobile_number',
+        'shared_by__email',
+        'ip_address',
+    ]
+    
+    fields = (
+        'market',
+        'shared_by',
+        'platform',
+        'ip_address',
+        'user_agent',
+        'referrer',
+    ) + BaseAdmin.fields
+    
+    readonly_fields = BaseAdmin.readonly_fields + ('ip_address', 'user_agent', 'referrer')
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('market', 'shared_by')

@@ -1,0 +1,1271 @@
+{
+  "summary": {
+    "django_url_files": 24,
+    "django_patterns": 145,
+    "django_api_v1_patterns": 34,
+    "postman_total_endpoints": 112,
+    "postman_api_v1_endpoints": 109
+  },
+  "django_patterns": [
+    {
+      "file": ".\\apps\\analytics\\dashboard_urls.py",
+      "pattern": "dashboard/"
+    },
+    {
+      "file": ".\\apps\\analytics\\dashboard_urls.py",
+      "pattern": "real-time/"
+    },
+    {
+      "file": ".\\apps\\analytics\\dashboard_urls.py",
+      "pattern": "user/"
+    },
+    {
+      "file": ".\\apps\\analytics\\dashboard_urls.py",
+      "pattern": "product/"
+    },
+    {
+      "file": ".\\apps\\analytics\\dashboard_urls.py",
+      "pattern": "market/"
+    },
+    {
+      "file": ".\\apps\\analytics\\dashboard_urls.py",
+      "pattern": "ml/"
+    },
+    {
+      "file": ".\\apps\\analytics\\urls.py",
+      "pattern": "api/analytics/"
+    },
+    {
+      "file": ".\\apps\\analytics\\urls.py",
+      "pattern": "api/real-time/"
+    },
+    {
+      "file": ".\\apps\\analytics\\urls.py",
+      "pattern": "api/ml-recommendations/"
+    },
+    {
+      "file": ".\\apps\\analytics\\urls.py",
+      "pattern": "api/event-tracking/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "group/list/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "list/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "sub/list/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "sub/list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "slider/image/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "product-group/list/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "product/list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\category\\urls\\general_urls.py",
+      "pattern": "product/sub/list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\chat\\urls.py",
+      "pattern": "api/v1/chat/"
+    },
+    {
+      "file": ".\\apps\\chat\\urls.py",
+      "pattern": "api/v1/chat/analytics/"
+    },
+    {
+      "file": ".\\apps\\chat\\urls.py",
+      "pattern": "api/v1/chat/search/"
+    },
+    {
+      "file": ".\\apps\\comment\\urls.py",
+      "pattern": "create/"
+    },
+    {
+      "file": ".\\apps\\comment\\urls.py",
+      "pattern": "<int:pk>/"
+    },
+    {
+      "file": ".\\apps\\comment\\urls.py",
+      "pattern": "update/<int:pk>/"
+    },
+    {
+      "file": ".\\apps\\comment\\urls.py",
+      "pattern": "comments/<str:content_type>/<str:object_id>/"
+    },
+    {
+      "file": ".\\apps\\discount\\urls.py",
+      "pattern": "owner/create/"
+    },
+    {
+      "file": ".\\apps\\discount\\urls.py",
+      "pattern": "owner/list/"
+    },
+    {
+      "file": ".\\apps\\discount\\urls.py",
+      "pattern": "owner/delete/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\discount\\urls.py",
+      "pattern": "owner/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\discount\\urls.py",
+      "pattern": "user/validate/"
+    },
+    {
+      "file": ".\\apps\\flutter\\urls.py",
+      "pattern": "markets"
+    },
+    {
+      "file": ".\\apps\\flutter\\urls.py",
+      "pattern": "products"
+    },
+    {
+      "file": ".\\apps\\flutter\\urls.py",
+      "pattern": "advertisements"
+    },
+    {
+      "file": ".\\apps\\flutter\\urls.py",
+      "pattern": "visit/<str:business_id>"
+    },
+    {
+      "file": ".\\apps\\information\\urls\\general_urls.py",
+      "pattern": "term/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "create/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "list/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "update/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "location/create/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "location/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "location/update/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "contact/create/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "contact/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "contact/update/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "inactive/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "queue/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "logo/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "background/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "slider/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "theme/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "schedules/create/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "schedules/list/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "schedules/<str:pk>/update/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\owner_urls.py",
+      "pattern": "schedules/<str:pk>/delete/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\user_urls.py",
+      "pattern": "list/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\user_urls.py",
+      "pattern": "public/list/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\user_urls.py",
+      "pattern": "report/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\user_urls.py",
+      "pattern": "bookmark/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\user_urls.py",
+      "pattern": "bookmark/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market\\urls\\user_urls.py",
+      "pattern": "schedule/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\market_subdomain\\urls.py",
+      "pattern": "products"
+    },
+    {
+      "file": ".\\apps\\market_subdomain\\urls.py",
+      "pattern": "products/<str:pk>"
+    },
+    {
+      "file": ".\\apps\\notification\\urls.py",
+      "pattern": "ws/notifications"
+    },
+    {
+      "file": ".\\apps\\notification\\urls.py",
+      "pattern": "api/v1/"
+    },
+    {
+      "file": ".\\apps\\notification\\urls.py",
+      "pattern": "api/v1/bulk/"
+    },
+    {
+      "file": ".\\apps\\notification\\urls.py",
+      "pattern": "api/v1/queue/"
+    },
+    {
+      "file": ".\\apps\\notification\\urls.py",
+      "pattern": "api/v1/stats/"
+    },
+    {
+      "file": ".\\apps\\notification\\urls.py",
+      "pattern": "api/v1/cleanup/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "create/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "discount/create/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "ship/create/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "ship/list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "detail/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "theme/create/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "theme/list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "theme/update/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\product\\urls\\owner_urls.py",
+      "pattern": "theme/delete/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\region\\urls\\general_urls.py",
+      "pattern": "country/list/"
+    },
+    {
+      "file": ".\\apps\\region\\urls\\general_urls.py",
+      "pattern": "province/list/"
+    },
+    {
+      "file": ".\\apps\\region\\urls\\general_urls.py",
+      "pattern": "province/list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\region\\urls\\general_urls.py",
+      "pattern": "city/list/"
+    },
+    {
+      "file": ".\\apps\\region\\urls\\general_urls.py",
+      "pattern": "city/list/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "pin/create/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "pin/verify/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "bank-info/list/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "bank/info/create/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "bank/info/list/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "bank/info/detail/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "bank/info/update/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\users\\urls\\user_urls.py",
+      "pattern": "bank/info/delete/<str:pk>/"
+    },
+    {
+      "file": ".\\apps\\wallet\\urls.py",
+      "pattern": "balance/"
+    },
+    {
+      "file": ".\\apps\\wallet\\urls.py",
+      "pattern": "balance/check/"
+    },
+    {
+      "file": ".\\apps\\wallet\\urls.py",
+      "pattern": "pay/"
+    },
+    {
+      "file": ".\\apps\\wallet\\urls.py",
+      "pattern": "transactions/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "blog/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "admin/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "health/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "health"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/schema/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/docs/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/health/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "bank/share/<str:pk>"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/category/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/info/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/region/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/owner/market/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/owner/product/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/comment/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/market/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/discount/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/sms/admin/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/sms/owner/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/reservation/owner/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/reservation/user/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/owner/inquiries/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/inquiries/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/advertisements/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/owner/affiliate/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/affiliate/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/wallet/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/referral/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/payments/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/user/order/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/owner/order/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "api/v1/analytics/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "analytics/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "security/audit/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "csrf-failure/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "rate-limit/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "__debug__/"
+    },
+    {
+      "file": ".\\config\\urls.py",
+      "pattern": "<str:business_id>"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\category_urls.py",
+      "pattern": "market-fee/<str:model_type>/<str:pk>/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\category_urls.py",
+      "pattern": "market-fee/<str:model_type>/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\office_registration_urls.py",
+      "pattern": "create/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\office_registration_urls.py",
+      "pattern": "location/create/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\office_registration_urls.py",
+      "pattern": "contact/create/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\office_registration_urls.py",
+      "pattern": "integrated/create/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\office_registration_urls.py",
+      "pattern": "payment/gateway/<str:market_id>/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\office_registration_urls.py",
+      "pattern": "subscription/fee/calculate/"
+    },
+    {
+      "file": ".\\New folder\\ASOUD_Office_Registration_Complete_Fixed\\04_URLs\\office_registration_urls.py",
+      "pattern": "subscription/payment/<str:market_id>/"
+    }
+  ],
+  "postman_endpoints": [
+    {
+      "method": "GET",
+      "path": "health/",
+      "name": "Health Check"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/health/",
+      "name": "API Health Check"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/",
+      "name": "API Index"
+    },
+    {
+      "method": "GET",
+      "path": "api/schema/",
+      "name": "API Schema"
+    },
+    {
+      "method": "GET",
+      "path": "api/docs/",
+      "name": "API Docs"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/pin/create/",
+      "name": "Create PIN"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/pin/verify/",
+      "name": "Verify PIN"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank-info/list/",
+      "name": "Banks List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/bank/info/create/",
+      "name": "Create Bank Info"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank/info/list/",
+      "name": "Bank Info List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank/info/detail/{{bank_info_id}}/",
+      "name": "Bank Info Detail"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/user/bank/info/update/{{bank_info_id}}/",
+      "name": "Update Bank Info"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/user/bank/info/delete/{{bank_info_id}}/",
+      "name": "Delete Bank Info"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/create/",
+      "name": "Create Market"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/list/",
+      "name": "Market List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/{{market_id}}/",
+      "name": "Get Market"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/update/{{market_id}}/",
+      "name": "Update Market"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/location/create/",
+      "name": "Create Market Location"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/location/{{location_id}}/",
+      "name": "Get Market Location"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/location/update/{{location_id}}/",
+      "name": "Update Market Location"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/contact/create/",
+      "name": "Create Market Contact"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/contact/{{contact_id}}/",
+      "name": "Get Market Contact"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/contact/update/{{contact_id}}/",
+      "name": "Update Market Contact"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/inactive/{{market_id}}/",
+      "name": "Market Inactive"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/queue/{{market_id}}/",
+      "name": "Market Queue"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/logo/{{market_id}}/",
+      "name": "Market Logo"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/background/{{market_id}}/",
+      "name": "Market Background"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/slider/{{market_id}}/",
+      "name": "Market Slider"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/theme/{{market_id}}/",
+      "name": "Market Theme"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/schedules/create/",
+      "name": "Create Market Schedule"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/schedules/list/",
+      "name": "Market Schedule List"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/schedules/{{schedule_id}}/update/",
+      "name": "Update Market Schedule"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/owner/market/schedules/{{schedule_id}}/delete/",
+      "name": "Delete Market Schedule"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/list/",
+      "name": "User Market List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/public/list/",
+      "name": "Public Market List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/market/report/{{market_id}}/",
+      "name": "Report Market"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/market/bookmark/",
+      "name": "Bookmark Market"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/market/bookmark/{{market_id}}/",
+      "name": "Bookmark Market by ID"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/schedule/{{market_id}}/",
+      "name": "Market Schedule User List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/create/",
+      "name": "Create Product"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/discount/create/{{product_id}}/",
+      "name": "Create Product Discount"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/ship/create/{{product_id}}/",
+      "name": "Create Product Shipping"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/ship/list/{{product_id}}/",
+      "name": "Product Shipping List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/list/{{market_id}}/",
+      "name": "Product List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/detail/{{product_id}}/",
+      "name": "Product Detail"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/theme/create/{{product_id}}/",
+      "name": "Create Product Theme"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/theme/list/{{product_id}}/",
+      "name": "Product Theme List"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/product/theme/update/{{theme_id}}/",
+      "name": "Update Product Theme"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/owner/product/theme/delete/{{theme_id}}/",
+      "name": "Delete Product Theme"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/group/list/",
+      "name": "Group List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/list/",
+      "name": "Category List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/list/{{group_id}}/",
+      "name": "Category List by Group"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/sub/list/",
+      "name": "Sub Category List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/sub/list/{{category_id}}/",
+      "name": "Sub Category List by Category"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/slider/image/{{category_id}}/",
+      "name": "Slider Image"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product-group/list/",
+      "name": "Product Group List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product/list/{{group_id}}/",
+      "name": "Product Category List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product/sub/list/{{category_id}}/",
+      "name": "Product Sub Category List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/country/list/",
+      "name": "Country List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/province/list/",
+      "name": "Province List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/province/list/{{country_id}}/",
+      "name": "Province List by Country"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/city/list/",
+      "name": "City List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/city/list/{{province_id}}/",
+      "name": "City List by Province"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/events/",
+      "name": "User Behavior Events"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/analytics/events/",
+      "name": "Create User Behavior Event"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/sessions/",
+      "name": "User Sessions"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/products/",
+      "name": "Product Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/markets/",
+      "name": "Market Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/users/",
+      "name": "User Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/dashboard/",
+      "name": "Analytics Dashboard"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/recommendations/",
+      "name": "ML Recommendations"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/sales/",
+      "name": "Sales Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/business-intelligence/",
+      "name": "Business Intelligence"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/advanced/",
+      "name": "Advanced Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/price-optimization/",
+      "name": "Price Optimization"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/analytics/price-optimization/",
+      "name": "Create Price Optimization"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/demand-forecasting/",
+      "name": "Demand Forecasting"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/ml-optimization/",
+      "name": "ML Optimization"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/fraud-detection/",
+      "name": "Fraud Detection"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/analytics/fraud-detection/",
+      "name": "Create Fraud Detection"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/customer-segmentation/",
+      "name": "Customer Segmentation"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/security/",
+      "name": "Security Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/analytics/",
+      "name": "Analytics API"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/real-time/",
+      "name": "Real Time Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/ml-recommendations/",
+      "name": "ML Recommendations API"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/event-tracking/",
+      "name": "Event Tracking API"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/rooms/",
+      "name": "Chat Rooms"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/chat/rooms/",
+      "name": "Create Chat Room"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/messages/",
+      "name": "Chat Messages"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/chat/messages/",
+      "name": "Send Chat Message"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/chat/messages/{{message_id}}/",
+      "name": "Update Chat Message"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/chat/messages/{{message_id}}/",
+      "name": "Delete Chat Message"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/support/tickets/",
+      "name": "Support Tickets"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/chat/support/tickets/",
+      "name": "Create Support Ticket"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/analytics/",
+      "name": "Chat Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/search/",
+      "name": "Chat Search"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/notifications/",
+      "name": "Notifications List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/notifications/",
+      "name": "Create Notification"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/notifications/{{notification_id}}/",
+      "name": "Update Notification"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/notifications/{{notification_id}}/",
+      "name": "Delete Notification"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/templates/",
+      "name": "Notification Templates"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/templates/",
+      "name": "Create Notification Template"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/preferences/",
+      "name": "Notification Preferences"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/preferences/{{preference_id}}/",
+      "name": "Update Notification Preferences"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/bulk/",
+      "name": "Bulk Notifications"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/queue/",
+      "name": "Notification Queue"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/stats/",
+      "name": "Notification Stats"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/cleanup/",
+      "name": "Notification Cleanup"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/wallet/balance/",
+      "name": "Wallet Balance"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/wallet/balance/check/",
+      "name": "Check Wallet Balance"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/wallet/pay/",
+      "name": "Pay with Wallet"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/wallet/transactions/",
+      "name": "Wallet Transactions"
+    }
+  ],
+  "main_url_includes": [
+    [
+      "blog/",
+      "blog.urls"
+    ],
+    [
+      "",
+      "apps.index.urls"
+    ],
+    [
+      "api/v1/category/",
+      "apps.category.urls.general_urls"
+    ],
+    [
+      "api/v1/info/",
+      "apps.information.urls.general_urls"
+    ],
+    [
+      "api/v1/region/",
+      "apps.region.urls.general_urls"
+    ],
+    [
+      "api/v1/owner/market/",
+      "apps.market.urls.owner_urls"
+    ],
+    [
+      "api/v1/owner/product/",
+      "apps.product.urls.owner_urls"
+    ],
+    [
+      "api/v1/user/comment/",
+      "apps.comment.urls"
+    ],
+    [
+      "api/v1/user/market/",
+      "apps.market.urls.user_urls"
+    ],
+    [
+      "api/v1/user/",
+      "apps.users.urls.user_urls"
+    ],
+    [
+      "api/v1/discount/",
+      "apps.discount.urls"
+    ],
+    [
+      "api/v1/sms/admin/",
+      "apps.sms.urls.admin"
+    ],
+    [
+      "api/v1/sms/owner/",
+      "apps.sms.urls.owner"
+    ],
+    [
+      "api/v1/reservation/owner/",
+      "apps.reserve.urls.owner"
+    ],
+    [
+      "api/v1/reservation/user/",
+      "apps.reserve.urls.user"
+    ],
+    [
+      "api/v1/owner/inquiries/",
+      "apps.price_inquiry.urls.owner"
+    ],
+    [
+      "api/v1/user/inquiries/",
+      "apps.price_inquiry.urls.user"
+    ],
+    [
+      "api/v1/advertisements/",
+      "apps.advertise.urls.user"
+    ],
+    [
+      "api/v1/owner/affiliate/",
+      "apps.affiliate.urls.owner"
+    ],
+    [
+      "api/v1/user/affiliate/",
+      "apps.affiliate.urls.user"
+    ],
+    [
+      "api/v1/wallet/",
+      "apps.wallet.urls"
+    ],
+    [
+      "api/v1/user/referral/",
+      "apps.referral.urls.user"
+    ],
+    [
+      "api/v1/user/payments/",
+      "apps.payment.urls.user"
+    ],
+    [
+      "api/v1/user/order/",
+      "apps.cart.urls.user"
+    ],
+    [
+      "api/v1/owner/order/",
+      "apps.cart.urls.owner"
+    ],
+    [
+      "api/v1/analytics/",
+      "apps.analytics.urls"
+    ],
+    [
+      "analytics/",
+      "apps.analytics.dashboard_urls"
+    ],
+    [
+      "",
+      "apps.notification.urls"
+    ],
+    [
+      "",
+      "apps.chat.urls"
+    ]
+  ]
+}

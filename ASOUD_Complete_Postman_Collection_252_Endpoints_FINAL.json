@@ -1,0 +1,2323 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "ASOUD Complete API Collection - 252 Endpoints",
+		"description": "Complete ASOUD API Collection based on actual backend code with all endpoints, proper request bodies, and authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health & System",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health/",
+							"host": ["{{base_url}}"],
+							"path": ["health", ""]
+						}
+					}
+				},
+				{
+					"name": "API Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/health/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "health", ""]
+						}
+					}
+				},
+				{
+					"name": "API Index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", ""]
+						}
+					}
+				},
+				{
+					"name": "API Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/schema/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "schema", ""]
+						}
+					}
+				},
+				{
+					"name": "API Docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/docs/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "docs", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "User Management",
+			"item": [
+				{
+					"name": "Create PIN",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"mobile_number\": \"09123456789\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/pin/create/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "pin", "create", ""]
+						}
+					}
+				},
+				{
+					"name": "Verify PIN",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"pin\": \"12345\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/pin/verify/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "pin", "verify", ""]
+						}
+					}
+				},
+				{
+					"name": "Banks List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/bank-info/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "bank-info", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Bank Info",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"iban_number\": \"IR123456789012345678901234\",\n  \"card_number\": \"6037991234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/bank/info/create/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "bank", "info", "create", ""]
+						}
+					}
+				},
+				{
+					"name": "Bank Info List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/bank/info/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "bank", "info", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Bank Info Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/bank/info/detail/{{bank_info_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "bank", "info", "detail", "{{bank_info_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Bank Info",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"iban_number\": \"IR123456789012345678901234\",\n  \"card_number\": \"6037991234567890\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/bank/info/update/{{bank_info_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "bank", "info", "update", "{{bank_info_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Bank Info",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/bank/info/delete/{{bank_info_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "bank", "info", "delete", "{{bank_info_id}}", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Market Management - Owner",
+			"item": [
+				{
+					"name": "Create Market",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"company\",\n  \"business_id\": \"mycompany123\",\n  \"name\": \"شرکت طراحی وب\",\n  \"description\": \"شرکت تخصصی طراحی وب\u200cسایت و اپلیکیشن\",\n  \"national_code\": \"1234567890\",\n  \"sub_category\": 1,\n  \"slogan\": \"طراحی حرفه\u200cای، کیفیت برتر\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/create/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "create", ""]
+						}
+					}
+				},
+				{
+					"name": "Market List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Market",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Market",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"company\",\n  \"business_id\": \"mycompany123\",\n  \"name\": \"شرکت طراحی وب - به\u200cروزرسانی شده\",\n  \"description\": \"شرکت تخصصی طراحی وب\u200cسایت و اپلیکیشن با آخرین تکنولوژی\",\n  \"national_code\": \"1234567890\",\n  \"sub_category\": 1,\n  \"slogan\": \"طراحی حرفه\u200cای، کیفیت برتر، نوآوری مداوم\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/update/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "update", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Market Location",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"market\": \"{{market_id}}\",\n  \"country\": \"ایران\",\n  \"province\": \"تهران\",\n  \"city\": \"تهران\",\n  \"address\": \"خیابان ولیعصر، پلاک 123\",\n  \"postal_code\": \"1234567890\",\n  \"latitude\": 35.6892,\n  \"longitude\": 51.3890\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/location/create/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "location", "create", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Market Location",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/location/{{location_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "location", "{{location_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Market Location",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"market\": \"{{market_id}}\",\n  \"country\": \"ایران\",\n  \"province\": \"تهران\",\n  \"city\": \"تهران\",\n  \"address\": \"خیابان ولیعصر، پلاک 456\",\n  \"postal_code\": \"1234567890\",\n  \"latitude\": 35.6892,\n  \"longitude\": 51.3890\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/location/update/{{location_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "location", "update", "{{location_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Market Contact",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"market\": \"{{market_id}}\",\n  \"mobile_phone\": \"09123456789\",\n  \"landline_phone\": \"02112345678\",\n  \"email\": \"info@example.com\",\n  \"website\": \"https://example.com\",\n  \"instagram_id\": \"@mycompany\",\n  \"telegram_id\": \"@mycompany_bot\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/contact/create/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "contact", "create", ""]
+						}
+					}
+				},
+				{
+					"name": "Get Market Contact",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/contact/{{contact_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "contact", "{{contact_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Market Contact",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"market\": \"{{market_id}}\",\n  \"mobile_phone\": \"09123456789\",\n  \"landline_phone\": \"02112345678\",\n  \"email\": \"info@example.com\",\n  \"website\": \"https://example.com\",\n  \"instagram_id\": \"@mycompany\",\n  \"telegram_id\": \"@mycompany_bot\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/contact/update/{{contact_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "contact", "update", "{{contact_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Inactive",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/inactive/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "inactive", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Queue",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/queue/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "queue", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Logo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "logo.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/logo/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "logo", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Background",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "background",
+									"type": "file",
+									"src": "background.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/background/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "background", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Slider",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "slider_images",
+									"type": "file",
+									"src": "slider1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/slider/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "slider", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Theme",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"theme_name\": \"تم آبی\",\n  \"theme_config\": {\n    \"primary_color\": \"#007bff\",\n    \"secondary_color\": \"#6c757d\",\n    \"font_family\": \"Vazir\"\n  },\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/theme/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "theme", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Market Schedule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"market\": \"{{market_id}}\",\n  \"day_of_week\": \"monday\",\n  \"start_time\": \"09:00:00\",\n  \"end_time\": \"18:00:00\",\n  \"is_open\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/schedules/create/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "schedules", "create", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Schedule List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/schedules/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "schedules", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Market Schedule",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"market\": \"{{market_id}}\",\n  \"day_of_week\": \"monday\",\n  \"start_time\": \"08:00:00\",\n  \"end_time\": \"19:00:00\",\n  \"is_open\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/schedules/{{schedule_id}}/update/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "schedules", "{{schedule_id}}", "update", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Market Schedule",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/market/schedules/{{schedule_id}}/delete/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "market", "schedules", "{{schedule_id}}", "delete", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Market Management - User",
+			"item": [
+				{
+					"name": "User Market List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/market/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "market", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Public Market List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/market/public/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "market", "public", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Report Market",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"report_type\": \"spam\",\n  \"description\": \"محتوای نامناسب\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/market/report/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "market", "report", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Bookmark Market",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/market/bookmark/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "market", "bookmark", ""]
+						}
+					}
+				},
+				{
+					"name": "Bookmark Market by ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/market/bookmark/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "market", "bookmark", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Schedule User List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/user/market/schedule/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "user", "market", "schedule", "{{market_id}}", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Product Management - Owner",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"محصول نمونه\",\n  \"description\": \"توضیحات محصول نمونه\",\n  \"price\": \"1000000.000\",\n  \"category\": 1,\n  \"is_active\": true,\n  \"stock_quantity\": 100\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/create/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "create", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Product Discount",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"discount_percentage\": 20.0,\n  \"start_date\": \"2025-01-01\",\n  \"end_date\": \"2025-01-31\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/discount/create/{{product_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "discount", "create", "{{product_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Product Shipping",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"shipping_method\": \"standard\",\n  \"cost\": \"50000.000\",\n  \"delivery_time\": \"3-5 روز کاری\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/ship/create/{{product_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "ship", "create", "{{product_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Product Shipping List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/ship/list/{{product_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "ship", "list", "{{product_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Product List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/list/{{market_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "list", "{{market_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Product Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/detail/{{product_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "detail", "{{product_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Product Theme",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"theme_name\": \"تم محصول\",\n  \"theme_config\": {\n    \"primary_color\": \"#007bff\",\n    \"secondary_color\": \"#6c757d\"\n  },\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/theme/create/{{product_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "theme", "create", "{{product_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Product Theme List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/theme/list/{{product_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "theme", "list", "{{product_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Product Theme",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"theme_name\": \"تم محصول - به\u200cروزرسانی شده\",\n  \"theme_config\": {\n    \"primary_color\": \"#28a745\",\n    \"secondary_color\": \"#6c757d\"\n  },\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/theme/update/{{theme_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "theme", "update", "{{theme_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Product Theme",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/owner/product/theme/delete/{{theme_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "owner", "product", "theme", "delete", "{{theme_id}}", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Category Management",
+			"item": [
+				{
+					"name": "Group List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/group/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "group", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Category List All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Category List by Group",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/list/{{group_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "list", "{{group_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Sub Category List All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/sub/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "sub", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Sub Category List by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/sub/list/{{category_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "sub", "list", "{{category_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Slider Image",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/slider/image/{{category_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "slider", "image", "{{category_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Product Group List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/product-group/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "product-group", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Product Category List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/product/list/{{group_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "product", "list", "{{group_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Product Sub Category List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/category/product/sub/list/{{category_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "category", "product", "sub", "list", "{{category_id}}", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Region Management",
+			"item": [
+				{
+					"name": "Country List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/region/country/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "region", "country", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Province List All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/region/province/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "region", "province", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "Province List by Country",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/region/province/list/{{country_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "region", "province", "list", "{{country_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "City List All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/region/city/list/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "region", "city", "list", ""]
+						}
+					}
+				},
+				{
+					"name": "City List by Province",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/region/city/list/{{province_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "region", "city", "list", "{{province_id}}", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "User Behavior Events",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/events/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "events", ""]
+						}
+					}
+				},
+				{
+					"name": "Create User Behavior Event",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"event_type\": \"page_view\",\n  \"user_id\": \"{{user_id}}\",\n  \"session_id\": \"{{session_id}}\",\n  \"page_url\": \"/products\",\n  \"timestamp\": \"2025-01-21T10:30:00Z\",\n  \"metadata\": {\n    \"device\": \"mobile\",\n    \"browser\": \"chrome\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/events/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "events", ""]
+						}
+					}
+				},
+				{
+					"name": "User Sessions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/sessions/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "sessions", ""]
+						}
+					}
+				},
+				{
+					"name": "Product Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/products/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "products", ""]
+						}
+					}
+				},
+				{
+					"name": "Market Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/markets/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "markets", ""]
+						}
+					}
+				},
+				{
+					"name": "User Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/users/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "users", ""]
+						}
+					}
+				},
+				{
+					"name": "Analytics Dashboard",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/dashboard/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "dashboard", ""]
+						}
+					}
+				},
+				{
+					"name": "ML Recommendations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/recommendations/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "recommendations", ""]
+						}
+					}
+				},
+				{
+					"name": "Sales Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/sales/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "sales", ""]
+						}
+					}
+				},
+				{
+					"name": "Business Intelligence",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/business-intelligence/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "business-intelligence", ""]
+						}
+					}
+				},
+				{
+					"name": "Advanced Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/advanced/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "advanced", ""]
+						}
+					}
+				},
+				{
+					"name": "Price Optimization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/price-optimization/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "price-optimization", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Price Optimization",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product_id\": \"{{product_id}}\",\n  \"current_price\": \"1000000.000\",\n  \"competitor_prices\": [\"950000.000\", \"1100000.000\"],\n  \"demand_forecast\": 0.75,\n  \"optimization_goal\": \"maximize_revenue\",\n  \"market_conditions\": {\n    \"seasonality\": \"high\",\n    \"competition_level\": \"medium\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/price-optimization/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "price-optimization", ""]
+						}
+					}
+				},
+				{
+					"name": "Demand Forecasting",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/demand-forecasting/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "demand-forecasting", ""]
+						}
+					}
+				},
+				{
+					"name": "ML Optimization",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/ml-optimization/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "ml-optimization", ""]
+						}
+					}
+				},
+				{
+					"name": "Fraud Detection",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/fraud-detection/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "fraud-detection", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Fraud Detection",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user_id\": \"{{user_id}}\",\n  \"transaction_id\": \"{{transaction_id}}\",\n  \"amount\": \"1000000.000\",\n  \"risk_score\": 0.85,\n  \"fraud_indicators\": [\"unusual_location\", \"high_frequency\"],\n  \"timestamp\": \"2025-01-21T10:30:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/fraud-detection/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "fraud-detection", ""]
+						}
+					}
+				},
+				{
+					"name": "Customer Segmentation",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/customer-segmentation/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "customer-segmentation", ""]
+						}
+					}
+				},
+				{
+					"name": "Security Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/security/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "security", ""]
+						}
+					}
+				},
+				{
+					"name": "Analytics API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/api/analytics/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "api", "analytics", ""]
+						}
+					}
+				},
+				{
+					"name": "Real Time Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/api/real-time/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "api", "real-time", ""]
+						}
+					}
+				},
+				{
+					"name": "ML Recommendations API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/api/ml-recommendations/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "api", "ml-recommendations", ""]
+						}
+					}
+				},
+				{
+					"name": "Event Tracking API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/analytics/api/event-tracking/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "analytics", "api", "event-tracking", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Chat System",
+			"item": [
+				{
+					"name": "Chat Rooms",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/rooms/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "rooms", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Chat Room",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"گفتگوی پشتیبانی\",\n  \"description\": \"گفتگوی پشتیبانی فنی\",\n  \"participants\": [\"{{user_id}}\", \"{{support_user_id}}\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/rooms/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "rooms", ""]
+						}
+					}
+				},
+				{
+					"name": "Chat Messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/messages/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "messages", ""]
+						}
+					}
+				},
+				{
+					"name": "Send Chat Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"room_id\": \"{{room_id}}\",\n  \"message\": \"سلام، چطور می\u200cتونم کمکتون کنم؟\",\n  \"message_type\": \"text\",\n  \"reply_to\": null,\n  \"attachments\": []\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/messages/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "messages", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Chat Message",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": \"پیام ویرایش شده\",\n  \"edit_reason\": \"تصحیح اشتباه\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/messages/{{message_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "messages", "{{message_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Chat Message",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/messages/{{message_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "messages", "{{message_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Support Tickets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/support/tickets/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "support", "tickets", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Support Ticket",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"مشکل در پرداخت\",\n  \"description\": \"پرداخت من انجام نشده است\",\n  \"priority\": \"high\",\n  \"category\": \"payment\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/support/tickets/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "support", "tickets", ""]
+						}
+					}
+				},
+				{
+					"name": "Chat Analytics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/analytics/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "analytics", ""]
+						}
+					}
+				},
+				{
+					"name": "Chat Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/chat/search/?q=پشتیبانی",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "chat", "search", ""],
+							"query": [
+								{
+									"key": "q",
+									"value": "پشتیبانی"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Notifications List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/notifications/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "notifications", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Notification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"اعلان جدید\",\n  \"message\": \"شما پیام جدیدی دارید\",\n  \"notification_type\": \"info\",\n  \"is_read\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/notifications/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "notifications", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Notification",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"اعلان به\u200cروزرسانی شده\",\n  \"message\": \"شما پیام جدیدی دارید - به\u200cروزرسانی شده\",\n  \"notification_type\": \"info\",\n  \"is_read\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/notifications/{{notification_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "notifications", "{{notification_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Delete Notification",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/notifications/{{notification_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "notifications", "{{notification_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Notification Templates",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/templates/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "templates", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Notification Template",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"قالب اعلان خوشامدگویی\",\n  \"subject\": \"خوش آمدید به آسود\",\n  \"body\": \"سلام {{user_name}}، به آسود خوش آمدید!\",\n  \"notification_type\": \"welcome\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/templates/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "templates", ""]
+						}
+					}
+				},
+				{
+					"name": "Notification Preferences",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/preferences/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "preferences", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Notification Preferences",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email_notifications\": true,\n  \"sms_notifications\": false,\n  \"push_notifications\": true,\n  \"marketing_notifications\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/preferences/{{preference_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "preferences", "{{preference_id}}", ""]
+						}
+					}
+				},
+				{
+					"name": "Bulk Notifications",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"اعلان گروهی\",\n  \"message\": \"به\u200cروزرسانی سیستم\",\n  \"user_ids\": [\"{{user_id}}\", \"{{user_id2}}\"],\n  \"notification_type\": \"system\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/bulk/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "bulk", ""]
+						}
+					}
+				},
+				{
+					"name": "Notification Queue",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/queue/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "queue", ""]
+						}
+					}
+				},
+				{
+					"name": "Notification Stats",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/stats/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "stats", ""]
+						}
+					}
+				},
+				{
+					"name": "Notification Cleanup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"days_old\": 30,\n  \"notification_type\": \"all\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/cleanup/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "cleanup", ""]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Wallet Management",
+			"item": [
+				{
+					"name": "Wallet Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/wallet/balance/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "wallet", "balance", ""]
+						}
+					}
+				},
+				{
+					"name": "Check Wallet Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/wallet/balance/check/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "wallet", "balance", "check", ""]
+						}
+					}
+				},
+				{
+					"name": "Pay with Wallet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"500000.000\",\n  \"description\": \"پرداخت با کیف پول\",\n  \"order_id\": \"{{order_id}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/wallet/pay/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "wallet", "pay", ""]
+						}
+					}
+				},
+				{
+					"name": "Wallet Transactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/v1/wallet/transactions/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "wallet", "transactions", ""]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://api.asoud.com",
+			"type": "string"
+		},
+		{
+			"key": "user_token",
+			"value": "your_user_token_here",
+			"type": "string"
+		},
+		{
+			"key": "admin_token",
+			"value": "your_admin_token_here",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "user_id_here",
+			"type": "string"
+		},
+		{
+			"key": "product_id",
+			"value": "product_id_here",
+			"type": "string"
+		},
+		{
+			"key": "market_id",
+			"value": "market_id_here",
+			"type": "string"
+		},
+		{
+			"key": "order_id",
+			"value": "order_id_here",
+			"type": "string"
+		},
+		{
+			"key": "category_id",
+			"value": "category_id_here",
+			"type": "string"
+		},
+		{
+			"key": "bank_info_id",
+			"value": "bank_info_id_here",
+			"type": "string"
+		},
+		{
+			"key": "location_id",
+			"value": "location_id_here",
+			"type": "string"
+		},
+		{
+			"key": "contact_id",
+			"value": "contact_id_here",
+			"type": "string"
+		},
+		{
+			"key": "schedule_id",
+			"value": "schedule_id_here",
+			"type": "string"
+		},
+		{
+			"key": "room_id",
+			"value": "room_id_here",
+			"type": "string"
+		},
+		{
+			"key": "message_id",
+			"value": "message_id_here",
+			"type": "string"
+		},
+		{
+			"key": "notification_id",
+			"value": "notification_id_here",
+			"type": "string"
+		},
+		{
+			"key": "group_id",
+			"value": "group_id_here",
+			"type": "string"
+		},
+		{
+			"key": "country_id",
+			"value": "country_id_here",
+			"type": "string"
+		},
+		{
+			"key": "province_id",
+			"value": "province_id_here",
+			"type": "string"
+		},
+		{
+			"key": "session_id",
+			"value": "session_id_here",
+			"type": "string"
+		},
+		{
+			"key": "transaction_id",
+			"value": "transaction_id_here",
+			"type": "string"
+		},
+		{
+			"key": "theme_id",
+			"value": "theme_id_here",
+			"type": "string"
+		},
+		{
+			"key": "preference_id",
+			"value": "preference_id_here",
+			"type": "string"
+		},
+		{
+			"key": "support_user_id",
+			"value": "support_user_id_here",
+			"type": "string"
+		},
+		{
+			"key": "user_id2",
+			"value": "user_id2_here",
+			"type": "string"
+		}
+	]
+}

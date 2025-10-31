@@ -1,0 +1,2961 @@
+{
+  "summary": {
+    "django_api_patterns": 34,
+    "postman_api_endpoints": 109,
+    "missing_endpoints_count": 101,
+    "extra_endpoints_count": 25,
+    "coverage_percentage": 31.19
+  },
+  "missing_endpoints": [
+    {
+      "method": "POST",
+      "path": "api/v1/user/pin/create/",
+      "normalized": "api/v1/user/pin/create",
+      "name": "Create PIN"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/pin/verify/",
+      "normalized": "api/v1/user/pin/verify",
+      "name": "Verify PIN"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank-info/list/",
+      "normalized": "api/v1/user/bank-info/list",
+      "name": "Banks List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/bank/info/create/",
+      "normalized": "api/v1/user/bank/info/create",
+      "name": "Create Bank Info"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank/info/list/",
+      "normalized": "api/v1/user/bank/info/list",
+      "name": "Bank Info List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank/info/detail/{{bank_info_id}}/",
+      "normalized": "api/v1/user/bank/info/detail/{{bank_info_id}}",
+      "name": "Bank Info Detail"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/user/bank/info/update/{{bank_info_id}}/",
+      "normalized": "api/v1/user/bank/info/update/{{bank_info_id}}",
+      "name": "Update Bank Info"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/user/bank/info/delete/{{bank_info_id}}/",
+      "normalized": "api/v1/user/bank/info/delete/{{bank_info_id}}",
+      "name": "Delete Bank Info"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/create/",
+      "normalized": "api/v1/owner/market/create",
+      "name": "Create Market"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/list/",
+      "normalized": "api/v1/owner/market/list",
+      "name": "Market List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/{{market_id}}/",
+      "normalized": "api/v1/owner/market/{{market_id}}",
+      "name": "Get Market"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/update/{{market_id}}/",
+      "normalized": "api/v1/owner/market/update/{{market_id}}",
+      "name": "Update Market"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/location/create/",
+      "normalized": "api/v1/owner/market/location/create",
+      "name": "Create Market Location"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/location/{{location_id}}/",
+      "normalized": "api/v1/owner/market/location/{{location_id}}",
+      "name": "Get Market Location"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/location/update/{{location_id}}/",
+      "normalized": "api/v1/owner/market/location/update/{{location_id}}",
+      "name": "Update Market Location"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/contact/create/",
+      "normalized": "api/v1/owner/market/contact/create",
+      "name": "Create Market Contact"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/contact/{{contact_id}}/",
+      "normalized": "api/v1/owner/market/contact/{{contact_id}}",
+      "name": "Get Market Contact"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/contact/update/{{contact_id}}/",
+      "normalized": "api/v1/owner/market/contact/update/{{contact_id}}",
+      "name": "Update Market Contact"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/inactive/{{market_id}}/",
+      "normalized": "api/v1/owner/market/inactive/{{market_id}}",
+      "name": "Market Inactive"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/queue/{{market_id}}/",
+      "normalized": "api/v1/owner/market/queue/{{market_id}}",
+      "name": "Market Queue"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/logo/{{market_id}}/",
+      "normalized": "api/v1/owner/market/logo/{{market_id}}",
+      "name": "Market Logo"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/background/{{market_id}}/",
+      "normalized": "api/v1/owner/market/background/{{market_id}}",
+      "name": "Market Background"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/slider/{{market_id}}/",
+      "normalized": "api/v1/owner/market/slider/{{market_id}}",
+      "name": "Market Slider"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/theme/{{market_id}}/",
+      "normalized": "api/v1/owner/market/theme/{{market_id}}",
+      "name": "Market Theme"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/schedules/create/",
+      "normalized": "api/v1/owner/market/schedules/create",
+      "name": "Create Market Schedule"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/schedules/list/",
+      "normalized": "api/v1/owner/market/schedules/list",
+      "name": "Market Schedule List"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/schedules/{{schedule_id}}/update/",
+      "normalized": "api/v1/owner/market/schedules/{{schedule_id}}/update",
+      "name": "Update Market Schedule"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/owner/market/schedules/{{schedule_id}}/delete/",
+      "normalized": "api/v1/owner/market/schedules/{{schedule_id}}/delete",
+      "name": "Delete Market Schedule"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/list/",
+      "normalized": "api/v1/user/market/list",
+      "name": "User Market List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/public/list/",
+      "normalized": "api/v1/user/market/public/list",
+      "name": "Public Market List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/market/report/{{market_id}}/",
+      "normalized": "api/v1/user/market/report/{{market_id}}",
+      "name": "Report Market"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/market/bookmark/",
+      "normalized": "api/v1/user/market/bookmark",
+      "name": "Bookmark Market"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/market/bookmark/{{market_id}}/",
+      "normalized": "api/v1/user/market/bookmark/{{market_id}}",
+      "name": "Bookmark Market by ID"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/schedule/{{market_id}}/",
+      "normalized": "api/v1/user/market/schedule/{{market_id}}",
+      "name": "Market Schedule User List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/create/",
+      "normalized": "api/v1/owner/product/create",
+      "name": "Create Product"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/discount/create/{{product_id}}/",
+      "normalized": "api/v1/owner/product/discount/create/{{product_id}}",
+      "name": "Create Product Discount"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/ship/create/{{product_id}}/",
+      "normalized": "api/v1/owner/product/ship/create/{{product_id}}",
+      "name": "Create Product Shipping"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/ship/list/{{product_id}}/",
+      "normalized": "api/v1/owner/product/ship/list/{{product_id}}",
+      "name": "Product Shipping List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/list/{{market_id}}/",
+      "normalized": "api/v1/owner/product/list/{{market_id}}",
+      "name": "Product List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/detail/{{product_id}}/",
+      "normalized": "api/v1/owner/product/detail/{{product_id}}",
+      "name": "Product Detail"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/theme/create/{{product_id}}/",
+      "normalized": "api/v1/owner/product/theme/create/{{product_id}}",
+      "name": "Create Product Theme"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/theme/list/{{product_id}}/",
+      "normalized": "api/v1/owner/product/theme/list/{{product_id}}",
+      "name": "Product Theme List"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/product/theme/update/{{theme_id}}/",
+      "normalized": "api/v1/owner/product/theme/update/{{theme_id}}",
+      "name": "Update Product Theme"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/owner/product/theme/delete/{{theme_id}}/",
+      "normalized": "api/v1/owner/product/theme/delete/{{theme_id}}",
+      "name": "Delete Product Theme"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/group/list/",
+      "normalized": "api/v1/category/group/list",
+      "name": "Group List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/list/",
+      "normalized": "api/v1/category/list",
+      "name": "Category List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/list/{{group_id}}/",
+      "normalized": "api/v1/category/list/{{group_id}}",
+      "name": "Category List by Group"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/sub/list/",
+      "normalized": "api/v1/category/sub/list",
+      "name": "Sub Category List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/sub/list/{{category_id}}/",
+      "normalized": "api/v1/category/sub/list/{{category_id}}",
+      "name": "Sub Category List by Category"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/slider/image/{{category_id}}/",
+      "normalized": "api/v1/category/slider/image/{{category_id}}",
+      "name": "Slider Image"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product-group/list/",
+      "normalized": "api/v1/category/product-group/list",
+      "name": "Product Group List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product/list/{{group_id}}/",
+      "normalized": "api/v1/category/product/list/{{group_id}}",
+      "name": "Product Category List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product/sub/list/{{category_id}}/",
+      "normalized": "api/v1/category/product/sub/list/{{category_id}}",
+      "name": "Product Sub Category List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/country/list/",
+      "normalized": "api/v1/region/country/list",
+      "name": "Country List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/province/list/",
+      "normalized": "api/v1/region/province/list",
+      "name": "Province List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/province/list/{{country_id}}/",
+      "normalized": "api/v1/region/province/list/{{country_id}}",
+      "name": "Province List by Country"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/city/list/",
+      "normalized": "api/v1/region/city/list",
+      "name": "City List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/city/list/{{province_id}}/",
+      "normalized": "api/v1/region/city/list/{{province_id}}",
+      "name": "City List by Province"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/events/",
+      "normalized": "api/v1/analytics/events",
+      "name": "User Behavior Events"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/analytics/events/",
+      "normalized": "api/v1/analytics/events",
+      "name": "Create User Behavior Event"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/sessions/",
+      "normalized": "api/v1/analytics/sessions",
+      "name": "User Sessions"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/products/",
+      "normalized": "api/v1/analytics/products",
+      "name": "Product Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/markets/",
+      "normalized": "api/v1/analytics/markets",
+      "name": "Market Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/users/",
+      "normalized": "api/v1/analytics/users",
+      "name": "User Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/dashboard/",
+      "normalized": "api/v1/analytics/dashboard",
+      "name": "Analytics Dashboard"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/recommendations/",
+      "normalized": "api/v1/analytics/recommendations",
+      "name": "ML Recommendations"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/sales/",
+      "normalized": "api/v1/analytics/sales",
+      "name": "Sales Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/business-intelligence/",
+      "normalized": "api/v1/analytics/business-intelligence",
+      "name": "Business Intelligence"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/advanced/",
+      "normalized": "api/v1/analytics/advanced",
+      "name": "Advanced Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/price-optimization/",
+      "normalized": "api/v1/analytics/price-optimization",
+      "name": "Price Optimization"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/analytics/price-optimization/",
+      "normalized": "api/v1/analytics/price-optimization",
+      "name": "Create Price Optimization"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/demand-forecasting/",
+      "normalized": "api/v1/analytics/demand-forecasting",
+      "name": "Demand Forecasting"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/ml-optimization/",
+      "normalized": "api/v1/analytics/ml-optimization",
+      "name": "ML Optimization"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/fraud-detection/",
+      "normalized": "api/v1/analytics/fraud-detection",
+      "name": "Fraud Detection"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/analytics/fraud-detection/",
+      "normalized": "api/v1/analytics/fraud-detection",
+      "name": "Create Fraud Detection"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/customer-segmentation/",
+      "normalized": "api/v1/analytics/customer-segmentation",
+      "name": "Customer Segmentation"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/security/",
+      "normalized": "api/v1/analytics/security",
+      "name": "Security Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/analytics/",
+      "normalized": "api/v1/analytics/api/analytics",
+      "name": "Analytics API"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/real-time/",
+      "normalized": "api/v1/analytics/api/real-time",
+      "name": "Real Time Analytics"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/ml-recommendations/",
+      "normalized": "api/v1/analytics/api/ml-recommendations",
+      "name": "ML Recommendations API"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/analytics/api/event-tracking/",
+      "normalized": "api/v1/analytics/api/event-tracking",
+      "name": "Event Tracking API"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/rooms/",
+      "normalized": "api/v1/chat/rooms",
+      "name": "Chat Rooms"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/chat/rooms/",
+      "normalized": "api/v1/chat/rooms",
+      "name": "Create Chat Room"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/messages/",
+      "normalized": "api/v1/chat/messages",
+      "name": "Chat Messages"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/chat/messages/",
+      "normalized": "api/v1/chat/messages",
+      "name": "Send Chat Message"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/chat/messages/{{message_id}}/",
+      "normalized": "api/v1/chat/messages/{{message_id}}",
+      "name": "Update Chat Message"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/chat/messages/{{message_id}}/",
+      "normalized": "api/v1/chat/messages/{{message_id}}",
+      "name": "Delete Chat Message"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/chat/support/tickets/",
+      "normalized": "api/v1/chat/support/tickets",
+      "name": "Support Tickets"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/chat/support/tickets/",
+      "normalized": "api/v1/chat/support/tickets",
+      "name": "Create Support Ticket"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/notifications/",
+      "normalized": "api/v1/notifications",
+      "name": "Notifications List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/notifications/",
+      "normalized": "api/v1/notifications",
+      "name": "Create Notification"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/notifications/{{notification_id}}/",
+      "normalized": "api/v1/notifications/{{notification_id}}",
+      "name": "Update Notification"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/notifications/{{notification_id}}/",
+      "normalized": "api/v1/notifications/{{notification_id}}",
+      "name": "Delete Notification"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/templates/",
+      "normalized": "api/v1/templates",
+      "name": "Notification Templates"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/templates/",
+      "normalized": "api/v1/templates",
+      "name": "Create Notification Template"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/preferences/",
+      "normalized": "api/v1/preferences",
+      "name": "Notification Preferences"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/preferences/{{preference_id}}/",
+      "normalized": "api/v1/preferences/{{preference_id}}",
+      "name": "Update Notification Preferences"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/wallet/balance/",
+      "normalized": "api/v1/wallet/balance",
+      "name": "Wallet Balance"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/wallet/balance/check/",
+      "normalized": "api/v1/wallet/balance/check",
+      "name": "Check Wallet Balance"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/wallet/pay/",
+      "normalized": "api/v1/wallet/pay",
+      "name": "Pay with Wallet"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/wallet/transactions/",
+      "normalized": "api/v1/wallet/transactions",
+      "name": "Wallet Transactions"
+    }
+  ],
+  "extra_endpoints": [
+    {
+      "pattern": "api/v1/chat/",
+      "normalized": "api/v1/chat"
+    },
+    {
+      "pattern": "api/v1/category/",
+      "normalized": "api/v1/category"
+    },
+    {
+      "pattern": "api/v1/info/",
+      "normalized": "api/v1/info"
+    },
+    {
+      "pattern": "api/v1/region/",
+      "normalized": "api/v1/region"
+    },
+    {
+      "pattern": "api/v1/owner/market/",
+      "normalized": "api/v1/owner/market"
+    },
+    {
+      "pattern": "api/v1/owner/product/",
+      "normalized": "api/v1/owner/product"
+    },
+    {
+      "pattern": "api/v1/user/comment/",
+      "normalized": "api/v1/user/comment"
+    },
+    {
+      "pattern": "api/v1/user/market/",
+      "normalized": "api/v1/user/market"
+    },
+    {
+      "pattern": "api/v1/user/",
+      "normalized": "api/v1/user"
+    },
+    {
+      "pattern": "api/v1/discount/",
+      "normalized": "api/v1/discount"
+    },
+    {
+      "pattern": "api/v1/sms/admin/",
+      "normalized": "api/v1/sms/admin"
+    },
+    {
+      "pattern": "api/v1/sms/owner/",
+      "normalized": "api/v1/sms/owner"
+    },
+    {
+      "pattern": "api/v1/reservation/owner/",
+      "normalized": "api/v1/reservation/owner"
+    },
+    {
+      "pattern": "api/v1/reservation/user/",
+      "normalized": "api/v1/reservation/user"
+    },
+    {
+      "pattern": "api/v1/owner/inquiries/",
+      "normalized": "api/v1/owner/inquiries"
+    },
+    {
+      "pattern": "api/v1/user/inquiries/",
+      "normalized": "api/v1/user/inquiries"
+    },
+    {
+      "pattern": "api/v1/advertisements/",
+      "normalized": "api/v1/advertisements"
+    },
+    {
+      "pattern": "api/v1/owner/affiliate/",
+      "normalized": "api/v1/owner/affiliate"
+    },
+    {
+      "pattern": "api/v1/user/affiliate/",
+      "normalized": "api/v1/user/affiliate"
+    },
+    {
+      "pattern": "api/v1/wallet/",
+      "normalized": "api/v1/wallet"
+    },
+    {
+      "pattern": "api/v1/user/referral/",
+      "normalized": "api/v1/user/referral"
+    },
+    {
+      "pattern": "api/v1/user/payments/",
+      "normalized": "api/v1/user/payments"
+    },
+    {
+      "pattern": "api/v1/user/order/",
+      "normalized": "api/v1/user/order"
+    },
+    {
+      "pattern": "api/v1/owner/order/",
+      "normalized": "api/v1/owner/order"
+    },
+    {
+      "pattern": "api/v1/analytics/",
+      "normalized": "api/v1/analytics"
+    }
+  ],
+  "postman_categories": {
+    "auth": 2,
+    "user_management": 6,
+    "market_management": 28,
+    "product_management": 13,
+    "order_management": 0,
+    "payment": 4,
+    "analytics": 22,
+    "notification": 4,
+    "chat": 9,
+    "category": 6,
+    "region": 5,
+    "discount": 0,
+    "reservation": 0,
+    "sms": 0,
+    "wallet": 0,
+    "affiliate": 0,
+    "other": 10
+  },
+  "postman_categories_detailed": {
+    "auth": [
+      {
+        "method": "POST",
+        "path": "api/v1/user/pin/create/",
+        "name": "Create PIN"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/user/pin/verify/",
+        "name": "Verify PIN"
+      }
+    ],
+    "user_management": [
+      {
+        "method": "GET",
+        "path": "api/v1/user/bank-info/list/",
+        "name": "Banks List"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/user/bank/info/create/",
+        "name": "Create Bank Info"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/user/bank/info/list/",
+        "name": "Bank Info List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/user/bank/info/detail/{{bank_info_id}}/",
+        "name": "Bank Info Detail"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/user/bank/info/update/{{bank_info_id}}/",
+        "name": "Update Bank Info"
+      },
+      {
+        "method": "DELETE",
+        "path": "api/v1/user/bank/info/delete/{{bank_info_id}}/",
+        "name": "Delete Bank Info"
+      }
+    ],
+    "market_management": [
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/create/",
+        "name": "Create Market"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/market/list/",
+        "name": "Market List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/market/{{market_id}}/",
+        "name": "Get Market"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/owner/market/update/{{market_id}}/",
+        "name": "Update Market"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/location/create/",
+        "name": "Create Market Location"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/market/location/{{location_id}}/",
+        "name": "Get Market Location"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/owner/market/location/update/{{location_id}}/",
+        "name": "Update Market Location"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/contact/create/",
+        "name": "Create Market Contact"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/market/contact/{{contact_id}}/",
+        "name": "Get Market Contact"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/owner/market/contact/update/{{contact_id}}/",
+        "name": "Update Market Contact"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/inactive/{{market_id}}/",
+        "name": "Market Inactive"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/queue/{{market_id}}/",
+        "name": "Market Queue"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/logo/{{market_id}}/",
+        "name": "Market Logo"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/background/{{market_id}}/",
+        "name": "Market Background"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/slider/{{market_id}}/",
+        "name": "Market Slider"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/theme/{{market_id}}/",
+        "name": "Market Theme"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/market/schedules/create/",
+        "name": "Create Market Schedule"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/market/schedules/list/",
+        "name": "Market Schedule List"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/owner/market/schedules/{{schedule_id}}/update/",
+        "name": "Update Market Schedule"
+      },
+      {
+        "method": "DELETE",
+        "path": "api/v1/owner/market/schedules/{{schedule_id}}/delete/",
+        "name": "Delete Market Schedule"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/user/market/list/",
+        "name": "User Market List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/user/market/public/list/",
+        "name": "Public Market List"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/user/market/report/{{market_id}}/",
+        "name": "Report Market"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/user/market/bookmark/",
+        "name": "Bookmark Market"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/user/market/bookmark/{{market_id}}/",
+        "name": "Bookmark Market by ID"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/user/market/schedule/{{market_id}}/",
+        "name": "Market Schedule User List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/product/list/{{market_id}}/",
+        "name": "Product List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/markets/",
+        "name": "Market Analytics"
+      }
+    ],
+    "product_management": [
+      {
+        "method": "POST",
+        "path": "api/v1/owner/product/create/",
+        "name": "Create Product"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/product/discount/create/{{product_id}}/",
+        "name": "Create Product Discount"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/product/ship/create/{{product_id}}/",
+        "name": "Create Product Shipping"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/product/ship/list/{{product_id}}/",
+        "name": "Product Shipping List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/product/detail/{{product_id}}/",
+        "name": "Product Detail"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/owner/product/theme/create/{{product_id}}/",
+        "name": "Create Product Theme"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/owner/product/theme/list/{{product_id}}/",
+        "name": "Product Theme List"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/owner/product/theme/update/{{theme_id}}/",
+        "name": "Update Product Theme"
+      },
+      {
+        "method": "DELETE",
+        "path": "api/v1/owner/product/theme/delete/{{theme_id}}/",
+        "name": "Delete Product Theme"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/product-group/list/",
+        "name": "Product Group List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/product/list/{{group_id}}/",
+        "name": "Product Category List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/product/sub/list/{{category_id}}/",
+        "name": "Product Sub Category List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/products/",
+        "name": "Product Analytics"
+      }
+    ],
+    "order_management": [],
+    "payment": [
+      {
+        "method": "GET",
+        "path": "api/v1/wallet/balance/",
+        "name": "Wallet Balance"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/wallet/balance/check/",
+        "name": "Check Wallet Balance"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/wallet/pay/",
+        "name": "Pay with Wallet"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/wallet/transactions/",
+        "name": "Wallet Transactions"
+      }
+    ],
+    "analytics": [
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/events/",
+        "name": "User Behavior Events"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/analytics/events/",
+        "name": "Create User Behavior Event"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/sessions/",
+        "name": "User Sessions"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/users/",
+        "name": "User Analytics"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/dashboard/",
+        "name": "Analytics Dashboard"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/recommendations/",
+        "name": "ML Recommendations"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/sales/",
+        "name": "Sales Analytics"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/business-intelligence/",
+        "name": "Business Intelligence"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/advanced/",
+        "name": "Advanced Analytics"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/price-optimization/",
+        "name": "Price Optimization"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/analytics/price-optimization/",
+        "name": "Create Price Optimization"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/demand-forecasting/",
+        "name": "Demand Forecasting"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/ml-optimization/",
+        "name": "ML Optimization"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/fraud-detection/",
+        "name": "Fraud Detection"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/analytics/fraud-detection/",
+        "name": "Create Fraud Detection"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/customer-segmentation/",
+        "name": "Customer Segmentation"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/security/",
+        "name": "Security Analytics"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/api/analytics/",
+        "name": "Analytics API"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/api/real-time/",
+        "name": "Real Time Analytics"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/api/ml-recommendations/",
+        "name": "ML Recommendations API"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/analytics/api/event-tracking/",
+        "name": "Event Tracking API"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/chat/analytics/",
+        "name": "Chat Analytics"
+      }
+    ],
+    "notification": [
+      {
+        "method": "GET",
+        "path": "api/v1/notifications/",
+        "name": "Notifications List"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/notifications/",
+        "name": "Create Notification"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/notifications/{{notification_id}}/",
+        "name": "Update Notification"
+      },
+      {
+        "method": "DELETE",
+        "path": "api/v1/notifications/{{notification_id}}/",
+        "name": "Delete Notification"
+      }
+    ],
+    "chat": [
+      {
+        "method": "GET",
+        "path": "api/v1/chat/rooms/",
+        "name": "Chat Rooms"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/chat/rooms/",
+        "name": "Create Chat Room"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/chat/messages/",
+        "name": "Chat Messages"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/chat/messages/",
+        "name": "Send Chat Message"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/chat/messages/{{message_id}}/",
+        "name": "Update Chat Message"
+      },
+      {
+        "method": "DELETE",
+        "path": "api/v1/chat/messages/{{message_id}}/",
+        "name": "Delete Chat Message"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/chat/support/tickets/",
+        "name": "Support Tickets"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/chat/support/tickets/",
+        "name": "Create Support Ticket"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/chat/search/",
+        "name": "Chat Search"
+      }
+    ],
+    "category": [
+      {
+        "method": "GET",
+        "path": "api/v1/category/group/list/",
+        "name": "Group List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/list/",
+        "name": "Category List All"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/list/{{group_id}}/",
+        "name": "Category List by Group"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/sub/list/",
+        "name": "Sub Category List All"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/sub/list/{{category_id}}/",
+        "name": "Sub Category List by Category"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/category/slider/image/{{category_id}}/",
+        "name": "Slider Image"
+      }
+    ],
+    "region": [
+      {
+        "method": "GET",
+        "path": "api/v1/region/country/list/",
+        "name": "Country List"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/region/province/list/",
+        "name": "Province List All"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/region/province/list/{{country_id}}/",
+        "name": "Province List by Country"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/region/city/list/",
+        "name": "City List All"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/region/city/list/{{province_id}}/",
+        "name": "City List by Province"
+      }
+    ],
+    "discount": [],
+    "reservation": [],
+    "sms": [],
+    "wallet": [],
+    "affiliate": [],
+    "other": [
+      {
+        "method": "GET",
+        "path": "api/v1/health/",
+        "name": "API Health Check"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/",
+        "name": "API Index"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/templates/",
+        "name": "Notification Templates"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/templates/",
+        "name": "Create Notification Template"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/preferences/",
+        "name": "Notification Preferences"
+      },
+      {
+        "method": "PUT",
+        "path": "api/v1/preferences/{{preference_id}}/",
+        "name": "Update Notification Preferences"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/bulk/",
+        "name": "Bulk Notifications"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/queue/",
+        "name": "Notification Queue"
+      },
+      {
+        "method": "GET",
+        "path": "api/v1/stats/",
+        "name": "Notification Stats"
+      },
+      {
+        "method": "POST",
+        "path": "api/v1/cleanup/",
+        "name": "Notification Cleanup"
+      }
+    ]
+  },
+  "method_analysis": {
+    "postman_methods_by_path": {
+      "api/v1/health": [
+        "GET"
+      ],
+      "api/v1": [
+        "GET"
+      ],
+      "api/v1/user/pin/create": [
+        "POST"
+      ],
+      "api/v1/user/pin/verify": [
+        "POST"
+      ],
+      "api/v1/user/bank-info/list": [
+        "GET"
+      ],
+      "api/v1/user/bank/info/create": [
+        "POST"
+      ],
+      "api/v1/user/bank/info/list": [
+        "GET"
+      ],
+      "api/v1/user/bank/info/detail/{{bank_info_id}}": [
+        "GET"
+      ],
+      "api/v1/user/bank/info/update/{{bank_info_id}}": [
+        "PUT"
+      ],
+      "api/v1/user/bank/info/delete/{{bank_info_id}}": [
+        "DELETE"
+      ],
+      "api/v1/owner/market/create": [
+        "POST"
+      ],
+      "api/v1/owner/market/list": [
+        "GET"
+      ],
+      "api/v1/owner/market/{{market_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/market/update/{{market_id}}": [
+        "PUT"
+      ],
+      "api/v1/owner/market/location/create": [
+        "POST"
+      ],
+      "api/v1/owner/market/location/{{location_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/market/location/update/{{location_id}}": [
+        "PUT"
+      ],
+      "api/v1/owner/market/contact/create": [
+        "POST"
+      ],
+      "api/v1/owner/market/contact/{{contact_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/market/contact/update/{{contact_id}}": [
+        "PUT"
+      ],
+      "api/v1/owner/market/inactive/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/market/queue/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/market/logo/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/market/background/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/market/slider/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/market/theme/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/market/schedules/create": [
+        "POST"
+      ],
+      "api/v1/owner/market/schedules/list": [
+        "GET"
+      ],
+      "api/v1/owner/market/schedules/{{schedule_id}}/update": [
+        "PUT"
+      ],
+      "api/v1/owner/market/schedules/{{schedule_id}}/delete": [
+        "DELETE"
+      ],
+      "api/v1/user/market/list": [
+        "GET"
+      ],
+      "api/v1/user/market/public/list": [
+        "GET"
+      ],
+      "api/v1/user/market/report/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/user/market/bookmark": [
+        "POST"
+      ],
+      "api/v1/user/market/bookmark/{{market_id}}": [
+        "POST"
+      ],
+      "api/v1/user/market/schedule/{{market_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/product/create": [
+        "POST"
+      ],
+      "api/v1/owner/product/discount/create/{{product_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/product/ship/create/{{product_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/product/ship/list/{{product_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/product/list/{{market_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/product/detail/{{product_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/product/theme/create/{{product_id}}": [
+        "POST"
+      ],
+      "api/v1/owner/product/theme/list/{{product_id}}": [
+        "GET"
+      ],
+      "api/v1/owner/product/theme/update/{{theme_id}}": [
+        "PUT"
+      ],
+      "api/v1/owner/product/theme/delete/{{theme_id}}": [
+        "DELETE"
+      ],
+      "api/v1/category/group/list": [
+        "GET"
+      ],
+      "api/v1/category/list": [
+        "GET"
+      ],
+      "api/v1/category/list/{{group_id}}": [
+        "GET"
+      ],
+      "api/v1/category/sub/list": [
+        "GET"
+      ],
+      "api/v1/category/sub/list/{{category_id}}": [
+        "GET"
+      ],
+      "api/v1/category/slider/image/{{category_id}}": [
+        "GET"
+      ],
+      "api/v1/category/product-group/list": [
+        "GET"
+      ],
+      "api/v1/category/product/list/{{group_id}}": [
+        "GET"
+      ],
+      "api/v1/category/product/sub/list/{{category_id}}": [
+        "GET"
+      ],
+      "api/v1/region/country/list": [
+        "GET"
+      ],
+      "api/v1/region/province/list": [
+        "GET"
+      ],
+      "api/v1/region/province/list/{{country_id}}": [
+        "GET"
+      ],
+      "api/v1/region/city/list": [
+        "GET"
+      ],
+      "api/v1/region/city/list/{{province_id}}": [
+        "GET"
+      ],
+      "api/v1/analytics/events": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/analytics/sessions": [
+        "GET"
+      ],
+      "api/v1/analytics/products": [
+        "GET"
+      ],
+      "api/v1/analytics/markets": [
+        "GET"
+      ],
+      "api/v1/analytics/users": [
+        "GET"
+      ],
+      "api/v1/analytics/dashboard": [
+        "GET"
+      ],
+      "api/v1/analytics/recommendations": [
+        "GET"
+      ],
+      "api/v1/analytics/sales": [
+        "GET"
+      ],
+      "api/v1/analytics/business-intelligence": [
+        "GET"
+      ],
+      "api/v1/analytics/advanced": [
+        "GET"
+      ],
+      "api/v1/analytics/price-optimization": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/analytics/demand-forecasting": [
+        "GET"
+      ],
+      "api/v1/analytics/ml-optimization": [
+        "GET"
+      ],
+      "api/v1/analytics/fraud-detection": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/analytics/customer-segmentation": [
+        "GET"
+      ],
+      "api/v1/analytics/security": [
+        "GET"
+      ],
+      "api/v1/analytics/api/analytics": [
+        "GET"
+      ],
+      "api/v1/analytics/api/real-time": [
+        "GET"
+      ],
+      "api/v1/analytics/api/ml-recommendations": [
+        "GET"
+      ],
+      "api/v1/analytics/api/event-tracking": [
+        "GET"
+      ],
+      "api/v1/chat/rooms": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/chat/messages": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/chat/messages/{{message_id}}": [
+        "PUT",
+        "DELETE"
+      ],
+      "api/v1/chat/support/tickets": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/chat/analytics": [
+        "GET"
+      ],
+      "api/v1/chat/search": [
+        "GET"
+      ],
+      "api/v1/notifications": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/notifications/{{notification_id}}": [
+        "PUT",
+        "DELETE"
+      ],
+      "api/v1/templates": [
+        "GET",
+        "POST"
+      ],
+      "api/v1/preferences": [
+        "GET"
+      ],
+      "api/v1/preferences/{{preference_id}}": [
+        "PUT"
+      ],
+      "api/v1/bulk": [
+        "POST"
+      ],
+      "api/v1/queue": [
+        "GET"
+      ],
+      "api/v1/stats": [
+        "GET"
+      ],
+      "api/v1/cleanup": [
+        "POST"
+      ],
+      "api/v1/wallet/balance": [
+        "GET"
+      ],
+      "api/v1/wallet/balance/check": [
+        "GET"
+      ],
+      "api/v1/wallet/pay": [
+        "POST"
+      ],
+      "api/v1/wallet/transactions": [
+        "GET"
+      ]
+    },
+    "note": "Django URL patterns do not specify HTTP methods - methods are defined in views"
+  },
+  "implementation_recommendations": [
+    {
+      "module": "pin",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "api/v1/user/pin/create/",
+          "normalized": "api/v1/user/pin/create",
+          "name": "Create PIN"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/user/pin/verify/",
+          "normalized": "api/v1/user/pin/verify",
+          "name": "Verify PIN"
+        }
+      ],
+      "suggested_actions": [
+        "Review pin app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/pin/urls/"
+      ]
+    },
+    {
+      "module": "bank-info",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/user/bank-info/list/",
+          "normalized": "api/v1/user/bank-info/list",
+          "name": "Banks List"
+        }
+      ],
+      "suggested_actions": [
+        "Review bank-info app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/bank-info/urls/"
+      ]
+    },
+    {
+      "module": "bank",
+      "missing_count": 5,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "api/v1/user/bank/info/create/",
+          "normalized": "api/v1/user/bank/info/create",
+          "name": "Create Bank Info"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/user/bank/info/list/",
+          "normalized": "api/v1/user/bank/info/list",
+          "name": "Bank Info List"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/user/bank/info/detail/{{bank_info_id}}/",
+          "normalized": "api/v1/user/bank/info/detail/{{bank_info_id}}",
+          "name": "Bank Info Detail"
+        },
+        {
+          "method": "PUT",
+          "path": "api/v1/user/bank/info/update/{{bank_info_id}}/",
+          "normalized": "api/v1/user/bank/info/update/{{bank_info_id}}",
+          "name": "Update Bank Info"
+        },
+        {
+          "method": "DELETE",
+          "path": "api/v1/user/bank/info/delete/{{bank_info_id}}/",
+          "normalized": "api/v1/user/bank/info/delete/{{bank_info_id}}",
+          "name": "Delete Bank Info"
+        }
+      ],
+      "suggested_actions": [
+        "Review bank app views and URL patterns",
+        "Implement missing 5 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/bank/urls/"
+      ]
+    },
+    {
+      "module": "market",
+      "missing_count": 26,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/create/",
+          "normalized": "api/v1/owner/market/create",
+          "name": "Create Market"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/market/list/",
+          "normalized": "api/v1/owner/market/list",
+          "name": "Market List"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/market/{{market_id}}/",
+          "normalized": "api/v1/owner/market/{{market_id}}",
+          "name": "Get Market"
+        },
+        {
+          "method": "PUT",
+          "path": "api/v1/owner/market/update/{{market_id}}/",
+          "normalized": "api/v1/owner/market/update/{{market_id}}",
+          "name": "Update Market"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/location/create/",
+          "normalized": "api/v1/owner/market/location/create",
+          "name": "Create Market Location"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/market/location/{{location_id}}/",
+          "normalized": "api/v1/owner/market/location/{{location_id}}",
+          "name": "Get Market Location"
+        },
+        {
+          "method": "PUT",
+          "path": "api/v1/owner/market/location/update/{{location_id}}/",
+          "normalized": "api/v1/owner/market/location/update/{{location_id}}",
+          "name": "Update Market Location"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/contact/create/",
+          "normalized": "api/v1/owner/market/contact/create",
+          "name": "Create Market Contact"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/market/contact/{{contact_id}}/",
+          "normalized": "api/v1/owner/market/contact/{{contact_id}}",
+          "name": "Get Market Contact"
+        },
+        {
+          "method": "PUT",
+          "path": "api/v1/owner/market/contact/update/{{contact_id}}/",
+          "normalized": "api/v1/owner/market/contact/update/{{contact_id}}",
+          "name": "Update Market Contact"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/inactive/{{market_id}}/",
+          "normalized": "api/v1/owner/market/inactive/{{market_id}}",
+          "name": "Market Inactive"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/queue/{{market_id}}/",
+          "normalized": "api/v1/owner/market/queue/{{market_id}}",
+          "name": "Market Queue"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/logo/{{market_id}}/",
+          "normalized": "api/v1/owner/market/logo/{{market_id}}",
+          "name": "Market Logo"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/background/{{market_id}}/",
+          "normalized": "api/v1/owner/market/background/{{market_id}}",
+          "name": "Market Background"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/slider/{{market_id}}/",
+          "normalized": "api/v1/owner/market/slider/{{market_id}}",
+          "name": "Market Slider"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/theme/{{market_id}}/",
+          "normalized": "api/v1/owner/market/theme/{{market_id}}",
+          "name": "Market Theme"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/market/schedules/create/",
+          "normalized": "api/v1/owner/market/schedules/create",
+          "name": "Create Market Schedule"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/market/schedules/list/",
+          "normalized": "api/v1/owner/market/schedules/list",
+          "name": "Market Schedule List"
+        },
+        {
+          "method": "PUT",
+          "path": "api/v1/owner/market/schedules/{{schedule_id}}/update/",
+          "normalized": "api/v1/owner/market/schedules/{{schedule_id}}/update",
+          "name": "Update Market Schedule"
+        },
+        {
+          "method": "DELETE",
+          "path": "api/v1/owner/market/schedules/{{schedule_id}}/delete/",
+          "normalized": "api/v1/owner/market/schedules/{{schedule_id}}/delete",
+          "name": "Delete Market Schedule"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/user/market/list/",
+          "normalized": "api/v1/user/market/list",
+          "name": "User Market List"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/user/market/public/list/",
+          "normalized": "api/v1/user/market/public/list",
+          "name": "Public Market List"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/user/market/report/{{market_id}}/",
+          "normalized": "api/v1/user/market/report/{{market_id}}",
+          "name": "Report Market"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/user/market/bookmark/",
+          "normalized": "api/v1/user/market/bookmark",
+          "name": "Bookmark Market"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/user/market/bookmark/{{market_id}}/",
+          "normalized": "api/v1/user/market/bookmark/{{market_id}}",
+          "name": "Bookmark Market by ID"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/user/market/schedule/{{market_id}}/",
+          "normalized": "api/v1/user/market/schedule/{{market_id}}",
+          "name": "Market Schedule User List"
+        }
+      ],
+      "suggested_actions": [
+        "Review market app views and URL patterns",
+        "Implement missing 26 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/market/urls/"
+      ]
+    },
+    {
+      "module": "product",
+      "missing_count": 12,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "api/v1/owner/product/create/",
+          "normalized": "api/v1/owner/product/create",
+          "name": "Create Product"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/product/discount/create/{{product_id}}/",
+          "normalized": "api/v1/owner/product/discount/create/{{product_id}}",
+          "name": "Create Product Discount"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/product/ship/create/{{product_id}}/",
+          "normalized": "api/v1/owner/product/ship/create/{{product_id}}",
+          "name": "Create Product Shipping"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/product/ship/list/{{product_id}}/",
+          "normalized": "api/v1/owner/product/ship/list/{{product_id}}",
+          "name": "Product Shipping List"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/product/list/{{market_id}}/",
+          "normalized": "api/v1/owner/product/list/{{market_id}}",
+          "name": "Product List"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/product/detail/{{product_id}}/",
+          "normalized": "api/v1/owner/product/detail/{{product_id}}",
+          "name": "Product Detail"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/owner/product/theme/create/{{product_id}}/",
+          "normalized": "api/v1/owner/product/theme/create/{{product_id}}",
+          "name": "Create Product Theme"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/owner/product/theme/list/{{product_id}}/",
+          "normalized": "api/v1/owner/product/theme/list/{{product_id}}",
+          "name": "Product Theme List"
+        },
+        {
+          "method": "PUT",
+          "path": "api/v1/owner/product/theme/update/{{theme_id}}/",
+          "normalized": "api/v1/owner/product/theme/update/{{theme_id}}",
+          "name": "Update Product Theme"
+        },
+        {
+          "method": "DELETE",
+          "path": "api/v1/owner/product/theme/delete/{{theme_id}}/",
+          "normalized": "api/v1/owner/product/theme/delete/{{theme_id}}",
+          "name": "Delete Product Theme"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/category/product/list/{{group_id}}/",
+          "normalized": "api/v1/category/product/list/{{group_id}}",
+          "name": "Product Category List"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/category/product/sub/list/{{category_id}}/",
+          "normalized": "api/v1/category/product/sub/list/{{category_id}}",
+          "name": "Product Sub Category List"
+        }
+      ],
+      "suggested_actions": [
+        "Review product app views and URL patterns",
+        "Implement missing 12 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/product/urls/"
+      ]
+    },
+    {
+      "module": "group",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/category/group/list/",
+          "normalized": "api/v1/category/group/list",
+          "name": "Group List"
+        }
+      ],
+      "suggested_actions": [
+        "Review group app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/group/urls/"
+      ]
+    },
+    {
+      "module": "list",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/category/list/",
+          "normalized": "api/v1/category/list",
+          "name": "Category List All"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/category/list/{{group_id}}/",
+          "normalized": "api/v1/category/list/{{group_id}}",
+          "name": "Category List by Group"
+        }
+      ],
+      "suggested_actions": [
+        "Review list app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/list/urls/"
+      ]
+    },
+    {
+      "module": "sub",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/category/sub/list/",
+          "normalized": "api/v1/category/sub/list",
+          "name": "Sub Category List All"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/category/sub/list/{{category_id}}/",
+          "normalized": "api/v1/category/sub/list/{{category_id}}",
+          "name": "Sub Category List by Category"
+        }
+      ],
+      "suggested_actions": [
+        "Review sub app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/sub/urls/"
+      ]
+    },
+    {
+      "module": "slider",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/category/slider/image/{{category_id}}/",
+          "normalized": "api/v1/category/slider/image/{{category_id}}",
+          "name": "Slider Image"
+        }
+      ],
+      "suggested_actions": [
+        "Review slider app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/slider/urls/"
+      ]
+    },
+    {
+      "module": "product-group",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/category/product-group/list/",
+          "normalized": "api/v1/category/product-group/list",
+          "name": "Product Group List"
+        }
+      ],
+      "suggested_actions": [
+        "Review product-group app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/product-group/urls/"
+      ]
+    },
+    {
+      "module": "country",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/region/country/list/",
+          "normalized": "api/v1/region/country/list",
+          "name": "Country List"
+        }
+      ],
+      "suggested_actions": [
+        "Review country app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/country/urls/"
+      ]
+    },
+    {
+      "module": "province",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/region/province/list/",
+          "normalized": "api/v1/region/province/list",
+          "name": "Province List All"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/region/province/list/{{country_id}}/",
+          "normalized": "api/v1/region/province/list/{{country_id}}",
+          "name": "Province List by Country"
+        }
+      ],
+      "suggested_actions": [
+        "Review province app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/province/urls/"
+      ]
+    },
+    {
+      "module": "city",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/region/city/list/",
+          "normalized": "api/v1/region/city/list",
+          "name": "City List All"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/region/city/list/{{province_id}}/",
+          "normalized": "api/v1/region/city/list/{{province_id}}",
+          "name": "City List by Province"
+        }
+      ],
+      "suggested_actions": [
+        "Review city app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/city/urls/"
+      ]
+    },
+    {
+      "module": "events",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/events/",
+          "normalized": "api/v1/analytics/events",
+          "name": "User Behavior Events"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/analytics/events/",
+          "normalized": "api/v1/analytics/events",
+          "name": "Create User Behavior Event"
+        }
+      ],
+      "suggested_actions": [
+        "Review events app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/events/urls/"
+      ]
+    },
+    {
+      "module": "sessions",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/sessions/",
+          "normalized": "api/v1/analytics/sessions",
+          "name": "User Sessions"
+        }
+      ],
+      "suggested_actions": [
+        "Review sessions app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/sessions/urls/"
+      ]
+    },
+    {
+      "module": "products",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/products/",
+          "normalized": "api/v1/analytics/products",
+          "name": "Product Analytics"
+        }
+      ],
+      "suggested_actions": [
+        "Review products app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/products/urls/"
+      ]
+    },
+    {
+      "module": "markets",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/markets/",
+          "normalized": "api/v1/analytics/markets",
+          "name": "Market Analytics"
+        }
+      ],
+      "suggested_actions": [
+        "Review markets app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/markets/urls/"
+      ]
+    },
+    {
+      "module": "users",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/users/",
+          "normalized": "api/v1/analytics/users",
+          "name": "User Analytics"
+        }
+      ],
+      "suggested_actions": [
+        "Review users app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/users/urls/"
+      ]
+    },
+    {
+      "module": "dashboard",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/dashboard/",
+          "normalized": "api/v1/analytics/dashboard",
+          "name": "Analytics Dashboard"
+        }
+      ],
+      "suggested_actions": [
+        "Review dashboard app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/dashboard/urls/"
+      ]
+    },
+    {
+      "module": "recommendations",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/recommendations/",
+          "normalized": "api/v1/analytics/recommendations",
+          "name": "ML Recommendations"
+        }
+      ],
+      "suggested_actions": [
+        "Review recommendations app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/recommendations/urls/"
+      ]
+    },
+    {
+      "module": "sales",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/sales/",
+          "normalized": "api/v1/analytics/sales",
+          "name": "Sales Analytics"
+        }
+      ],
+      "suggested_actions": [
+        "Review sales app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/sales/urls/"
+      ]
+    },
+    {
+      "module": "business-intelligence",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/business-intelligence/",
+          "normalized": "api/v1/analytics/business-intelligence",
+          "name": "Business Intelligence"
+        }
+      ],
+      "suggested_actions": [
+        "Review business-intelligence app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/business-intelligence/urls/"
+      ]
+    },
+    {
+      "module": "advanced",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/advanced/",
+          "normalized": "api/v1/analytics/advanced",
+          "name": "Advanced Analytics"
+        }
+      ],
+      "suggested_actions": [
+        "Review advanced app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/advanced/urls/"
+      ]
+    },
+    {
+      "module": "price-optimization",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/price-optimization/",
+          "normalized": "api/v1/analytics/price-optimization",
+          "name": "Price Optimization"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/analytics/price-optimization/",
+          "normalized": "api/v1/analytics/price-optimization",
+          "name": "Create Price Optimization"
+        }
+      ],
+      "suggested_actions": [
+        "Review price-optimization app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/price-optimization/urls/"
+      ]
+    },
+    {
+      "module": "demand-forecasting",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/demand-forecasting/",
+          "normalized": "api/v1/analytics/demand-forecasting",
+          "name": "Demand Forecasting"
+        }
+      ],
+      "suggested_actions": [
+        "Review demand-forecasting app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/demand-forecasting/urls/"
+      ]
+    },
+    {
+      "module": "ml-optimization",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/ml-optimization/",
+          "normalized": "api/v1/analytics/ml-optimization",
+          "name": "ML Optimization"
+        }
+      ],
+      "suggested_actions": [
+        "Review ml-optimization app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/ml-optimization/urls/"
+      ]
+    },
+    {
+      "module": "fraud-detection",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/fraud-detection/",
+          "normalized": "api/v1/analytics/fraud-detection",
+          "name": "Fraud Detection"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/analytics/fraud-detection/",
+          "normalized": "api/v1/analytics/fraud-detection",
+          "name": "Create Fraud Detection"
+        }
+      ],
+      "suggested_actions": [
+        "Review fraud-detection app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/fraud-detection/urls/"
+      ]
+    },
+    {
+      "module": "customer-segmentation",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/customer-segmentation/",
+          "normalized": "api/v1/analytics/customer-segmentation",
+          "name": "Customer Segmentation"
+        }
+      ],
+      "suggested_actions": [
+        "Review customer-segmentation app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/customer-segmentation/urls/"
+      ]
+    },
+    {
+      "module": "security",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/security/",
+          "normalized": "api/v1/analytics/security",
+          "name": "Security Analytics"
+        }
+      ],
+      "suggested_actions": [
+        "Review security app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/security/urls/"
+      ]
+    },
+    {
+      "module": "api",
+      "missing_count": 4,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/api/analytics/",
+          "normalized": "api/v1/analytics/api/analytics",
+          "name": "Analytics API"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/api/real-time/",
+          "normalized": "api/v1/analytics/api/real-time",
+          "name": "Real Time Analytics"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/api/ml-recommendations/",
+          "normalized": "api/v1/analytics/api/ml-recommendations",
+          "name": "ML Recommendations API"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/analytics/api/event-tracking/",
+          "normalized": "api/v1/analytics/api/event-tracking",
+          "name": "Event Tracking API"
+        }
+      ],
+      "suggested_actions": [
+        "Review api app views and URL patterns",
+        "Implement missing 4 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/api/urls/"
+      ]
+    },
+    {
+      "module": "rooms",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/chat/rooms/",
+          "normalized": "api/v1/chat/rooms",
+          "name": "Chat Rooms"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/chat/rooms/",
+          "normalized": "api/v1/chat/rooms",
+          "name": "Create Chat Room"
+        }
+      ],
+      "suggested_actions": [
+        "Review rooms app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/rooms/urls/"
+      ]
+    },
+    {
+      "module": "messages",
+      "missing_count": 4,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/chat/messages/",
+          "normalized": "api/v1/chat/messages",
+          "name": "Chat Messages"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/chat/messages/",
+          "normalized": "api/v1/chat/messages",
+          "name": "Send Chat Message"
+        },
+        {
+          "method": "PUT",
+          "path": "api/v1/chat/messages/{{message_id}}/",
+          "normalized": "api/v1/chat/messages/{{message_id}}",
+          "name": "Update Chat Message"
+        },
+        {
+          "method": "DELETE",
+          "path": "api/v1/chat/messages/{{message_id}}/",
+          "normalized": "api/v1/chat/messages/{{message_id}}",
+          "name": "Delete Chat Message"
+        }
+      ],
+      "suggested_actions": [
+        "Review messages app views and URL patterns",
+        "Implement missing 4 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/messages/urls/"
+      ]
+    },
+    {
+      "module": "support",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/chat/support/tickets/",
+          "normalized": "api/v1/chat/support/tickets",
+          "name": "Support Tickets"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/chat/support/tickets/",
+          "normalized": "api/v1/chat/support/tickets",
+          "name": "Create Support Ticket"
+        }
+      ],
+      "suggested_actions": [
+        "Review support app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/support/urls/"
+      ]
+    },
+    {
+      "module": "",
+      "missing_count": 5,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/notifications/",
+          "normalized": "api/v1/notifications",
+          "name": "Notifications List"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/notifications/",
+          "normalized": "api/v1/notifications",
+          "name": "Create Notification"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/templates/",
+          "normalized": "api/v1/templates",
+          "name": "Notification Templates"
+        },
+        {
+          "method": "POST",
+          "path": "api/v1/templates/",
+          "normalized": "api/v1/templates",
+          "name": "Create Notification Template"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/preferences/",
+          "normalized": "api/v1/preferences",
+          "name": "Notification Preferences"
+        }
+      ],
+      "suggested_actions": [
+        "Review  app views and URL patterns",
+        "Implement missing 5 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps//urls/"
+      ]
+    },
+    {
+      "module": "{{notification_id}}",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "PUT",
+          "path": "api/v1/notifications/{{notification_id}}/",
+          "normalized": "api/v1/notifications/{{notification_id}}",
+          "name": "Update Notification"
+        },
+        {
+          "method": "DELETE",
+          "path": "api/v1/notifications/{{notification_id}}/",
+          "normalized": "api/v1/notifications/{{notification_id}}",
+          "name": "Delete Notification"
+        }
+      ],
+      "suggested_actions": [
+        "Review {{notification_id}} app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/{{notification_id}}/urls/"
+      ]
+    },
+    {
+      "module": "{{preference_id}}",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "PUT",
+          "path": "api/v1/preferences/{{preference_id}}/",
+          "normalized": "api/v1/preferences/{{preference_id}}",
+          "name": "Update Notification Preferences"
+        }
+      ],
+      "suggested_actions": [
+        "Review {{preference_id}} app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/{{preference_id}}/urls/"
+      ]
+    },
+    {
+      "module": "balance",
+      "missing_count": 2,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/wallet/balance/",
+          "normalized": "api/v1/wallet/balance",
+          "name": "Wallet Balance"
+        },
+        {
+          "method": "GET",
+          "path": "api/v1/wallet/balance/check/",
+          "normalized": "api/v1/wallet/balance/check",
+          "name": "Check Wallet Balance"
+        }
+      ],
+      "suggested_actions": [
+        "Review balance app views and URL patterns",
+        "Implement missing 2 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/balance/urls/"
+      ]
+    },
+    {
+      "module": "pay",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "api/v1/wallet/pay/",
+          "normalized": "api/v1/wallet/pay",
+          "name": "Pay with Wallet"
+        }
+      ],
+      "suggested_actions": [
+        "Review pay app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/pay/urls/"
+      ]
+    },
+    {
+      "module": "transactions",
+      "missing_count": 1,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "api/v1/wallet/transactions/",
+          "normalized": "api/v1/wallet/transactions",
+          "name": "Wallet Transactions"
+        }
+      ],
+      "suggested_actions": [
+        "Review transactions app views and URL patterns",
+        "Implement missing 1 endpoints",
+        "Add proper serializers and permissions",
+        "Update URL routing in apps/transactions/urls/"
+      ]
+    }
+  ],
+  "critical_missing_endpoints": [
+    {
+      "method": "POST",
+      "path": "api/v1/user/pin/create/",
+      "normalized": "api/v1/user/pin/create",
+      "name": "Create PIN"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank-info/list/",
+      "normalized": "api/v1/user/bank-info/list",
+      "name": "Banks List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/user/bank/info/create/",
+      "normalized": "api/v1/user/bank/info/create",
+      "name": "Create Bank Info"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank/info/list/",
+      "normalized": "api/v1/user/bank/info/list",
+      "name": "Bank Info List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/bank/info/detail/{{bank_info_id}}/",
+      "normalized": "api/v1/user/bank/info/detail/{{bank_info_id}}",
+      "name": "Bank Info Detail"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/user/bank/info/update/{{bank_info_id}}/",
+      "normalized": "api/v1/user/bank/info/update/{{bank_info_id}}",
+      "name": "Update Bank Info"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/user/bank/info/delete/{{bank_info_id}}/",
+      "normalized": "api/v1/user/bank/info/delete/{{bank_info_id}}",
+      "name": "Delete Bank Info"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/create/",
+      "normalized": "api/v1/owner/market/create",
+      "name": "Create Market"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/list/",
+      "normalized": "api/v1/owner/market/list",
+      "name": "Market List"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/update/{{market_id}}/",
+      "normalized": "api/v1/owner/market/update/{{market_id}}",
+      "name": "Update Market"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/location/create/",
+      "normalized": "api/v1/owner/market/location/create",
+      "name": "Create Market Location"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/location/update/{{location_id}}/",
+      "normalized": "api/v1/owner/market/location/update/{{location_id}}",
+      "name": "Update Market Location"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/contact/create/",
+      "normalized": "api/v1/owner/market/contact/create",
+      "name": "Create Market Contact"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/contact/update/{{contact_id}}/",
+      "normalized": "api/v1/owner/market/contact/update/{{contact_id}}",
+      "name": "Update Market Contact"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/market/schedules/create/",
+      "normalized": "api/v1/owner/market/schedules/create",
+      "name": "Create Market Schedule"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/market/schedules/list/",
+      "normalized": "api/v1/owner/market/schedules/list",
+      "name": "Market Schedule List"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/market/schedules/{{schedule_id}}/update/",
+      "normalized": "api/v1/owner/market/schedules/{{schedule_id}}/update",
+      "name": "Update Market Schedule"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/owner/market/schedules/{{schedule_id}}/delete/",
+      "normalized": "api/v1/owner/market/schedules/{{schedule_id}}/delete",
+      "name": "Delete Market Schedule"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/list/",
+      "normalized": "api/v1/user/market/list",
+      "name": "User Market List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/user/market/public/list/",
+      "normalized": "api/v1/user/market/public/list",
+      "name": "Public Market List"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/create/",
+      "normalized": "api/v1/owner/product/create",
+      "name": "Create Product"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/discount/create/{{product_id}}/",
+      "normalized": "api/v1/owner/product/discount/create/{{product_id}}",
+      "name": "Create Product Discount"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/ship/create/{{product_id}}/",
+      "normalized": "api/v1/owner/product/ship/create/{{product_id}}",
+      "name": "Create Product Shipping"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/ship/list/{{product_id}}/",
+      "normalized": "api/v1/owner/product/ship/list/{{product_id}}",
+      "name": "Product Shipping List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/list/{{market_id}}/",
+      "normalized": "api/v1/owner/product/list/{{market_id}}",
+      "name": "Product List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/detail/{{product_id}}/",
+      "normalized": "api/v1/owner/product/detail/{{product_id}}",
+      "name": "Product Detail"
+    },
+    {
+      "method": "POST",
+      "path": "api/v1/owner/product/theme/create/{{product_id}}/",
+      "normalized": "api/v1/owner/product/theme/create/{{product_id}}",
+      "name": "Create Product Theme"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/owner/product/theme/list/{{product_id}}/",
+      "normalized": "api/v1/owner/product/theme/list/{{product_id}}",
+      "name": "Product Theme List"
+    },
+    {
+      "method": "PUT",
+      "path": "api/v1/owner/product/theme/update/{{theme_id}}/",
+      "normalized": "api/v1/owner/product/theme/update/{{theme_id}}",
+      "name": "Update Product Theme"
+    },
+    {
+      "method": "DELETE",
+      "path": "api/v1/owner/product/theme/delete/{{theme_id}}/",
+      "normalized": "api/v1/owner/product/theme/delete/{{theme_id}}",
+      "name": "Delete Product Theme"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/group/list/",
+      "normalized": "api/v1/category/group/list",
+      "name": "Group List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/list/",
+      "normalized": "api/v1/category/list",
+      "name": "Category List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/list/{{group_id}}/",
+      "normalized": "api/v1/category/list/{{group_id}}",
+      "name": "Category List by Group"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/sub/list/",
+      "normalized": "api/v1/category/sub/list",
+      "name": "Sub Category List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/sub/list/{{category_id}}/",
+      "normalized": "api/v1/category/sub/list/{{category_id}}",
+      "name": "Sub Category List by Category"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product-group/list/",
+      "normalized": "api/v1/category/product-group/list",
+      "name": "Product Group List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product/list/{{group_id}}/",
+      "normalized": "api/v1/category/product/list/{{group_id}}",
+      "name": "Product Category List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/category/product/sub/list/{{category_id}}/",
+      "normalized": "api/v1/category/product/sub/list/{{category_id}}",
+      "name": "Product Sub Category List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/country/list/",
+      "normalized": "api/v1/region/country/list",
+      "name": "Country List"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/province/list/",
+      "normalized": "api/v1/region/province/list",
+      "name": "Province List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/province/list/{{country_id}}/",
+      "normalized": "api/v1/region/province/list/{{country_id}}",
+      "name": "Province List by Country"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/city/list/",
+      "normalized": "api/v1/region/city/list",
+      "name": "City List All"
+    },
+    {
+      "method": "GET",
+      "path": "api/v1/region/city/list/{{province_id}}/",
+      "normalized": "api/v1/region/city/list/{{province_id}}",
+      "name": "City List by Province"
+    }
+  ]
+}
