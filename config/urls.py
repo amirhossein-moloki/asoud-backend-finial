@@ -79,6 +79,10 @@ urlpatterns = [
         include('apps.market.urls.user_urls'),
     ),
     path(
+        'api/v1/social/',
+        include('apps.market.urls.social_urls'),
+    ),
+    path(
         'api/v1/user/',
         include('apps.users.urls.user_urls'),
     ),

@@ -291,6 +291,8 @@ class MarketSubscriptionAdmin(BaseAdmin):
         'amount',
         'start_date',
         'end_date',
+        'is_active',
+        'days_remaining',
     ]
     
     list_filter = [
@@ -298,11 +300,13 @@ class MarketSubscriptionAdmin(BaseAdmin):
         'status',
         'start_date',
         'end_date',
+        'auto_renew',
     ]
     
     search_fields = [
         'market__title',
-        'transaction_id',
+        'market__business_id',
+        'payment_reference',
     ]
     
     fields = (
@@ -312,11 +316,36 @@ class MarketSubscriptionAdmin(BaseAdmin):
         'amount',
         'start_date',
         'end_date',
-        'transaction_id',
+        'payment_reference',
         'auto_renew',
     ) + BaseAdmin.fields
     
-    readonly_fields = BaseAdmin.readonly_fields
+    readonly_fields = BaseAdmin.readonly_fields + ('is_active', 'days_remaining')
+    
+    def is_active(self, obj):
+        return obj.is_active()
+    is_active.boolean = True
+    is_active.short_description = 'Active'
+    
+    def days_remaining(self, obj):
+        from datetime import date
+        if obj.end_date and obj.is_active():
+            remaining = (obj.end_date - date.today()).days
+            return max(0, remaining)
+        return 0
+    days_remaining.short_description = 'Days Remaining'
+    
+    actions = ['activate_subscriptions', 'cancel_subscriptions']
+    
+    def activate_subscriptions(self, request, queryset):
+        updated = queryset.update(status='active')
+        self.message_user(request, f'{updated} subscriptions were activated.')
+    activate_subscriptions.short_description = 'Activate selected subscriptions'
+    
+    def cancel_subscriptions(self, request, queryset):
+        updated = queryset.update(status='cancelled')
+        self.message_user(request, f'{updated} subscriptions were cancelled.')
+    cancel_subscriptions.short_description = 'Cancel selected subscriptions'
 
 
 admin.site.register(MarketSubscription, MarketSubscriptionAdmin)

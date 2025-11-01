@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Store Personalization - {{ market.name }}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% load static %}{% static 'css/store_personalization.css' %}" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: {{ market.theme.color|default:"#007bff" }};
+            --secondary-color: {{ market.theme.secondary_color|default:"#6c757d" }};
+            --background-color: {{ market.theme.background_color|default:"#ffffff" }};
+            --font-family: {{ market.theme.font|default:"'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }};
+            --font-color: {{ market.theme.font_color|default:"#333333" }};
+            --secondary-font-color: {{ market.theme.secondary_font_color|default:"#666666" }};
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-palette me-2"></i>
+                Store Personalization
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'market:preview' market.id %}">
+                    <i class="fas fa-eye me-1"></i>
+                    Preview Store
+                </a>
+                <a class="nav-link" href="{% url 'market:owner-dashboard' %}">
+                    <i class="fas fa-arrow-left me-1"></i>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <div class="sidebar-header">
+                    <h5><i class="fas fa-cog me-2"></i>Customization Options</h5>
+                </div>
+                
+                <div class="sidebar-menu">
+                    <div class="menu-item active" data-section="branding">
+                        <i class="fas fa-image"></i>
+                        <span>Branding & Logo</span>
+                    </div>
+                    <div class="menu-item" data-section="theme">
+                        <i class="fas fa-palette"></i>
+                        <span>Colors & Theme</span>
+                    </div>
+                    <div class="menu-item" data-section="typography">
+                        <i class="fas fa-font"></i>
+                        <span>Typography</span>
+                    </div>
+                    <div class="menu-item" data-section="slideshow">
+                        <i class="fas fa-images"></i>
+                        <span>Slideshow</span>
+                    </div>
+                    <div class="menu-item" data-section="layout">
+                        <i class="fas fa-th-large"></i>
+                        <span>Layout</span>
+                    </div>
+                    <div class="menu-item" data-section="advanced">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Advanced</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-6 main-content">
+                <!-- Branding Section -->
+                <div class="customization-section active" id="branding-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-image me-2"></i>Branding & Logo</h4>
+                        <p class="text-muted">Upload your logo and background images to brand your store</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="fas fa-crown me-2"></i>Store Logo</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="logo-upload-area" id="logo-upload">
+                                {% if market.logo_img %}
+                                    <div class="current-logo">
+                                        <img src="{{ market.logo_img.url }}" alt="Current Logo" id="current-logo-img">
+                                        <div class="logo-overlay">
+                                            <button class="btn btn-sm btn-danger" onclick="removeLogo()">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary" onclick="document.getElementById('logo-input').click()">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="upload-placeholder" onclick="document.getElementById('logo-input').click()">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>Click to upload logo</p>
+                                        <small class="text-muted">PNG, JPG up to 5MB</small>
+                                    </div>
+                                {% endif %}
+                                <input type="file" id="logo-input" accept="image/*" style="display: none;" onchange="uploadLogo(this)">
+                            </div>
+                            
+                            <div class="logo-guidelines mt-3">
+                                <h6>Logo Guidelines:</h6>
+                                <ul class="small text-muted">
+                                    <li>Recommended size: 200x200px</li>
+                                    <li>Transparent background (PNG) preferred</li>
+                                    <li>Maximum file size: 5MB</li>
+                                    <li>Square or horizontal orientation works best</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="fas fa-mountain me-2"></i>Background Image</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="background-upload-area" id="background-upload">
+                                {% if market.background_img %}
+                                    <div class="current-background">
+                                        <img src="{{ market.background_img.url }}" alt="Current Background" id="current-bg-img">
+                                        <div class="background-overlay">
+                                            <button class="btn btn-sm btn-danger" onclick="removeBackground()">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-primary" onclick="document.getElementById('background-input').click()">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="upload-placeholder" onclick="document.getElementById('background-input').click()">
+                                        <i class="fas fa-image"></i>
+                                        <p>Click to upload background</p>
+                                        <small class="text-muted">JPG, PNG up to 10MB</small>
+                                    </div>
+                                {% endif %}
+                                <input type="file" id="background-input" accept="image/*" style="display: none;" onchange="uploadBackground(this)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theme Section -->
+                <div class="customization-section" id="theme-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-palette me-2"></i>Colors & Theme</h4>
+                        <p class="text-muted">Customize your store's color scheme and visual appearance</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="fas fa-paint-brush me-2"></i>Color Scheme</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Primary Color</label>
+                                    <div class="color-input-group">
+                                        <input type="color" class="form-control color-picker" id="primary-color" 
+                                               value="{{ market.theme.color|default:'#007bff' }}" onchange="updatePrimaryColor(this.value)">
+                                        <input type="text" class="form-control color-text" id="primary-color-text" 
+                                               value="{{ market.theme.color|default:'#007bff' }}" onchange="updatePrimaryColorFromText(this.value)">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Secondary Color</label>
+                                    <div class="color-input-group">
+                                        <input type="color" class="form-control color-picker" id="secondary-color" 
+                                               value="{{ market.theme.secondary_color|default:'#6c757d' }}" onchange="updateSecondaryColor(this.value)">
+                                        <input type="text" class="form-control color-text" id="secondary-color-text" 
+                                               value="{{ market.theme.secondary_color|default:'#6c757d' }}" onchange="updateSecondaryColorFromText(this.value)">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Background Color</label>
+                                    <div class="color-input-group">
+                                        <input type="color" class="form-control color-picker" id="background-color" 
+                                               value="{{ market.theme.background_color|default:'#ffffff' }}" onchange="updateBackgroundColor(this.value)">
+                                        <input type="text" class="form-control color-text" id="background-color-text" 
+                                               value="{{ market.theme.background_color|default:'#ffffff' }}" onchange="updateBackgroundColorFromText(this.value)">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Text Color</label>
+                                    <div class="color-input-group">
+                                        <input type="color" class="form-control color-picker" id="font-color" 
+                                               value="{{ market.theme.font_color|default:'#333333' }}" onchange="updateFontColor(this.value)">
+                                        <input type="text" class="form-control color-text" id="font-color-text" 
+                                               value="{{ market.theme.font_color|default:'#333333' }}" onchange="updateFontColorFromText(this.value)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="color-presets mt-4">
+                                <h6>Color Presets</h6>
+                                <div class="preset-colors">
+                                    <div class="color-preset" data-preset="blue" onclick="applyColorPreset('blue')">
+                                        <div class="preset-primary" style="background: #007bff;"></div>
+                                        <div class="preset-secondary" style="background: #6c757d;"></div>
+                                        <span>Blue</span>
+                                    </div>
+                                    <div class="color-preset" data-preset="green" onclick="applyColorPreset('green')">
+                                        <div class="preset-primary" style="background: #28a745;"></div>
+                                        <div class="preset-secondary" style="background: #20c997;"></div>
+                                        <span>Green</span>
+                                    </div>
+                                    <div class="color-preset" data-preset="purple" onclick="applyColorPreset('purple')">
+                                        <div class="preset-primary" style="background: #6f42c1;"></div>
+                                        <div class="preset-secondary" style="background: #e83e8c;"></div>
+                                        <span>Purple</span>
+                                    </div>
+                                    <div class="color-preset" data-preset="orange" onclick="applyColorPreset('orange')">
+                                        <div class="preset-primary" style="background: #fd7e14;"></div>
+                                        <div class="preset-secondary" style="background: #ffc107;"></div>
+                                        <span>Orange</span>
+                                    </div>
+                                    <div class="color-preset" data-preset="red" onclick="applyColorPreset('red')">
+                                        <div class="preset-primary" style="background: #dc3545;"></div>
+                                        <div class="preset-secondary" style="background: #fd7e14;"></div>
+                                        <span>Red</span>
+                                    </div>
+                                    <div class="color-preset" data-preset="dark" onclick="applyColorPreset('dark')">
+                                        <div class="preset-primary" style="background: #343a40;"></div>
+                                        <div class="preset-secondary" style="background: #6c757d;"></div>
+                                        <span>Dark</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typography Section -->
+                <div class="customization-section" id="typography-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-font me-2"></i>Typography</h4>
+                        <p class="text-muted">Choose fonts and text styling for your store</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="fas fa-text-height me-2"></i>Font Settings</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Font Family</label>
+                                    <select class="form-select" id="font-family" onchange="updateFontFamily(this.value)">
+                                        <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" 
+                                                {% if market.theme.font == "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" %}selected{% endif %}>
+                                            Segoe UI (Default)
+                                        </option>
+                                        <option value="'Arial', sans-serif" 
+                                                {% if market.theme.font == "'Arial', sans-serif" %}selected{% endif %}>
+                                            Arial
+                                        </option>
+                                        <option value="'Helvetica Neue', Helvetica, Arial, sans-serif" 
+                                                {% if market.theme.font == "'Helvetica Neue', Helvetica, Arial, sans-serif" %}selected{% endif %}>
+                                            Helvetica
+                                        </option>
+                                        <option value="'Georgia', serif" 
+                                                {% if market.theme.font == "'Georgia', serif" %}selected{% endif %}>
+                                            Georgia
+                                        </option>
+                                        <option value="'Times New Roman', Times, serif" 
+                                                {% if market.theme.font == "'Times New Roman', Times, serif" %}selected{% endif %}>
+                                            Times New Roman
+                                        </option>
+                                        <option value="'Roboto', sans-serif" 
+                                                {% if market.theme.font == "'Roboto', sans-serif" %}selected{% endif %}>
+                                            Roboto
+                                        </option>
+                                        <option value="'Open Sans', sans-serif" 
+                                                {% if market.theme.font == "'Open Sans', sans-serif" %}selected{% endif %}>
+                                            Open Sans
+                                        </option>
+                                        <option value="'Lato', sans-serif" 
+                                                {% if market.theme.font == "'Lato', sans-serif" %}selected{% endif %}>
+                                            Lato
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Secondary Text Color</label>
+                                    <div class="color-input-group">
+                                        <input type="color" class="form-control color-picker" id="secondary-font-color" 
+                                               value="{{ market.theme.secondary_font_color|default:'#666666' }}" onchange="updateSecondaryFontColor(this.value)">
+                                        <input type="text" class="form-control color-text" id="secondary-font-color-text" 
+                                               value="{{ market.theme.secondary_font_color|default:'#666666' }}" onchange="updateSecondaryFontColorFromText(this.value)">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="font-preview mt-4">
+                                <h6>Font Preview</h6>
+                                <div class="preview-text" id="font-preview">
+                                    <h3>Store Name Preview</h3>
+                                    <p>This is how your store text will look with the selected font and colors.</p>
+                                    <small class="text-muted">Secondary text example</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slideshow Section -->
+                <div class="customization-section" id="slideshow-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-images me-2"></i>Store Slideshow</h4>
+                        <p class="text-muted">Manage your store's image slideshow</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6><i class="fas fa-photo-video me-2"></i>Slideshow Images</h6>
+                            <button class="btn btn-sm btn-primary" onclick="addSlideImage()">
+                                <i class="fas fa-plus me-1"></i>Add Image
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="slideshow-manager" id="slideshow-manager">
+                                {% for slide in market.slider.all %}
+                                    <div class="slide-item" data-slide-id="{{ slide.id }}">
+                                        <div class="slide-image">
+                                            <img src="{{ slide.image.url }}" alt="Slide {{ forloop.counter }}">
+                                        </div>
+                                        <div class="slide-controls">
+                                            <input type="text" class="form-control slide-url" placeholder="Link URL (optional)" 
+                                                   value="{{ slide.url|default:'' }}" onchange="updateSlideUrl({{ slide.id }}, this.value)">
+                                            <div class="slide-actions">
+                                                <button class="btn btn-sm btn-outline-primary" onclick="moveSlideUp({{ slide.id }})">
+                                                    <i class="fas fa-arrow-up"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-primary" onclick="moveSlideDown({{ slide.id }})">
+                                                    <i class="fas fa-arrow-down"></i>
+                                                </button>
+                                                <button class="btn btn-sm btn-outline-danger" onclick="removeSlide({{ slide.id }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <div class="empty-slideshow">
+                                        <i class="fas fa-images"></i>
+                                        <p>No slideshow images yet</p>
+                                        <button class="btn btn-primary" onclick="addSlideImage()">
+                                            <i class="fas fa-plus me-1"></i>Add First Image
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <input type="file" id="slide-input" accept="image/*" style="display: none;" onchange="uploadSlideImage(this)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layout Section -->
+                <div class="customization-section" id="layout-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-th-large me-2"></i>Layout Options</h4>
+                        <p class="text-muted">Customize your store's layout and structure</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="fas fa-grip-horizontal me-2"></i>Store Layout</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="layout-options">
+                                <div class="layout-option active" data-layout="grid">
+                                    <div class="layout-preview">
+                                        <div class="layout-grid">
+                                            <div class="grid-item"></div>
+                                            <div class="grid-item"></div>
+                                            <div class="grid-item"></div>
+                                            <div class="grid-item"></div>
+                                        </div>
+                                    </div>
+                                    <span>Grid Layout</span>
+                                </div>
+                                <div class="layout-option" data-layout="list">
+                                    <div class="layout-preview">
+                                        <div class="layout-list">
+                                            <div class="list-item"></div>
+                                            <div class="list-item"></div>
+                                            <div class="list-item"></div>
+                                        </div>
+                                    </div>
+                                    <span>List Layout</span>
+                                </div>
+                                <div class="layout-option" data-layout="masonry">
+                                    <div class="layout-preview">
+                                        <div class="layout-masonry">
+                                            <div class="masonry-item tall"></div>
+                                            <div class="masonry-item"></div>
+                                            <div class="masonry-item"></div>
+                                            <div class="masonry-item wide"></div>
+                                        </div>
+                                    </div>
+                                    <span>Masonry</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Section -->
+                <div class="customization-section" id="advanced-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-sliders-h me-2"></i>Advanced Settings</h4>
+                        <p class="text-muted">Advanced customization options</p>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="fas fa-code me-2"></i>Custom CSS</h6>
+                        </div>
+                        <div class="card-body">
+                            <textarea class="form-control" id="custom-css" rows="10" 
+                                      placeholder="/* Add your custom CSS here */&#10;.store-header {&#10;    /* Custom styles */&#10;}"></textarea>
+                            <div class="mt-2">
+                                <button class="btn btn-sm btn-outline-primary" onclick="previewCustomCSS()">
+                                    <i class="fas fa-eye me-1"></i>Preview
+                                </button>
+                                <button class="btn btn-sm btn-primary" onclick="saveCustomCSS()">
+                                    <i class="fas fa-save me-1"></i>Save CSS
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6><i class="fas fa-download me-2"></i>Import/Export</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Export Theme</h6>
+                                    <p class="small text-muted">Download your current theme settings</p>
+                                    <button class="btn btn-outline-primary" onclick="exportTheme()">
+                                        <i class="fas fa-download me-1"></i>Export Theme
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Import Theme</h6>
+                                    <p class="small text-muted">Upload a theme file to apply</p>
+                                    <input type="file" class="form-control mb-2" id="theme-import" accept=".json">
+                                    <button class="btn btn-outline-success" onclick="importTheme()">
+                                        <i class="fas fa-upload me-1"></i>Import Theme
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Panel -->
+            <div class="col-md-3 preview-panel">
+                <div class="preview-header">
+                    <h5><i class="fas fa-eye me-2"></i>Live Preview</h5>
+                    <div class="preview-controls">
+                        <button class="btn btn-sm btn-outline-primary" onclick="refreshPreview()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="openFullPreview()">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="preview-container">
+                    <iframe id="store-preview" src="{% url 'market:preview-iframe' market.id %}" 
+                            frameborder="0" width="100%" height="600px"></iframe>
+                </div>
+
+                <div class="preview-actions mt-3">
+                    <button class="btn btn-success w-100 mb-2" onclick="saveAllChanges()">
+                        <i class="fas fa-save me-1"></i>Save All Changes
+                    </button>
+                    <button class="btn btn-outline-secondary w-100 mb-2" onclick="resetToDefaults()">
+                        <i class="fas fa-undo me-1"></i>Reset to Defaults
+                    </button>
+                    <button class="btn btn-outline-primary w-100" onclick="previewOnDevice()">
+                        <i class="fas fa-mobile-alt me-1"></i>Preview on Device
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Saving changes...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{% load static %}{% static 'js/store_personalization.js' %}"></script>
+    
+    <script>
+        // Initialize personalization system
+        document.addEventListener('DOMContentLoaded', function() {
+            window.personalizationSystem = new StorePersonalizationSystem({
+                marketId: '{{ market.id }}',
+                apiBaseUrl: '/api/v1/owner/market',
+                previewUrl: '{% url "market:preview-iframe" market.id %}',
+                csrfToken: '{{ csrf_token }}'
+            });
+        });
+    </script>
+</body>
+</html>

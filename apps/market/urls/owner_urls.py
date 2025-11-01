@@ -1,29 +1,28 @@
-from django.urls import path
-
+from django.urls import path, include
 from apps.market.views.owner_views import (
     MarketCreateAPIView,
-    MarketGetAPIView,
     MarketUpdateAPIView,
+    MarketGetAPIView,
     MarketListAPIView,
     MarketLocationCreateAPIView,
-    MarketLocationGetAPIView,
     MarketLocationUpdateAPIView,
+    MarketLocationGetAPIView,
     MarketContactCreateAPIView,
-    MarketContactGetAPIView,
     MarketContactUpdateAPIView,
+    MarketContactGetAPIView,
     MarketInactiveAPIView,
     MarketQueueAPIView,
     MarketLogoAPIView,
     MarketBackgroundAPIView,
     MarketSliderAPIView,
     MarketThemeAPIView,
+    MarketPersonalizationInterfaceView,
 )
-
 from apps.market.views.market_schedule import (
     MarketScheduleAPIView,
     MarketScheduleListView,
     MarketScheduleUpdateView,
-    MarketScheduleDeleteView
+    MarketScheduleDeleteView,
 )
 
 app_name = 'market_owner'
@@ -118,8 +117,15 @@ urlpatterns = [
         MarketThemeAPIView.as_view(),
         name='theme',
     ),
+    
+    # personalization interface
+    path(
+        'personalize/<str:pk>/',
+        MarketPersonalizationInterfaceView.as_view(),
+        name='personalize',
+    ),
 
-    # schedule
+    # market schedulesschedule
     path(
         'schedules/create/',
         MarketScheduleAPIView.as_view(),
@@ -139,5 +145,17 @@ urlpatterns = [
         'schedules/<str:pk>/delete/',
         MarketScheduleDeleteView.as_view(),
         name='schedule-delete',
+    ),
+    
+    # Subscription management
+    path(
+        'subscriptions/',
+        include('apps.market.urls.subscription_urls'),
+    ),
+    
+    # Store Preview
+    path(
+        '',
+        include('apps.market.urls.preview_urls'),
     ),
 ]

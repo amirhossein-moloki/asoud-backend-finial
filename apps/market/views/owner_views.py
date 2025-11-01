@@ -1,3 +1,18 @@
+from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.core.exceptions import ValidationError
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView
+import json
 from rest_framework import views, status, permissions
 from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
@@ -363,6 +378,38 @@ class MarketContactCreateAPIView(views.APIView):
         )
 
         return Response(response, status=status.HTTP_200_OK)
+
+
+@method_decorator(login_required, name='dispatch')
+class MarketPersonalizationInterfaceView(TemplateView):
+    """
+    View for the store personalization interface
+    """
+    template_name = 'market/personalization_interface.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        market_id = kwargs.get('pk')
+        
+        try:
+            market = get_object_or_404(Market, id=market_id, owner=self.request.user)
+            context['market'] = market
+            
+            # Get existing theme if available
+            try:
+                theme = MarketTheme.objects.get(market=market)
+                context['theme'] = theme
+            except MarketTheme.DoesNotExist:
+                context['theme'] = None
+                
+            # Get existing sliders
+            sliders = MarketSlider.objects.filter(market=market)
+            context['sliders'] = sliders
+            
+        except Market.DoesNotExist:
+            context['error'] = 'Market not found or you do not have permission to edit it.'
+            
+        return context
 
 
 class MarketContactUpdateAPIView(views.APIView):

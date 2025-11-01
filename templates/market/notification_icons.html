@@ -1,0 +1,279 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Icons System</title>
+    <link rel="stylesheet" href="{% static 'css/notification_icons.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="notification-system">
+        <!-- Main Notification Bar -->
+        <div class="notification-bar">
+            <div class="notification-icons">
+                <!-- Like Icon -->
+                <div class="notification-icon" data-type="likes">
+                    <i class="fas fa-heart"></i>
+                    <span class="notification-badge" id="likes-count">0</span>
+                    <div class="notification-tooltip">Likes</div>
+                </div>
+
+                <!-- Share Icon -->
+                <div class="notification-icon" data-type="shares">
+                    <i class="fas fa-share-alt"></i>
+                    <span class="notification-badge" id="shares-count">0</span>
+                    <div class="notification-tooltip">Shares</div>
+                </div>
+
+                <!-- Bookmark Icon -->
+                <div class="notification-icon" data-type="bookmarks">
+                    <i class="fas fa-bookmark"></i>
+                    <span class="notification-badge" id="bookmarks-count">0</span>
+                    <div class="notification-tooltip">Bookmarks</div>
+                </div>
+
+                <!-- Comments Icon -->
+                <div class="notification-icon" data-type="comments">
+                    <i class="fas fa-comment"></i>
+                    <span class="notification-badge" id="comments-count">0</span>
+                    <div class="notification-tooltip">Comments</div>
+                </div>
+
+                <!-- Views Icon -->
+                <div class="notification-icon" data-type="views">
+                    <i class="fas fa-eye"></i>
+                    <span class="notification-badge" id="views-count">0</span>
+                    <div class="notification-tooltip">Views</div>
+                </div>
+
+                <!-- Reports Icon -->
+                <div class="notification-icon" data-type="reports">
+                    <i class="fas fa-flag"></i>
+                    <span class="notification-badge" id="reports-count">0</span>
+                    <div class="notification-tooltip">Reports</div>
+                </div>
+
+                <!-- Help Icon -->
+                <div class="notification-icon" data-type="help">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="notification-badge" id="help-count">0</span>
+                    <div class="notification-tooltip">Help Requests</div>
+                </div>
+
+                <!-- Main Notifications -->
+                <div class="notification-icon main-notifications" data-type="all">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="total-count">0</span>
+                    <div class="notification-tooltip">All Notifications</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Dropdown -->
+        <div class="notification-dropdown" id="notification-dropdown">
+            <div class="dropdown-header">
+                <h3>Notifications</h3>
+                <div class="dropdown-actions">
+                    <button class="mark-all-read" id="mark-all-read">
+                        <i class="fas fa-check-double"></i> Mark All Read
+                    </button>
+                    <button class="close-dropdown" id="close-dropdown">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="notification-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="likes">Likes</button>
+                <button class="filter-btn" data-filter="shares">Shares</button>
+                <button class="filter-btn" data-filter="comments">Comments</button>
+                <button class="filter-btn" data-filter="reports">Reports</button>
+            </div>
+
+            <div class="notification-list" id="notification-list">
+                <!-- Notifications will be loaded here -->
+                <div class="loading-notifications">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Loading notifications...</span>
+                </div>
+            </div>
+
+            <div class="dropdown-footer">
+                <a href="/notifications/" class="view-all-link">
+                    <i class="fas fa-external-link-alt"></i> View All Notifications
+                </a>
+            </div>
+        </div>
+
+        <!-- Social Action Buttons (for market pages) -->
+        <div class="social-actions" id="social-actions" data-market-id="">
+            <div class="action-group">
+                <button class="social-btn like-btn" id="like-btn" data-action="like">
+                    <i class="far fa-heart"></i>
+                    <span class="action-text">Like</span>
+                    <span class="action-count" id="like-count">0</span>
+                </button>
+
+                <button class="social-btn bookmark-btn" id="bookmark-btn" data-action="bookmark">
+                    <i class="far fa-bookmark"></i>
+                    <span class="action-text">Bookmark</span>
+                    <span class="action-count" id="bookmark-count">0</span>
+                </button>
+
+                <button class="social-btn share-btn" id="share-btn" data-action="share">
+                    <i class="fas fa-share-alt"></i>
+                    <span class="action-text">Share</span>
+                    <span class="action-count" id="share-count">0</span>
+                </button>
+
+                <button class="social-btn report-btn" id="report-btn" data-action="report">
+                    <i class="fas fa-flag"></i>
+                    <span class="action-text">Report</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Share Modal -->
+        <div class="modal" id="share-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Share Market</h3>
+                    <button class="close-modal" data-modal="share-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="share-options">
+                        <button class="share-option" data-platform="facebook">
+                            <i class="fab fa-facebook"></i>
+                            <span>Facebook</span>
+                        </button>
+                        <button class="share-option" data-platform="twitter">
+                            <i class="fab fa-twitter"></i>
+                            <span>Twitter</span>
+                        </button>
+                        <button class="share-option" data-platform="linkedin">
+                            <i class="fab fa-linkedin"></i>
+                            <span>LinkedIn</span>
+                        </button>
+                        <button class="share-option" data-platform="whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp</span>
+                        </button>
+                        <button class="share-option" data-platform="telegram">
+                            <i class="fab fa-telegram"></i>
+                            <span>Telegram</span>
+                        </button>
+                        <button class="share-option" data-platform="email">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email</span>
+                        </button>
+                    </div>
+                    <div class="share-link">
+                        <input type="text" id="share-url" readonly>
+                        <button class="copy-link" id="copy-link">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Modal -->
+        <div class="modal" id="report-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Report Market</h3>
+                    <button class="close-modal" data-modal="report-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="report-form">
+                        <div class="form-group">
+                            <label for="report-reason">Reason for Report</label>
+                            <select id="report-reason" name="reason" required>
+                                <option value="">Select a reason</option>
+                                <option value="spam">Spam</option>
+                                <option value="inappropriate">Inappropriate Content</option>
+                                <option value="fake">Fake Information</option>
+                                <option value="copyright">Copyright Violation</option>
+                                <option value="harassment">Harassment</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="report-description">Description (Optional)</label>
+                            <textarea id="report-description" name="description" rows="4" 
+                                    placeholder="Please provide additional details..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancel" data-modal="report-modal">Cancel</button>
+                            <button type="submit" class="btn-submit">Submit Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div class="modal" id="help-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Help & Support</h3>
+                    <button class="close-modal" data-modal="help-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="help-form">
+                        <div class="form-group">
+                            <label for="help-category">Category</label>
+                            <select id="help-category" name="category" required>
+                                <option value="general">General</option>
+                                <option value="technical">Technical Issue</option>
+                                <option value="billing">Billing</option>
+                                <option value="account">Account</option>
+                                <option value="market">Market Related</option>
+                                <option value="bug">Bug Report</option>
+                                <option value="feature">Feature Request</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="help-subject">Subject</label>
+                            <input type="text" id="help-subject" name="subject" required 
+                                   placeholder="Brief description of your issue">
+                        </div>
+                        <div class="form-group">
+                            <label for="help-message">Message</label>
+                            <textarea id="help-message" name="message" rows="5" required
+                                    placeholder="Please describe your issue in detail..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="help-priority">Priority</label>
+                            <select id="help-priority" name="priority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn-cancel" data-modal="help-modal">Cancel</button>
+                            <button type="submit" class="btn-submit">Send Request</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <script src="{% static 'js/notification_icons.js' %}"></script>
+</body>
+</html>

@@ -98,6 +98,15 @@ class Market(BaseModel):
         verbose_name=_('Business id'),
     )
 
+    subdomain = models.CharField(
+        max_length=50,
+        unique=True,
+        blank=True,
+        null=True,
+        verbose_name=_('Subdomain'),
+        help_text=_('Unique subdomain for the store (e.g., store1 for store1.mysite.com)'),
+    )
+
     name = models.CharField(
         max_length=100,
         verbose_name=_('Name'),
@@ -296,11 +305,54 @@ class Market(BaseModel):
         return self.status == self.PAID_IN_PUBLICATION_QUEUE and self.is_paid
 
     def get_share_url(self, request=None):
-        """Get shareable URL for published markets"""
+        """Get the shareable URL for this market"""
         if self.status == self.PUBLISHED:
-            base_url = "https://asoud.com" if not request else request.build_absolute_uri('/')[:-1]
-            return f"{base_url}/market/{self.id}/view/"
+            if self.subdomain:
+                # Use subdomain URL if available
+                base_domain = "asoud.com"  # Replace with your actual domain
+                if request:
+                    # Extract base domain from request
+                    host = request.get_host()
+                    if '.' in host:
+                        base_domain = '.'.join(host.split('.')[1:])
+                return f"https://{self.subdomain}.{base_domain}/"
+            else:
+                # Fallback to regular URL
+                base_url = "https://asoud.com" if not request else request.build_absolute_uri('/')[:-1]
+                return f"{base_url}/market/{self.id}/view/"
         return None
+
+    def get_subdomain_url(self, request=None):
+        """Get the subdomain URL for this market"""
+        if self.subdomain:
+            base_domain = "asoud.com"  # Replace with your actual domain
+            if request:
+                host = request.get_host()
+                if '.' in host:
+                    base_domain = '.'.join(host.split('.')[1:])
+            return f"https://{self.subdomain}.{base_domain}/"
+        return None
+
+    def generate_subdomain(self):
+        """Generate a unique subdomain based on business_id or name"""
+        import re
+        from django.utils.text import slugify
+        
+        if not self.subdomain:
+            # Try business_id first, then name
+            base = self.business_id or slugify(self.name)
+            base = re.sub(r'[^a-zA-Z0-9-]', '', base).lower()
+            
+            # Ensure uniqueness
+            subdomain = base
+            counter = 1
+            while Market.objects.filter(subdomain=subdomain).exclude(id=self.id).exists():
+                subdomain = f"{base}{counter}"
+                counter += 1
+            
+            self.subdomain = subdomain
+            return subdomain
+        return self.subdomain
 
     def get_share_data(self, request=None):
         """Get comprehensive share data for social media and messaging"""

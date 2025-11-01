@@ -531,3 +531,65 @@ CORS_ALLOWED_HEADERS = [
 # Disable django-hosts temporarily to fix routing (already disabled above)
 
 # (Removed duplicate REST_FRAMEWORK block; keeping the primary one above)
+
+# Subscription Configuration
+SUBSCRIPTION_PLANS = {
+    'monthly': {
+        'name': 'Monthly Plan',
+        'price': 29.99,
+        'duration_days': 30,
+        'features': [
+            'Basic store setup',
+            'Up to 100 products',
+            'Basic analytics',
+            'Email support',
+        ]
+    },
+    'quarterly': {
+        'name': 'Quarterly Plan',
+        'price': 79.99,
+        'duration_days': 90,
+        'features': [
+            'Advanced store setup',
+            'Up to 500 products',
+            'Advanced analytics',
+            'Priority email support',
+            'Custom domain',
+        ]
+    },
+    'yearly': {
+        'name': 'Yearly Plan',
+        'price': 299.99,
+        'duration_days': 365,
+        'features': [
+            'Premium store setup',
+            'Unlimited products',
+            'Premium analytics',
+            'Phone & email support',
+            'Custom domain',
+            'Advanced customization',
+            'Marketing tools',
+        ]
+    }
+}
+
+# Payment Gateway Configuration
+PAYMENT_GATEWAYS = {
+    'zarinpal': {
+        'name': 'ZarinPal',
+        'merchant_id': os.environ.get('ZARINPAL_MERCHANT_ID', ''),
+        'sandbox': DEBUG,
+    },
+    'mellat': {
+        'name': 'Mellat Bank',
+        'terminal_id': os.environ.get('MELLAT_TERMINAL_ID', ''),
+        'username': os.environ.get('MELLAT_USERNAME', ''),
+        'password': os.environ.get('MELLAT_PASSWORD', ''),
+        'sandbox': DEBUG,
+    },
+    'parsian': {
+        'name': 'Parsian Bank',
+        'pin': os.environ.get('PARSIAN_PIN', ''),
+        'sandbox': DEBUG,
+    }
+}
