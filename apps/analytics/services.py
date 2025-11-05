@@ -49,6 +49,8 @@ from django.utils import timezone
 from django.db.models import Count, Sum, Avg, Q, F
 from django.core.cache import cache
 from django.contrib.contenttypes.models import ContentType
+from apps.cart.models import Order
+from apps.category.models import Category
 
 from .models import (
     UserBehaviorEvent, UserSession, ProductAnalytics, 
@@ -81,43 +83,42 @@ class AnalyticsService:
         month_ago = now - timedelta(days=30)
         
         # Overview metrics
-        total_users = UserAnalytics.objects.count()
-        total_sessions = UserSession.objects.count()
+        total_users = UserAnalytics.objects.filter(user=user).count()
+        total_sessions = UserSession.objects.filter(user=user).count()
         total_page_views = UserBehaviorEvent.objects.filter(
-            event_type='page_view'
+            user=user, event_type='page_view'
         ).count()
         total_orders = UserBehaviorEvent.objects.filter(
-            event_type='purchase'
+            user=user, event_type='purchase'
         ).count()
         
         # Revenue calculation
-        total_revenue = UserBehaviorEvent.objects.filter(
-            event_type='purchase'
-        ).aggregate(
-            total=Sum('event_data__value', default=0)
-        )['total'] or 0
-        
+        purchase_events = UserBehaviorEvent.objects.filter(
+            user=user, event_type='purchase'
+        )
+        total_revenue = sum(float(event.event_data.get('value', 0)) for event in purchase_events)
+
         # Conversion metrics
-        conversion_rate = self._calculate_conversion_rate()
-        avg_order_value = self._calculate_avg_order_value()
-        bounce_rate = self._calculate_bounce_rate()
+        conversion_rate = self._calculate_conversion_rate(user=user)
+        avg_order_value = self._calculate_avg_order_value(user=user)
+        bounce_rate = self._calculate_bounce_rate(user=user)
         
         # User metrics
         new_users = UserAnalytics.objects.filter(
-            created_at__gte=week_ago
+            user=user, created_at__gte=week_ago
         ).count()
         returning_users = UserSession.objects.filter(
-            start_time__gte=week_ago
+            user=user, start_time__gte=week_ago
         ).values('user').distinct().count()
         active_users = UserSession.objects.filter(
-            start_time__gte=today
+            user=user, start_time__gte=today
         ).values('user').distinct().count()
         
         # Product metrics
         total_products = ProductAnalytics.objects.count()
         products_sold = UserBehaviorEvent.objects.filter(
-            event_type='purchase'
-        ).values('content_object').distinct().count()
+            user=user, event_type='purchase'
+        ).values('object_id').distinct().count()
         top_products = self._get_top_products(limit=5)
         
         # Market metrics
@@ -128,9 +129,9 @@ class AnalyticsService:
         top_markets = self._get_top_markets(limit=5)
         
         # Time-based data
-        daily_data = self._get_daily_data(days=30)
-        weekly_data = self._get_weekly_data(weeks=12)
-        monthly_data = self._get_monthly_data(months=12)
+        daily_data = self._get_daily_data(user=user, days=30)
+        weekly_data = self._get_weekly_data(user=user, weeks=12)
+        monthly_data = self._get_monthly_data(user=user, months=12)
         
         dashboard_data = {
             'total_users': total_users,
@@ -172,7 +173,7 @@ class AnalyticsService:
             return cached_data
         
         end_date = timezone.now()
-        start_date = end_date - timedelta(days=days)
+        start_date = end_date - timedelta(days=days-1)
         
         # Create date range
         date_range = pd.date_range(start=start_date, end=end_date, freq='D')
@@ -343,31 +344,28 @@ class AnalyticsService:
         
         return list(device_data)
     
-    def _calculate_conversion_rate(self):
+    def _calculate_conversion_rate(self, user):
         """Calculate overall conversion rate"""
-        total_sessions = UserSession.objects.count()
-        converted_sessions = UserSession.objects.filter(converted=True).count()
+        total_sessions = UserSession.objects.filter(user=user).count()
+        converted_sessions = UserSession.objects.filter(user=user, converted=True).count()
         
         return (converted_sessions / total_sessions * 100) if total_sessions > 0 else 0
     
-    def _calculate_avg_order_value(self):
+    def _calculate_avg_order_value(self, user):
         """Calculate average order value"""
-        total_revenue = UserBehaviorEvent.objects.filter(
-            event_type='purchase'
-        ).aggregate(
-            total=Sum('event_data__value', default=0)
-        )['total'] or 0
-        
-        total_orders = UserBehaviorEvent.objects.filter(
-            event_type='purchase'
-        ).count()
+        purchase_events = UserBehaviorEvent.objects.filter(
+            user=user, event_type='purchase'
+        )
+        total_revenue = sum(float(event.event_data.get('value', 0)) for event in purchase_events)
+        total_orders = purchase_events.count()
         
         return (total_revenue / total_orders) if total_orders > 0 else 0
     
-    def _calculate_bounce_rate(self):
+    def _calculate_bounce_rate(self, user):
         """Calculate bounce rate"""
-        total_sessions = UserSession.objects.count()
+        total_sessions = UserSession.objects.filter(user=user).count()
         bounced_sessions = UserSession.objects.filter(
+            user=user,
             page_views=1,
             duration__lt=timedelta(seconds=30)
         ).count()
@@ -386,7 +384,7 @@ class AnalyticsService:
             'market__name', 'total_revenue', 'total_visits', 'conversion_rate'
         ))
     
-    def _get_daily_data(self, days=30):
+    def _get_daily_data(self, user, days=30):
         """Get daily data"""
         end_date = timezone.now()
         start_date = end_date - timedelta(days=days)
@@ -397,22 +395,23 @@ class AnalyticsService:
             date_start = timezone.make_aware(datetime.combine(date.date(), datetime.min.time()))
             date_end = timezone.make_aware(datetime.combine(date.date(), datetime.max.time()))
             
+            purchase_events = UserBehaviorEvent.objects.filter(
+                user=user, event_type='purchase',
+                timestamp__range=[date_start, date_end]
+            )
+            revenue = sum(float(event.event_data.get('value', 0)) for event in purchase_events)
+
             daily_data.append({
                 'date': date.date().isoformat(),
                 'sessions': UserSession.objects.filter(
-                    start_time__range=[date_start, date_end]
+                    user=user, start_time__range=[date_start, date_end]
                 ).count(),
-                'revenue': UserBehaviorEvent.objects.filter(
-                    event_type='purchase',
-                    timestamp__range=[date_start, date_end]
-                ).aggregate(
-                    total=Sum('event_data__value', default=0)
-                )['total'] or 0
+                'revenue': revenue
             })
         
         return daily_data
     
-    def _get_weekly_data(self, weeks=12):
+    def _get_weekly_data(self, user, weeks=12):
         """Get weekly data"""
         end_date = timezone.now()
         start_date = end_date - timedelta(weeks=weeks)
@@ -422,22 +421,23 @@ class AnalyticsService:
             week_start = start_date + timedelta(weeks=i)
             week_end = week_start + timedelta(days=7)
             
+            purchase_events = UserBehaviorEvent.objects.filter(
+                user=user, event_type='purchase',
+                timestamp__range=[week_start, week_end]
+            )
+            revenue = sum(float(event.event_data.get('value', 0)) for event in purchase_events)
+
             weekly_data.append({
                 'week': week_start.date().isoformat(),
                 'sessions': UserSession.objects.filter(
-                    start_time__range=[week_start, week_end]
+                    user=user, start_time__range=[week_start, week_end]
                 ).count(),
-                'revenue': UserBehaviorEvent.objects.filter(
-                    event_type='purchase',
-                    timestamp__range=[week_start, week_end]
-                ).aggregate(
-                    total=Sum('event_data__value', default=0)
-                )['total'] or 0
+                'revenue': revenue
             })
         
         return weekly_data
     
-    def _get_monthly_data(self, months=12):
+    def _get_monthly_data(self, user, months=12):
         """Get monthly data"""
         end_date = timezone.now()
         start_date = end_date - timedelta(days=months*30)
@@ -447,17 +447,18 @@ class AnalyticsService:
             month_start = start_date + timedelta(days=i*30)
             month_end = month_start + timedelta(days=30)
             
+            purchase_events = UserBehaviorEvent.objects.filter(
+                user=user, event_type='purchase',
+                timestamp__range=[month_start, month_end]
+            )
+            revenue = sum(float(event.event_data.get('value', 0)) for event in purchase_events)
+
             monthly_data.append({
                 'month': month_start.date().isoformat(),
                 'sessions': UserSession.objects.filter(
-                    start_time__range=[month_start, month_end]
+                    user=user, start_time__range=[month_start, month_end]
                 ).count(),
-                'revenue': UserBehaviorEvent.objects.filter(
-                    event_type='purchase',
-                    timestamp__range=[month_start, month_end]
-                ).aggregate(
-                    total=Sum('event_data__value', default=0)
-                )['total'] or 0
+                'revenue': revenue
             })
         
         return monthly_data
@@ -585,26 +586,26 @@ class MLService:
         user_events = UserBehaviorEvent.objects.filter(
             user_id=user_id,
             event_type='purchase'
-        ).values_list('content_object_id', flat=True)
+        ).values_list('object_id', flat=True)
         
         if not user_events:
             # If no purchase history, return popular products
             return list(ProductAnalytics.objects.order_by('-popularity_score')[:limit].values(
-                'product__name', 'product__price', 'popularity_score'
+                'product__name', 'product__main_price', 'popularity_score'
             ))
         
         # Find similar users based on purchase history
         similar_users = UserBehaviorEvent.objects.filter(
             event_type='purchase',
-            content_object_id__in=user_events
+            object_id__in=user_events
         ).exclude(user_id=user_id).values_list('user_id', flat=True).distinct()
         
         # Get products purchased by similar users
         recommended_products = UserBehaviorEvent.objects.filter(
             user_id__in=similar_users,
             event_type='purchase'
-        ).exclude(content_object_id__in=user_events).values(
-            'content_object_id'
+        ).exclude(object_id__in=user_events).values(
+            'object_id'
         ).annotate(
             count=Count('id')
         ).order_by('-count')[:limit]
@@ -761,18 +762,29 @@ class MLService:
         return fraud_analysis
     
     def _get_category_recommendations(self, user_id):
-        """Get category recommendations for a user"""
-        # Get user's preferred categories
+        """Get category recommendations for a user."""
+        # 1. Try to get pre-calculated preferred categories
         user_analytics = UserAnalytics.objects.filter(user_id=user_id).first()
-        
         if user_analytics and user_analytics.preferred_categories:
-            return user_analytics.preferred_categories[:3]
-        
-        # Return popular categories
-        from apps.category.models import Category
-        return list(Category.objects.annotate(
-            product_count=Count('products')
-        ).order_by('-product_count')[:3].values_list('name', flat=True))
+            # Assuming preferred_categories is a list of category objects or IDs
+            return list(user_analytics.preferred_categories[:5])
+
+        # 2. If not available, get categories from user's purchase history
+        purchased_categories = Category.objects.filter(
+            subcategory__product__orderitem__order__user_id=user_id
+        ).annotate(
+            purchase_count=Count('subcategory__product__orderitem')
+        ).order_by('-purchase_count')[:5]
+
+        if purchased_categories.exists():
+            return list(purchased_categories)
+
+        # 3. As a fallback, return globally popular categories
+        popular_categories = Category.objects.annotate(
+            product_count=Count('subcategory__product')
+        ).order_by('-product_count')[:5]
+
+        return list(popular_categories)
     
     def _get_market_recommendations(self, user_id):
         """Get market recommendations for a user"""
@@ -780,13 +792,13 @@ class MLService:
         user_events = UserBehaviorEvent.objects.filter(
             user_id=user_id,
             event_type='page_view'
-        ).values_list('content_object_id', flat=True)
+        ).values_list('object_id', flat=True)
         
         if user_events:
             # Find markets with similar products
             from apps.market.models import Market
             return list(Market.objects.filter(
-                products__id__in=user_events
+                product__id__in=user_events
             ).distinct()[:3].values_list('name', flat=True))
         
         # Return popular markets
@@ -839,14 +851,14 @@ class RealTimeAnalyticsService:
         recent_events = UserBehaviorEvent.objects.filter(
             timestamp__gte=last_hour
         ).order_by('-timestamp')[:10].values(
-            'event_type', 'user__username', 'timestamp'
+            'event_type', 'user__email', 'timestamp'
         )
         
         # Top products (last hour)
         top_products = UserBehaviorEvent.objects.filter(
             event_type='product_view',
             timestamp__gte=last_hour
-        ).values('content_object_id').annotate(
+        ).values('object_id').annotate(
             views=Count('id')
         ).order_by('-views')[:5]
         
@@ -854,7 +866,7 @@ class RealTimeAnalyticsService:
         top_markets = UserBehaviorEvent.objects.filter(
             event_type='page_view',
             timestamp__gte=last_hour
-        ).values('content_object_id').annotate(
+        ).values('object_id').annotate(
             views=Count('id')
         ).order_by('-views')[:5]
         
@@ -899,9 +911,15 @@ class RealTimeAnalyticsService:
     def _get_database_connections(self):
         """Get database connections count"""
         from django.db import connection
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT count(*) FROM pg_stat_activity")
-            return cursor.fetchone()[0]
+        from django.db.utils import OperationalError, ProgrammingError
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT count(*) FROM pg_stat_activity")
+                return cursor.fetchone()[0]
+        except (OperationalError, ProgrammingError):
+            # This query is PostgreSQL-specific.
+            # In a different DB environment (like SQLite in tests), it will fail.
+            return 0
     
     def _get_cache_hit_rate(self):
         """Get cache hit rate"""

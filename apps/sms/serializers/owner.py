@@ -57,7 +57,7 @@ class PatternSmsCreateSerializer(serializers.ModelSerializer):
     template = serializers.UUIDField()
     cost = serializers.FloatField(required=False)
     actual_cost = serializers.FloatField(required=False)
-    variables = serializers.JSONField(required=True)
+    variables = serializers.JSONField(default=dict)
 
     class Meta:
         model = PatternSms

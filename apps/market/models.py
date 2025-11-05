@@ -1,22 +1,37 @@
-from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.fields import GenericRelation
+from django.core.exceptions import ValidationError
+from django.core.validators import (
+    MaxValueValidator,
+    MinValueValidator,
+    validate_email,
+    URLValidator,
+)
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
-from apps.base.models import models, BaseModel
-
-from apps.users.models import User
-from apps.category.models import SubCategory
-from apps.region.models import City
+from apps.base.models import BaseModel
+from apps.category.models import Category, SubCategory
 from apps.comment.models import Comment
 from apps.market.upload import (
-    upload_market_logo,
     upload_market_background,
+    upload_market_logo,
+    upload_market_slider,
     upload_market_userOnly,
-    upload_market_slider
 )
+from apps.product.models import Product
+from apps.region.models import City
+from apps.users.models import User
+from utils.validators import (
+    validate_business_id,
+    validate_iranian_national_code,
+    validate_iranian_mobile_number,
+    validate_postal_code,
+    validate_working_hours,
+)
+
 # Create your models here.
 
 
-# old images are not removed, fix it later
 class Market(BaseModel):
     COMPANY = "company"
     SHOP = "shop"
@@ -95,7 +110,10 @@ class Market(BaseModel):
 
     business_id = models.CharField(
         max_length=20,
-        verbose_name=_('Business id'),
+        unique=True,
+        validators=[validate_business_id],
+        verbose_name=_('Business ID'),
+        help_text=_('Unique identifier for the market')
     )
 
     subdomain = models.CharField(
@@ -122,7 +140,8 @@ class Market(BaseModel):
         max_length=10,
         blank=True,
         null=True,
-        verbose_name=_('National code'),
+        validators=[validate_iranian_national_code],
+        verbose_name=_('National Code')
     )
 
     sub_category = models.ForeignKey(
@@ -169,6 +188,7 @@ class Market(BaseModel):
     personal_gateway_config = models.JSONField(
         blank=True,
         null=True,
+        default=dict,
         verbose_name=_('Personal Gateway Configuration'),
         help_text=_('Configuration for personal payment gateway (if selected)'),
     )
@@ -400,12 +420,16 @@ class MarketLocation(BaseModel):
 
     zip_code = models.CharField(
         max_length=15,
-        verbose_name=_('Zip code'),
+        validators=[validate_postal_code],
+        verbose_name=_('Zip Code')
     )
 
     latitude = models.DecimalField(
         max_digits=9,
         decimal_places=6,
+        blank=True,
+        null=True,
+        verbose_name=_('Latitude')
     )
 
     longitude = models.DecimalField(
@@ -432,14 +456,28 @@ class MarketContact(BaseModel):
 
     first_mobile_number = models.CharField(
         max_length=15,
-        verbose_name=_('First mobile number'),
+        validators=[validate_iranian_mobile_number],
+        verbose_name=_('First Mobile Number')
     )
 
     second_mobile_number = models.CharField(
         max_length=15,
         blank=True,
         null=True,
-        verbose_name=_('Second mobile number'),
+        validators=[validate_iranian_mobile_number],
+        verbose_name=_('Second Mobile Number')
+    )
+
+    email = models.EmailField(
+        blank=True,
+        null=True,
+        verbose_name=_('Email')
+    )
+
+    website_url = models.URLField(
+        blank=True,
+        null=True,
+        verbose_name=_('Website URL')
     )
 
     telephone = models.CharField(
@@ -454,26 +492,6 @@ class MarketContact(BaseModel):
         blank=True,
         null=True,
         verbose_name=_('Fax'),
-    )
-
-    email = models.CharField(
-        max_length=64,
-        blank=True,
-        null=True,
-        verbose_name=_('Email'),
-    )
-
-    website_url = models.CharField(
-        max_length=64,
-        blank=True,
-        null=True,
-        verbose_name=_('Website url'),
-    )
-
-    messenger_ids = models.JSONField(
-        blank=True,
-        null=True,
-        verbose_name=_('Messenger IDs'),
     )
 
     class Meta:

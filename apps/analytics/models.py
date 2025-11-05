@@ -13,14 +13,6 @@ import json
 User = get_user_model()
 
 
-def default_dict():
-    return {}
-
-
-def default_list():
-    return []
-
-
 class UserBehaviorEvent(models.Model):
     """
     User behavior tracking events
@@ -56,7 +48,7 @@ class UserBehaviorEvent(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
     
     # Event data
-    event_data = models.JSONField(default=default_dict, blank=True)
+    event_data = models.JSONField(default=dict, blank=True)
     user_agent = models.TextField(null=True, blank=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
     device_type = models.CharField(max_length=50, null=True, blank=True)
@@ -74,6 +66,7 @@ class UserBehaviorEvent(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
+        app_label = 'analytics'
         ordering = ['-timestamp']
         indexes = [
             models.Index(fields=['user', 'timestamp']),
@@ -337,9 +330,9 @@ class UserAnalytics(models.Model):
     chat_messages = models.PositiveIntegerField(default=0)
     
     # Behavioral metrics
-    preferred_categories = models.JSONField(default=default_list, blank=True)
-    preferred_price_range = models.JSONField(default=default_dict, blank=True)
-    shopping_patterns = models.JSONField(default=default_dict, blank=True)
+    preferred_categories = models.JSONField(default=list, blank=True)
+    preferred_price_range = models.JSONField(default=list, blank=True)
+    shopping_patterns = models.JSONField(default=list, blank=True)
     
     # ML features
     customer_segment = models.CharField(max_length=50, null=True, blank=True)
@@ -472,12 +465,12 @@ class AnalyticsAggregation(models.Model):
     # Product metrics
     total_products = models.PositiveIntegerField(default=0)
     products_sold = models.PositiveIntegerField(default=0)
-    top_products = models.JSONField(default=default_list, blank=True)
+    top_products = models.JSONField(default=dict, blank=True)
     
     # Market metrics
     total_markets = models.PositiveIntegerField(default=0)
     active_markets = models.PositiveIntegerField(default=0)
-    top_markets = models.JSONField(default=default_list, blank=True)
+    top_markets = models.JSONField(default=dict, blank=True)
     
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

@@ -9,9 +9,6 @@ from django.utils import timezone
 # Create your models here.
 
 
-def default_list():
-    return []
-
 class Discount(BaseModel):
     TOP_LEFT = "top_left"
     TOP_RIGHT = "top_right"
@@ -49,7 +46,7 @@ class Discount(BaseModel):
     users = models.JSONField(
         verbose_name=_('Users'),
         blank=True, 
-        default=default_list
+        default=dict
     )
 
     code = models.CharField(

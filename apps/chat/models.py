@@ -152,6 +152,7 @@ class ChatRoom(BaseModel):
     )
     
     class Meta:
+        app_label = 'chat'
         db_table = 'chat_conversation'
         verbose_name = _('Chat Room')
         verbose_name_plural = _('Chat Rooms')
@@ -225,6 +226,53 @@ class ChatParticipant(models.Model):
         verbose_name=_('User')
     )
     
+    role = models.CharField(
+        max_length=20,
+        choices=ROLE_CHOICES,
+        default=MEMBER,
+        verbose_name=_('Role')
+    )
+
+    last_read_message = models.ForeignKey(
+        'ChatMessage',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='+',
+        verbose_name=_('Last Read Message')
+    )
+    last_read_at = models.DateTimeField(default=timezone.now, verbose_name=_('Last Read At'))
+
+    # Permissions
+    can_send_messages = models.BooleanField(
+        default=True,
+        verbose_name=_('Can Send Messages')
+    )
+
+    can_delete_messages = models.BooleanField(
+        default=False,
+        verbose_name=_('Can Delete Messages')
+    )
+
+    can_manage_room = models.BooleanField(
+        default=False,
+        verbose_name=_('Can Manage Room')
+    )
+
+    can_invite_users = models.BooleanField(
+        default=False,
+        verbose_name=_('Can Invite Users')
+    )
+
+    last_read_message = models.ForeignKey(
+        'ChatMessage',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='read_by_participants',
+        verbose_name=_('Last Read Message')
+    )
+
     # Note: Additional fields like role, joined_at, etc. are not in the existing database schema
     # They would need to be added via migration if needed
     

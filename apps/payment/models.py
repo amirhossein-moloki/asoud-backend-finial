@@ -108,6 +108,7 @@ class Zarinpal(BaseModel):
     verification_data = models.JSONField(
         null=True, 
         blank=True,
+        default=dict,
         verbose_name=_('Verification Data')
     )
     

@@ -54,18 +54,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'apps.base',
     'apps.core',
     'apps.category',
     'apps.cart',
-    'apps.chat',
     'apps.comment',
+    'django_comments_xtd',
+    'django_comments',
     'apps.gateway',
     'apps.information',
     'apps.market',
     'apps.product',
     'apps.region',
-    'apps.users',
+    'apps.users.apps.UsersConfig',
     'apps.discount',
     'apps.sms',
     'apps.reserve',
@@ -74,56 +76,20 @@ INSTALLED_APPS = [
     'apps.flutter',
     'apps.market_subdomain',
     'apps.advertise',
+    'apps.office_registration.apps.OfficeRegistrationConfig',
+    'apps.analytics.apps.AnalyticsConfig',
     'apps.affiliate',
-    'apps.referral',
-    'apps.wallet',
     'apps.payment',
-    'apps.analytics',
+    'apps.referral',
+    'apps.wallet.apps.WalletConfig',
+    'apps.chat.apps.ChatConfig',
 
+    # Third-party apps
     'rest_framework',
-    'rest_framework.authtoken',
-    'drf_spectacular',
-    'drf_spectacular_sidecar',
-    
-    # CORS headers
-    'corsheaders',
-
-    # subdomains (disabled)
-    # 'django_hosts',
-
-    # comment system
-    'django.contrib.sites',
-    'django_comments_xtd',
-    'django_comments',
-    
-    # Monitoring & Metrics
-    'django_prometheus',
 ]
 
-# Custom Authentication User Model
+# Use the custom user model defined in apps.users
 AUTH_USER_MODEL = 'users.User'
-
-# Enhanced Password Validation
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 12,
-        }
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-    {
-        'NAME': 'config.validators.CustomPasswordValidator',
-    },
-]
 
 MIDDLEWARE = [
     'django_prometheus.middleware.PrometheusBeforeMiddleware',

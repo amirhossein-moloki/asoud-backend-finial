@@ -1,11 +1,11 @@
 from django.urls import path, include
 from apps.market.views.owner_views import (
-    MarketCreateAPIView,
-    MarketUpdateAPIView,
-    MarketGetAPIView,
-    MarketListAPIView,
-    MarketLocationCreateAPIView,
-    MarketLocationUpdateAPIView,
+    MarketCreate,
+    MarketUpdate,
+    MarketGet,
+    MarketList,
+    MarketLocationCreate,
+    MarketLocationUpdate,
     MarketLocationGetAPIView,
     MarketContactCreateAPIView,
     MarketContactUpdateAPIView,
@@ -31,29 +31,29 @@ urlpatterns = [
     # market itself
     path(
         'create/',
-        MarketCreateAPIView.as_view(),
+        MarketCreate.as_view(),
         name='create',
     ),
     path(
         'list/',
-        MarketListAPIView.as_view(),
+        MarketList.as_view(),
         name='list',
     ),
     path(
         '<str:pk>/',
-        MarketGetAPIView.as_view(),
+        MarketGet.as_view(),
         name='get',
     ),
     path(
         'update/<str:pk>/',
-        MarketUpdateAPIView.as_view(),
+        MarketUpdate.as_view(),
         name='update',
     ),
     
     # market location
     path(
         'location/create/',
-        MarketLocationCreateAPIView.as_view(),
+        MarketLocationCreate.as_view(),
         name='location-create',
     ),
     path(
@@ -63,7 +63,7 @@ urlpatterns = [
     ),
     path(
         'location/update/<str:pk>/',
-        MarketLocationUpdateAPIView.as_view(),
+        MarketLocationUpdate.as_view(),
         name='location-update',
     ),
     

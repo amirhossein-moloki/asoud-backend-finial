@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from django.db import transaction
@@ -40,311 +40,204 @@ from apps.market.serializers.owner_serializers import (
 )
 
 
-class MarketCreateAPIView(views.APIView):
+from utils.error_handlers import ErrorHandlerMixin, create_error_response, handle_validation_errors
+from utils.logging_config import log_error, log_info, log_user_action
+
+from ..models import Market, MarketLocation
+from ..serializers.owner_serializers import (
+    MarketCreateSerializer,
+    MarketGetSerializer,
+    MarketListSerializer,
+    MarketLocationCreateSerializer,
+    MarketLocationSerializer,
+    MarketLocationUpdateSerializer,
+    MarketUpdateSerializer,
+)
+
+
+class MarketCreate(ErrorHandlerMixin, APIView):
     """
-    API view for creating new markets.
-    
-    This view allows authenticated users to create new markets
-    with business information, category, and other details.
-    
-    Attributes:
-        permission_classes: IsAuthenticated - Requires authentication
+    ایجاد مارکت جدید با مدیریت خطا و لاگینگ پیشرفته
     """
+    permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request):
-        user = self.request.user
+        serializer = MarketCreateSerializer(data=request.data, context={'request': request})
+        
+        try:
+            with transaction.atomic():
+                if serializer.is_valid():
+                    market = serializer.save(user=request.user)
+                    
+                    log_user_action(
+                        request.user,
+                        'CREATE_MARKET',
+                        model_name='Market',
+                        object_id=market.id,
+                        details={'market_name': market.name}
+                    )
+                    
+                    log_info(f"Market '{market.name}' created successfully.", user=request.user)
+                    
+                    return Response({
+                        'success': True,
+                        'message': 'Market created successfully',
+                        'data': MarketGetSerializer(market).data
+                    }, status=status.HTTP_201_CREATED)
+                
+                return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
+        
+        except Exception as e:
+            log_error(e, context={'request_data': request.data}, user=request.user)
+            return create_error_response(e, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        serializer = MarketCreateSerializer(
-            data=request.data,
-            context={'request': request},
-        )
 
-        if serializer.is_valid(raise_exception=True):
-            market = serializer.save(
-                user=user,
-            )
+class MarketUpdate(ErrorHandlerMixin, APIView):
+    """
+    آپدیت مارکت با لاگینگ و خطایابی
+    """
+    permission_classes = [permissions.IsAuthenticated]
 
-            market_id = market.id
+    def get_object(self, pk):
+        market = get_object_or_404(Market, pk=pk, user=self.request.user)
+        return market
 
-            success_response = ApiResponse(
-                success=True,
-                code=200,
-                data={
-                    'market': market_id,
-                    **serializer.data,
-                },
-                message='Market created successfully.',
-            )
-
-            return Response(success_response, status=status.HTTP_201_CREATED)
-
-
-class MarketUpdateAPIView(views.APIView):
     def put(self, request, pk):
         try:
-            market = Market.objects.get(id=pk)
+            market = self.get_object(pk)
+            serializer = MarketUpdateSerializer(market, data=request.data, context={'request': request})
 
-        except Market.DoesNotExist:
-            response = ApiResponse(
-                success=False,
-                code=404,
-                error={
-                    'code': 'market_not_found',
-                    'detail': 'Market not found in the database',
-                }
-            )
-            return Response(response)
-
-        serializer = MarketUpdateSerializer(
-            market,
-            data=request.data,
-            partial=False,
-            context={'request': request},
-        )
-
-        if serializer.is_valid(raise_exception=True):
-            market = serializer.save()
-
-            success_response = ApiResponse(
-                success=True,
-                code=200,
-                data=serializer.data,
-                message='Market updated successfully.',
-            )
-            return Response(success_response, status=status.HTTP_200_OK)
-
-class MarketGetAPIView(views.APIView):
-    def get(self, request, pk, format=None):
-        try:
-            market = Market.objects.get(id=pk)
-
-        except Market.DoesNotExist:
-            response = ApiResponse(
-                success=False,
-                code=404,
-                error={
-                    'code': 'market_not_found',
-                    'detail': 'Market not found in the database',
-                }
-            )
-            return Response(response)
-
-        serializer = MarketUpdateSerializer(
-            market,
-            context={'request': request},
-        )
-
-        success_response = ApiResponse(
-            success=True,
-            code=200,
-            data=serializer.data,
-            message='Data retrieved successfully.',
-        )
-        return Response(success_response, status=status.HTTP_200_OK)
+            if serializer.is_valid():
+                with transaction.atomic():
+                    updated_market = serializer.save()
+                    
+                    log_user_action(
+                        request.user,
+                        'UPDATE_MARKET',
+                        model_name='Market',
+                        object_id=updated_market.id,
+                        details={'updated_fields': list(request.data.keys())}
+                    )
+                    
+                    log_info(f"Market '{updated_market.name}' updated successfully.", user=request.user)
+                    
+                    return Response({
+                        'success': True,
+                        'message': 'Market updated successfully',
+                        'data': MarketGetSerializer(updated_market).data
+                    })
+            
+            return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
+            
+        except Exception as e:
+            log_error(e, context={'market_id': pk, 'request_data': request.data}, user=request.user)
+            return create_error_response(e)
 
 
-class MarketListAPIView(views.APIView):
-    def get(self, request, format=None):
-        user_obj = self.request.user
-
-        market_list = Market.objects.filter(
-            user=user_obj,
-        )
-
-        serializer = MarketListSerializer(
-            market_list,
-            many=True,
-            context={"request": request},
-        )
-
-        success_response = ApiResponse(
-            success=True,
-            code=200,
-            data=serializer.data,
-            message='Data retrieved successfully'
-        )
-
-        return Response(success_response)
-
-
-class MarketLocationCreateAPIView(views.APIView):
+class MarketGet(ErrorHandlerMixin, generics.RetrieveAPIView):
+    """
+    دریافت اطلاعات یک مارکت
+    """
     permission_classes = [permissions.IsAuthenticated]
-    
+    serializer_class = MarketGetSerializer
+    queryset = Market.objects.all()
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+
+class MarketList(ErrorHandlerMixin, generics.ListAPIView):
+    """
+    لیست مارکت‌های کاربر
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = MarketListSerializer
+
+    def get_queryset(self):
+        return Market.objects.filter(user=self.request.user).order_by('-created_at')
+
+
+class MarketLocationCreate(ErrorHandlerMixin, APIView):
+    """
+    ایجاد موقعیت مکانی برای مارکت
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request):
-        serializer = MarketLocationCreateSerializer(
-            data=request.data,
-            context={'request': request},
-        )
+        serializer = MarketLocationCreateSerializer(data=request.data, context={'request': request})
+        
+        try:
+            if serializer.is_valid():
+                market = serializer.validated_data['market']
+                
+                # Check ownership
+                if market.user != request.user:
+                    return create_error_response(PermissionError('You do not own this market.'), status_code=status.HTTP_403_FORBIDDEN)
+                
+                # Prevent duplicate location
+                if MarketLocation.objects.filter(market=market).exists():
+                    return create_error_response(BusinessLogicError('Location for this market already exists.'), status_code=status.HTTP_400_BAD_REQUEST)
 
-        if serializer.is_valid(raise_exception=True):
-            # Ownership check
-            market = serializer.validated_data.get('market')
-            if market.user != request.user:
-                return Response(
-                    ApiResponse(
-                        success=False,
-                        code=403,
-                        error={
-                            'code': 'permission_denied',
-                            'detail': 'You do not have permission to modify this market',
-                        }
-                    ),
-                    status=status.HTTP_403_FORBIDDEN,
-                )
+                with transaction.atomic():
+                    location = serializer.save()
+                    log_user_action(request.user, 'CREATE_MARKET_LOCATION', 'MarketLocation', location.id)
+                    log_info(f"Location created for market '{market.name}'", user=request.user)
+                    
+                    return Response({
+                        'success': True,
+                        'message': 'Market location created successfully',
+                        'data': MarketLocationCreateSerializer(location).data
+                    }, status=status.HTTP_201_CREATED)
+            
+            return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
-            # Prevent duplicate location for a market (OneToOne)
-            if MarketLocation.objects.filter(market=market).exists():
-                return Response(
-                    ApiResponse(
-                        success=False,
-                        code=400,
-                        error={
-                            'code': 'location_exists',
-                            'detail': 'Location for this market already exists',
-                        }
-                    ),
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            market_location = serializer.save()
-
-            success_response = ApiResponse(
-                success=True,
-                code=201,
-                data={
-                    **serializer.data,
-                },
-                message='Market location created successfully.',
-            )
-            return Response(success_response, status=status.HTTP_201_CREATED)
-
-        response = ApiResponse(
-            success=False,
-            code=500,
-            error={
-                'code': 'server_error',
-                'detail': 'Server error',
-            }
-        )
-
-        return Response(response, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except Exception as e:
+            log_error(e, context={'request_data': request.data}, user=request.user)
+            return create_error_response(e)
 
 
-class MarketLocationUpdateAPIView(views.APIView):
+class MarketLocationUpdate(ErrorHandlerMixin, APIView):
+    """
+    آپدیت موقعیت مکانی مارکت
+    """
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self, pk):
+        location = get_object_or_404(MarketLocation, pk=pk)
+        if location.market.user != self.request.user:
+            raise PermissionError('You do not have permission to edit this location.')
+        return location
+
     def put(self, request, pk):
         try:
-            market = Market.objects.get(id=pk)
-            market_location = MarketLocation.objects.get(market=market)
+            location = self.get_object(pk)
+            serializer = MarketLocationUpdateSerializer(location, data=request.data, context={'request': request})
 
-        except Market.DoesNotExist:
-            response = ApiResponse(
-                success=False,
-                code=404,
-                error={
-                    'code': 'market_not_found',
-                    'detail': 'Market not found in the database',
-                }
-            )
-            return Response(response, status=status.HTTP_404_NOT_FOUND)
+            if serializer.is_valid():
+                with transaction.atomic():
+                    updated_location = serializer.save()
+                    log_user_action(request.user, 'UPDATE_MARKET_LOCATION', 'MarketLocation', updated_location.id)
+                    log_info(f"Location updated for market '{location.market.name}'", user=request.user)
+                    
+                    return Response({
+                        'success': True,
+                        'message': 'Market location updated successfully',
+                        'data': MarketLocationUpdateSerializer(updated_location).data
+                    })
+            
+            return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
 
-        except MarketLocation.DoesNotExist:
-            response = ApiResponse(
-                success=False,
-                code=404,
-                error={
-                    'code': 'market_location_not_found',
-                    'detail': 'Market location not found in the database',
-                }
-            )
-            return Response(response, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            log_error(e, context={'location_id': pk, 'request_data': request.data}, user=request.user)
+            return create_error_response(e)
 
-        # Ownership check
-        if market.user != request.user:
-            return Response(
-                ApiResponse(
-                    success=False,
-                    code=403,
-                    error={
-                        'code': 'permission_denied',
-                        'detail': 'You do not have permission to modify this market location',
-                    }
-                ),
-                status=status.HTTP_403_FORBIDDEN,
-            )
 
-        serializer = MarketLocationUpdateSerializer(
-            market_location,
-            data=request.data,
-            partial=False,
-            context={'request': request},
-        )
-
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-
-            success_response = ApiResponse(
-                success=True,
-                code=200,
-                data=serializer.data,
-                message='Market location updated successfully.',
-            )
-            return Response(success_response, status=status.HTTP_200_OK)
-
-class MarketLocationGetAPIView(views.APIView):
+class MarketLocationGetAPIView(generics.RetrieveAPIView):
+    serializer_class = MarketLocationSerializer
     permission_classes = [permissions.IsAuthenticated]
-    def get(self, request, pk, format=None):
-        try:
-            market = Market.objects.get(id=pk)
-            market_location = MarketLocation.objects.get(market=market)
 
-        except Market.DoesNotExist:
-            response = ApiResponse(
-                success=False,
-                code=404,
-                error={
-                    'code': 'market_not_found',
-                    'detail': 'Market not found in the database',
-                }
-            )
-            return Response(response, status=status.HTTP_404_NOT_FOUND)
-
-        except MarketLocation.DoesNotExist:
-            response = ApiResponse(
-                success=False,
-                code=404,
-                error={
-                    'code': 'market_location_not_found',
-                    'detail': 'Market location not found in the database',
-                }
-            )
-            return Response(response, status=status.HTTP_404_NOT_FOUND)
-
-        # Ownership check
-        if market.user != request.user:
-            return Response(
-                ApiResponse(
-                    success=False,
-                    code=403,
-                    error={
-                        'code': 'permission_denied',
-                        'detail': 'You do not have permission to view this market location',
-                    }
-                ),
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        serializer = MarketLocationUpdateSerializer(
-            market_location,
-            context={'request': request},
-        )
-
-        success_response = ApiResponse(
-            success=True,
-            code=200,
-            data=serializer.data,
-            message='Data retrieved successfully.',
-        )
-        return Response(success_response, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return MarketLocation.objects.filter(market__user=self.request.user)
 
 
 class MarketContactCreateAPIView(views.APIView):

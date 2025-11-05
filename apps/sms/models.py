@@ -1,7 +1,7 @@
 from apps.base.models import models, BaseModel
 from apps.users.models import User
 from django.utils.translation import gettext_lazy as _
-from django.contrib.postgres.fields import ArrayField
+from apps.sms.fields import CustomArrayField as ArrayField
 # Create your models here.
 
 class Line(BaseModel):
@@ -33,7 +33,8 @@ class Template(BaseModel):
 
     variables = models.JSONField(
         verbose_name=_('Variables'),
-        help_text=_("Please write in Json format")
+        help_text=_("Please write in Json format"),
+        default=dict
     )
 
     estimated_cost = models.FloatField(

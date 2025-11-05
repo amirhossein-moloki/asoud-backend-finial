@@ -328,7 +328,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
     
 
     def update(self, instance, validated_data):
-        items_data = validated_data.pop('items')
+        items_data = validated_data.pop('items', None)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)

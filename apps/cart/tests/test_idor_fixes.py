@@ -11,10 +11,12 @@ from rest_framework import status
 from apps.users.models import User
 from apps.cart.models import Order, OrderItem
 from apps.users.models import UserBankInfo, BankInfo
-from apps.product.models import Product, Market
+from apps.product.models import Product
+from apps.office_registration.models.office_registration_models import OfficeRegistration
+from rest_framework.test import APITestCase
 
 
-class OrderIDORTestCase(TestCase):
+class OrderIDORTestCase(APITestCase):
     """
     Test IDOR vulnerabilities in Order views
     
@@ -23,7 +25,6 @@ class OrderIDORTestCase(TestCase):
     
     def setUp(self):
         """Set up test data"""
-        self.client = APIClient()
         
         # Create users
         self.user1 = User.objects.create_user(
@@ -55,7 +56,7 @@ class OrderIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-detail', kwargs={'pk': self.order_user2.id})
+        url = reverse('user_order:order-detail', kwargs={'pk': self.order_user2.id})
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -69,7 +70,7 @@ class OrderIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-detail', kwargs={'pk': self.order_user1.id})
+        url = reverse('user_order:order-detail', kwargs={'pk': self.order_user1.id})
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -83,7 +84,7 @@ class OrderIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-update', kwargs={'pk': self.order_user2.id})
+        url = reverse('user_order:order-update', kwargs={'pk': self.order_user2.id})
         response = self.client.put(url, {
             'description': 'Hacked!',
             'type': 'online'
@@ -103,7 +104,7 @@ class OrderIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-update', kwargs={'pk': self.order_user1.id})
+        url = reverse('user_order:order-update', kwargs={'pk': self.order_user1.id})
         response = self.client.put(url, {
             'description': 'Updated description',
             'type': 'online'
@@ -126,7 +127,7 @@ class OrderIDORTestCase(TestCase):
         
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-update', kwargs={'pk': self.order_user1.id})
+        url = reverse('user_order:order-update', kwargs={'pk': self.order_user1.id})
         response = self.client.put(url, {
             'description': 'Try to update',
             'type': 'online'
@@ -143,7 +144,7 @@ class OrderIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-delete', kwargs={'pk': self.order_user2.id})
+        url = reverse('user_order:order-delete', kwargs={'pk': self.order_user2.id})
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -162,7 +163,7 @@ class OrderIDORTestCase(TestCase):
         
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-delete', kwargs={'pk': self.order_user1.id})
+        url = reverse('user_order:order-delete', kwargs={'pk': self.order_user1.id})
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -178,7 +179,7 @@ class OrderIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('order-delete', kwargs={'pk': self.order_user1.id})
+        url = reverse('user_order:order-delete', kwargs={'pk': self.order_user1.id})
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -190,13 +191,13 @@ class OrderIDORTestCase(TestCase):
         
         Expected: 401 Unauthorized
         """
-        url = reverse('order-detail', kwargs={'pk': self.order_user1.id})
+        url = reverse('user_order:order-detail', kwargs={'pk': self.order_user1.id})
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class BankInfoIDORTestCase(TestCase):
+class BankInfoIDORTestCase(APITestCase):
     """
     Test IDOR vulnerabilities in BankInfo views
     
@@ -205,7 +206,6 @@ class BankInfoIDORTestCase(TestCase):
     
     def setUp(self):
         """Set up test data"""
-        self.client = APIClient()
         
         # Create users
         self.user1 = User.objects.create_user(
@@ -216,25 +216,28 @@ class BankInfoIDORTestCase(TestCase):
             mobile_number='09121234568',
             password='testpass123'
         )
-        
-        # Create bank
-        self.bank = BankInfo.objects.create(
-            name='Test Bank',
-            code='123'
-        )
+        self.bank_info = BankInfo.objects.create(name="Bank Mellat")
         
         # Create bank info
         self.bank_info_user1 = UserBankInfo.objects.create(
             user=self.user1,
-            bank=self.bank,
-            shaba='IR123456789012345678901234',
-            account_number='1234567890'
+            bank_info=self.bank_info,
+            card_number="6104337912345678",
+            account_number='1234567890',
+            iban='IR123456789012345678901234',
+            full_name='User One',
+            branch_id=101,
+            branch_name='Branch A'
         )
         self.bank_info_user2 = UserBankInfo.objects.create(
             user=self.user2,
-            bank=self.bank,
-            shaba='IR987654321098765432109876',
-            account_number='0987654321'
+            bank_info=self.bank_info,
+            card_number="6104337912345679",
+            account_number='0987654321',
+            iban='IR987654321098765432109876',
+            full_name='User Two',
+            branch_id=102,
+            branch_name='Branch B'
         )
     
     def test_user_cannot_view_other_users_bank_info(self):
@@ -245,7 +248,7 @@ class BankInfoIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('bankinfo-detail', kwargs={'pk': self.bank_info_user2.id})
+        url = reverse('users_user:bank-detail', kwargs={'pk': self.bank_info_user2.id})
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -259,11 +262,11 @@ class BankInfoIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('bankinfo-detail', kwargs={'pk': self.bank_info_user1.id})
+        url = reverse('users_user:bank-detail', kwargs={'pk': self.bank_info_user1.id})
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['data']['shaba'], self.bank_info_user1.shaba)
+        self.assertEqual(response.data['data']['iban'], self.bank_info_user1.iban)
     
     def test_user_cannot_update_other_users_bank_info(self):
         """
@@ -273,7 +276,7 @@ class BankInfoIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('bankinfo-update', kwargs={'pk': self.bank_info_user2.id})
+        url = reverse('users_user:bank-update', kwargs={'pk': self.bank_info_user2.id})
         response = self.client.put(url, {
             'shaba': 'IR111111111111111111111111'
         }, format='json')
@@ -282,7 +285,7 @@ class BankInfoIDORTestCase(TestCase):
         
         # Verify bank info was NOT modified
         self.bank_info_user2.refresh_from_db()
-        self.assertEqual(self.bank_info_user2.shaba, 'IR987654321098765432109876')
+        self.assertEqual(self.bank_info_user2.iban, 'IR987654321098765432109876')
     
     def test_user_can_update_own_bank_info(self):
         """
@@ -293,16 +296,16 @@ class BankInfoIDORTestCase(TestCase):
         self.client.force_authenticate(user=self.user1)
         
         new_shaba = 'IR111111111111111111111111'
-        url = reverse('bankinfo-update', kwargs={'pk': self.bank_info_user1.id})
+        url = reverse('users_user:bank-update', kwargs={'pk': self.bank_info_user1.id})
         response = self.client.put(url, {
-            'shaba': new_shaba
+            'iban': new_shaba
         }, format='json')
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         
         # Verify bank info was modified
         self.bank_info_user1.refresh_from_db()
-        self.assertEqual(self.bank_info_user1.shaba, new_shaba)
+        self.assertEqual(self.bank_info_user1.iban, new_shaba)
     
     def test_user_cannot_delete_other_users_bank_info(self):
         """
@@ -312,7 +315,7 @@ class BankInfoIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('bankinfo-delete', kwargs={'pk': self.bank_info_user2.id})
+        url = reverse('users_user:bank-delete', kwargs={'pk': self.bank_info_user2.id})
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -328,7 +331,7 @@ class BankInfoIDORTestCase(TestCase):
         """
         self.client.force_authenticate(user=self.user1)
         
-        url = reverse('bankinfo-delete', kwargs={'pk': self.bank_info_user1.id})
+        url = reverse('users_user:bank-delete', kwargs={'pk': self.bank_info_user1.id})
         response = self.client.delete(url)
         
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
@@ -342,7 +345,7 @@ class BankInfoIDORTestCase(TestCase):
         
         Expected: 401 Unauthorized
         """
-        url = reverse('bankinfo-detail', kwargs={'pk': self.bank_info_user1.id})
+        url = reverse('users_user:bank-detail', kwargs={'pk': self.bank_info_user1.id})
         response = self.client.get(url)
         
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -385,8 +388,9 @@ class SecurityTestCase(TestCase):
         url = f'/api/v1/order/{uuid.uuid4()}/'
         response = self.client.get(url)
         
-        if 'error' in response.data:
-            error_msg = str(response.data['error']).lower()
+        payload = getattr(response, 'data', None)
+        if isinstance(payload, dict) and 'error' in payload:
+            error_msg = str(payload['error']).lower()
             # Should not contain database details, stack traces, etc.
             self.assertNotIn('exception', error_msg)
             self.assertNotIn('traceback', error_msg)

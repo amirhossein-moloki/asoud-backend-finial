@@ -3,7 +3,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 
 from apps.base.models import models, BaseModel
 from apps.users.models import User
-from apps.market.models import Market
 from apps.comment.models import Comment
 from apps.category.models import SubCategory
 
@@ -27,7 +26,7 @@ class ProductKeyword(BaseModel):
 
 class ProductTheme(BaseModel):
     market = models.ForeignKey(
-        Market,
+        'market.Market',
         on_delete=models.CASCADE,
         verbose_name=_('Market'),
     )
@@ -119,7 +118,7 @@ class Product(BaseModel):
     )
 
     market = models.ForeignKey(
-        Market,
+        'market.Market',
         on_delete=models.CASCADE,
         related_name='products',
         verbose_name=_('Market'),

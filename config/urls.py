@@ -84,7 +84,7 @@ urlpatterns = [
     ),
     path(
         'api/v1/user/',
-        include('apps.users.urls.user_urls'),
+        include(('apps.users.urls.user_urls', 'users_user'), namespace='users_user'),
     ),
     # discount
     path(
@@ -150,11 +150,11 @@ urlpatterns = [
     # orders
     path(
         'api/v1/user/order/',
-        include('apps.cart.urls.user'),
+        include(('apps.cart.urls.user', 'user_order'), namespace='user_order'),
     ),
     path(
         'api/v1/owner/order/',
-        include('apps.cart.urls.owner'),
+        include(('apps.cart.urls.owner', 'owner_order'), namespace='owner_order'),
     ),
     
     # analytics

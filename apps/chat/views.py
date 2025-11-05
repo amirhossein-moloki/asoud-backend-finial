@@ -212,9 +212,11 @@ class ChatMessageViewSet(viewsets.ModelViewSet):
     
     def get_queryset(self):
         """Get messages for current user's chat rooms"""
+        print(f"User: {self.request.user}")
         user_rooms = ChatRoom.objects.filter(
             participants=self.request.user
         )
+        print(f"User rooms: {user_rooms}")
         return ChatMessage.objects.filter(
             chat_room__in=user_rooms,
             is_deleted=False

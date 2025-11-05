@@ -17,6 +17,8 @@ from apps.cart.serializers.user import(
 )
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+import logging
+logger = logging.getLogger(__name__)
 
 
 class CartViewSet(viewsets.ViewSet):
@@ -322,17 +324,13 @@ class OrderUpdateView(views.APIView):
                 ApiResponse(
                     success=False,
                     code=500,
-                    error="An internal error occurred"
+                    error="An unexpected error occurred."
                 ),
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class OrderDeleteView(views.APIView):
-    """
-    Delete order with ownership verification
-    
-    Security: Only owner can delete their own draft orders
-    """
     permission_classes = [permissions.IsAuthenticated]
     
     def delete(self, request, pk:str):

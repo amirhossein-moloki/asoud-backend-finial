@@ -99,14 +99,19 @@ class Order(BaseModel):
         (ONLINE, _("Online")),
     )
 
+    DRAFT = "draft"
     PENDING = "pending"
+    CONFIRMED = "confirmed"
     VERIFIED = "verified"
     REJECTED = "rejected"
     COMPLETED = "completed"
     FAILED = "failed"
 
     STATUS_CHOICES = (
+        (DRAFT, _("Draft")),
         (PENDING, _("Pending")),
+        (CONFIRMED, _("Confirmed")),
+        (REJECTED, _("Rejected")),
         (COMPLETED, _("Completed")),
         (FAILED, _("Failed")),
     )

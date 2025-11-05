@@ -14,7 +14,7 @@ from django.utils import timezone
 from django.core.cache import cache
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from django.db.models import Q, Count, Avg, Max
+from django.db.models import Q, Count, Avg, Max, F
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.utils.translation import gettext_lazy as _
@@ -33,8 +33,8 @@ class ChatService:
     """
     Main chat service for handling all chat operations
     """
-    
     def __init__(self):
+        self.analytics_service = ChatAnalyticsService()
         self.max_file_size = getattr(settings, 'CHAT_MAX_FILE_SIZE', 10 * 1024 * 1024)  # 10MB
         self.allowed_file_types = getattr(settings, 'CHAT_ALLOWED_FILE_TYPES', [
             'image/jpeg', 'image/png', 'image/gif', 'image/webp',
@@ -87,7 +87,9 @@ class ChatService:
                         user=created_by,
                         role=ChatParticipant.ADMIN,
                         can_manage_room=True,
-                        can_invite_users=True
+                        can_invite_users=True,
+                        can_delete_messages=True,
+                        can_send_messages=True
                     )
                 
                 # Add participants
@@ -175,7 +177,7 @@ class ChatService:
                 chat_room.save(update_fields=['last_message_at', 'last_activity_at'])
                 
                 # Update analytics
-                self._update_message_analytics(chat_room)
+                self.analytics_service.update_message_analytics(chat_room)
                 
                 logger.info(f"Message {message.id} sent to room {chat_room.id}")
                 return message
@@ -435,66 +437,178 @@ class ChatService:
         # If all participants have read, mark as read
         if read_count >= participant_count - 1:  # -1 to exclude sender
             message.mark_as_read()
-    
-    def _update_message_analytics(self, chat_room: ChatRoom):
-        """Update message analytics for a chat room"""
+
+
+class ChatAnalyticsService:
+    """
+    Service for chat analytics and reporting
+    """
+    def update_message_analytics(self, chat_room: ChatRoom):
+        """
+        Update chat analytics when a new message is sent
+        """
+        try:
+            with transaction.atomic():
+                analytics, created = ChatAnalytics.objects.get_or_create(chat_room=chat_room)
+                
+                # Update total messages
+                analytics.total_messages = F('total_messages') + 1
+                
+                # Update messages today
+                if analytics.last_calculated_at.date() != timezone.now().date():
+                    analytics.messages_today = 1
+                else:
+                    analytics.messages_today = F('messages_today') + 1
+                
+                # Update messages this week/month (simplified for brevity)
+                analytics.messages_this_week = F('messages_this_week') + 1
+                analytics.messages_this_month = F('messages_this_month') + 1
+                
+                # Update active participants
+                # (This logic might need to be more sophisticated)
+                analytics.active_participants = chat_room.participants.count()
+
+                analytics.last_calculated_at = timezone.now()
+                analytics.save()
+                
+        except Exception as e:
+            logger.error(f"Error updating message analytics: {e}")
+    def get_room_analytics(self, chat_room: ChatRoom) -> Dict[str, Any]:
+        """
+        Get analytics for a specific chat room
+        
+        Args:
+            chat_room: Target chat room
+            
+        Returns:
+            Dict[str, Any]: Analytics data
+        """
         try:
             analytics = ChatAnalytics.objects.get(chat_room=chat_room)
             
-            # Update message counts
-            analytics.total_messages = ChatMessage.objects.filter(
+            # Get recent activity
+            recent_messages = ChatMessage.objects.filter(
                 chat_room=chat_room,
+                sent_at__gte=timezone.now() - timedelta(days=7)
+            ).order_by('-sent_at')[:10]
+            
+            # Get top participants
+            top_participants = ChatMessage.objects.filter(
+                chat_room=chat_room,
+                is_deleted=False
+            ).values('sender__username').annotate(
+                message_count=Count('id')
+            ).order_by('-message_count')[:5]
+            
+            return {
+                'room_info': {
+                    'id': str(chat_room.id),
+                    'name': chat_room.name,
+                    'type': chat_room.room_type,
+                    'created_at': chat_room.created_at,
+                    'participant_count': chat_room.get_participant_count(),
+                },
+                'message_stats': {
+                    'total_messages': analytics.total_messages,
+                    'messages_today': analytics.messages_today,
+                    'messages_this_week': analytics.messages_this_week,
+                    'messages_this_month': analytics.messages_this_month,
+                },
+                'participant_stats': {
+                    'active_participants': analytics.active_participants,
+                    'new_participants_today': analytics.new_participants_today,
+                },
+                'file_stats': {
+                    'files_shared': analytics.files_shared,
+                    'total_file_size': analytics.total_file_size,
+                    'total_file_size_mb': round(analytics.total_file_size / (1024 * 1024), 2),
+                },
+                'recent_messages': [
+                    {
+                        'id': str(msg.id),
+                        'sender': msg.sender.username,
+                        'content': msg.content[:100] + '...' if len(msg.content) > 100 else msg.content,
+                        'message_type': msg.message_type,
+                        'sent_at': msg.sent_at,
+                    }
+                    for msg in recent_messages
+                ],
+                'top_participants': list(top_participants),
+                'last_calculated': analytics.last_calculated_at,
+            }
+            
+        except Exception as e:
+            logger.error(f"Error getting room analytics: {e}")
+            return {}
+    
+    def get_global_analytics(self) -> Dict[str, Any]:
+        """
+        Get global chat analytics
+        
+        Returns:
+            Dict[str, Any]: Global analytics data
+        """
+        try:
+            # Get all chat rooms
+            total_rooms = ChatRoom.objects.count()
+            active_rooms = ChatRoom.objects.filter(
+                status=ChatRoom.ACTIVE
+            ).count()
+            
+            # Get all messages
+            total_messages = ChatMessage.objects.filter(
                 is_deleted=False
             ).count()
             
-            today = timezone.now().date()
-            analytics.messages_today = ChatMessage.objects.filter(
-                chat_room=chat_room,
-                sent_at__date=today,
+            messages_today = ChatMessage.objects.filter(
+                sent_at__date=timezone.now().date(),
                 is_deleted=False
             ).count()
             
-            week_ago = timezone.now() - timedelta(days=7)
-            analytics.messages_this_week = ChatMessage.objects.filter(
-                chat_room=chat_room,
-                sent_at__gte=week_ago,
-                is_deleted=False
+            # Get support tickets
+            total_tickets = SupportTicket.objects.count()
+            open_tickets = SupportTicket.objects.filter(
+                status=SupportTicket.OPEN
             ).count()
             
-            month_ago = timezone.now() - timedelta(days=30)
-            analytics.messages_this_month = ChatMessage.objects.filter(
-                chat_room=chat_room,
-                sent_at__gte=month_ago,
-                is_deleted=False
-            ).count()
-            
-            # Update participant counts
-            analytics.active_participants = ChatParticipant.objects.filter(
-                chat_room=chat_room,
-                last_read_at__gte=timezone.now() - timedelta(days=1)
-            ).count()
-            
-            analytics.new_participants_today = ChatParticipant.objects.filter(
-                chat_room=chat_room,
-                joined_at__date=today
-            ).count()
-            
-            # Update file statistics
+            # Get file sharing stats
             file_messages = ChatMessage.objects.filter(
-                chat_room=chat_room,
                 message_type__in=[ChatMessage.IMAGE, ChatMessage.FILE, ChatMessage.AUDIO, ChatMessage.VIDEO],
                 is_deleted=False
             )
             
-            analytics.files_shared = file_messages.count()
-            analytics.total_file_size = sum(
-                msg.file_size or 0 for msg in file_messages
-            )
+            total_files = file_messages.count()
+            total_file_size = sum(msg.file_size or 0 for msg in file_messages)
             
-            analytics.save()
+            return {
+                'room_stats': {
+                    'total_rooms': total_rooms,
+                    'active_rooms': active_rooms,
+                    'archived_rooms': total_rooms - active_rooms,
+                },
+                'message_stats': {
+                    'total_messages': total_messages,
+                    'messages_today': messages_today,
+                    'avg_messages_per_room': round(total_messages / total_rooms, 2) if total_rooms > 0 else 0,
+                },
+                'support_stats': {
+                    'total_tickets': total_tickets,
+                    'open_tickets': open_tickets,
+                    'resolved_tickets': SupportTicket.objects.filter(
+                        status=SupportTicket.RESOLVED
+                    ).count(),
+                },
+                'file_stats': {
+                    'total_files': total_files,
+                    'total_file_size': total_file_size,
+                    'total_file_size_mb': round(total_file_size / (1024 * 1024), 2),
+                },
+                'generated_at': timezone.now(),
+            }
             
         except Exception as e:
-            logger.error(f"Error updating analytics: {e}")
+            logger.error(f"Error getting global analytics: {e}")
+            return {}
 
 
 class SupportService:
@@ -553,6 +667,15 @@ class SupportService:
                     role=ChatParticipant.MEMBER
                 )
                 
+                # Add available support agents as participants
+                support_agents = User.objects.filter(is_staff=True, is_active=True)
+                for agent in support_agents:
+                    ChatParticipant.objects.create(
+                        chat_room=chat_room,
+                        user=agent,
+                        role=ChatParticipant.ADMIN
+                    )
+
                 # Initialize analytics
                 ChatAnalytics.objects.create(chat_room=chat_room)
                 
@@ -692,147 +815,4 @@ class SupportService:
             
         except Exception as e:
             logger.error(f"Error getting ticket stats: {e}")
-            return {}
-
-
-class ChatAnalyticsService:
-    """
-    Service for chat analytics and reporting
-    """
-    
-    def get_room_analytics(self, chat_room: ChatRoom) -> Dict[str, Any]:
-        """
-        Get analytics for a specific chat room
-        
-        Args:
-            chat_room: Target chat room
-            
-        Returns:
-            Dict[str, Any]: Analytics data
-        """
-        try:
-            analytics = ChatAnalytics.objects.get(chat_room=chat_room)
-            
-            # Get recent activity
-            recent_messages = ChatMessage.objects.filter(
-                chat_room=chat_room,
-                sent_at__gte=timezone.now() - timedelta(days=7)
-            ).order_by('-sent_at')[:10]
-            
-            # Get top participants
-            top_participants = ChatMessage.objects.filter(
-                chat_room=chat_room,
-                is_deleted=False
-            ).values('sender__username').annotate(
-                message_count=Count('id')
-            ).order_by('-message_count')[:5]
-            
-            return {
-                'room_info': {
-                    'id': str(chat_room.id),
-                    'name': chat_room.name,
-                    'type': chat_room.room_type,
-                    'created_at': chat_room.created_at,
-                    'participant_count': chat_room.get_participant_count(),
-                },
-                'message_stats': {
-                    'total_messages': analytics.total_messages,
-                    'messages_today': analytics.messages_today,
-                    'messages_this_week': analytics.messages_this_week,
-                    'messages_this_month': analytics.messages_this_month,
-                },
-                'participant_stats': {
-                    'active_participants': analytics.active_participants,
-                    'new_participants_today': analytics.new_participants_today,
-                },
-                'file_stats': {
-                    'files_shared': analytics.files_shared,
-                    'total_file_size': analytics.total_file_size,
-                    'total_file_size_mb': round(analytics.total_file_size / (1024 * 1024), 2),
-                },
-                'recent_messages': [
-                    {
-                        'id': str(msg.id),
-                        'sender': msg.sender.username,
-                        'content': msg.content[:100] + '...' if len(msg.content) > 100 else msg.content,
-                        'message_type': msg.message_type,
-                        'sent_at': msg.sent_at,
-                    }
-                    for msg in recent_messages
-                ],
-                'top_participants': list(top_participants),
-                'last_calculated': analytics.last_calculated_at,
-            }
-            
-        except Exception as e:
-            logger.error(f"Error getting room analytics: {e}")
-            return {}
-    
-    def get_global_analytics(self) -> Dict[str, Any]:
-        """
-        Get global chat analytics
-        
-        Returns:
-            Dict[str, Any]: Global analytics data
-        """
-        try:
-            # Get all chat rooms
-            total_rooms = ChatRoom.objects.count()
-            active_rooms = ChatRoom.objects.filter(
-                status=ChatRoom.ACTIVE
-            ).count()
-            
-            # Get all messages
-            total_messages = ChatMessage.objects.filter(
-                is_deleted=False
-            ).count()
-            
-            messages_today = ChatMessage.objects.filter(
-                sent_at__date=timezone.now().date(),
-                is_deleted=False
-            ).count()
-            
-            # Get support tickets
-            total_tickets = SupportTicket.objects.count()
-            open_tickets = SupportTicket.objects.filter(
-                status=SupportTicket.OPEN
-            ).count()
-            
-            # Get file sharing stats
-            file_messages = ChatMessage.objects.filter(
-                message_type__in=[ChatMessage.IMAGE, ChatMessage.FILE, ChatMessage.AUDIO, ChatMessage.VIDEO],
-                is_deleted=False
-            )
-            
-            total_files = file_messages.count()
-            total_file_size = sum(msg.file_size or 0 for msg in file_messages)
-            
-            return {
-                'room_stats': {
-                    'total_rooms': total_rooms,
-                    'active_rooms': active_rooms,
-                    'archived_rooms': total_rooms - active_rooms,
-                },
-                'message_stats': {
-                    'total_messages': total_messages,
-                    'messages_today': messages_today,
-                    'avg_messages_per_room': round(total_messages / total_rooms, 2) if total_rooms > 0 else 0,
-                },
-                'support_stats': {
-                    'total_tickets': total_tickets,
-                    'open_tickets': open_tickets,
-                    'resolved_tickets': SupportTicket.objects.filter(
-                        status=SupportTicket.RESOLVED
-                    ).count(),
-                },
-                'file_stats': {
-                    'total_files': total_files,
-                    'total_file_size': total_file_size,
-                    'total_file_size_mb': round(total_file_size / (1024 * 1024), 2),
-                },
-                'generated_at': timezone.now(),
-            }
-            
-        except Exception as e:
-            logger.error(f"Error getting global analytics: {e}")
             return {}

@@ -113,6 +113,48 @@ class MarketContactUpdaterSerializer(serializers.ModelSerializer):
         ]
 
 
+class MarketLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MarketLocation
+        fields = '__all__'
+
+
+class MarketContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MarketContact
+        fields = '__all__'
+
+
+class MarketGetSerializer(serializers.ModelSerializer):
+    location = MarketLocationSerializer(read_only=True)
+    contact = MarketContactSerializer(read_only=True)
+
+    class Meta:
+        model = Market
+        fields = [
+            'id',
+            'type',
+            'business_id',
+            'name',
+            'description',
+            'national_code',
+            'sub_category',
+            'slogan',
+            'status',
+            'is_paid',
+            'subscription_start_date',
+            'subscription_end_date',
+            'logo_img',
+            'background_img',
+            'view_count',
+            'payment_gateway_type',
+            'personal_gateway_config',
+            'subdomain',
+            'location',
+            'contact',
+        ]
+
+
 class MarketThemeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = MarketTheme

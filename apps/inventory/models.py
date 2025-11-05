@@ -248,6 +248,7 @@ class InventoryReport(BaseModel):
     )
     
     data = models.JSONField(
+        default=dict,
         verbose_name='Report Data'
     )
     
@@ -416,12 +417,14 @@ class InventoryAudit(BaseModel):
     )
     
     old_value = models.JSONField(
+        default=dict,
         null=True,
         blank=True,
         verbose_name='Old Value'
     )
     
     new_value = models.JSONField(
+        default=dict,
         null=True,
         blank=True,
         verbose_name='New Value'
