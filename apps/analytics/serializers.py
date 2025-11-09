@@ -6,7 +6,9 @@ Advanced analytics and machine learning serializers
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import (
-    UserBehaviorEvent, UserSession, ProductAnalytics, 
+    UserBehaviorEvent,
+    UserSession,
+    ItemAnalytics, 
     MarketAnalytics, UserAnalytics, AnalyticsAggregation
 )
 
@@ -77,18 +79,18 @@ class UserSessionSerializer(serializers.ModelSerializer):
         return "0s"
 
 
-class ProductAnalyticsSerializer(serializers.ModelSerializer):
+class ItemAnalyticsSerializer(serializers.ModelSerializer):
     """
-    Serializer for product analytics
+    Serializer for item analytics
     """
-    product_name = serializers.CharField(source='product.name', read_only=True)
-    product_price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2, read_only=True)
-    product_category = serializers.CharField(source='product.category.name', read_only=True)
+    item_name = serializers.CharField(source='item.name', read_only=True)
+    item_price = serializers.DecimalField(source='item.price', max_digits=10, decimal_places=2, read_only=True)
+    item_category = serializers.CharField(source='item.category.name', read_only=True)
     
     class Meta:
-        model = ProductAnalytics
+        model = ItemAnalytics
         fields = [
-            'id', 'product', 'product_name', 'product_price', 'product_category',
+            'id', 'item', 'item_name', 'item_price', 'item_category',
             'total_views', 'unique_views', 'views_today', 'views_this_week', 'views_this_month',
             'total_clicks', 'click_through_rate', 'add_to_cart_count', 'add_to_cart_rate',
             'total_purchases', 'conversion_rate', 'revenue', 'search_appearances',

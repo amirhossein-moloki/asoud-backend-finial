@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from apps.market.models import Market
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.comment.serializers import CommentSerializer
 from django_comments_xtd.models import XtdComment
 from django.contrib.contenttypes.models import ContentType
@@ -19,8 +19,8 @@ class CommentView(APIView):
                 content_type = ContentType.objects.get_for_model(Market)
                 object_id = request.data.get('object_id')
 
-            elif request.data.get('content_type') == 'product':
-                content_type = ContentType.objects.get_for_model(Product)
+            elif request.data.get('content_type') == 'item':
+                content_type = ContentType.objects.get_for_model(Item)
                 object_id = request.data.get('object_id')
             
             site_id = get_current_site(request).id

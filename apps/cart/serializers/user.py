@@ -8,17 +8,17 @@ from apps.affiliate.models import AffiliateProduct, AffiliateProductImage
 from django.db import transaction
 
 
-class ProductImageSerializer(serializers.ModelSerializer):
+class ItemImageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductImage
+        model = ItemImage
         fields = ('id', 'image')
 
 
-class ProductSimpleSerializer(serializers.ModelSerializer):
-    images = ProductImageSerializer(many=True, read_only=True)
+class ItemSimpleSerializer(serializers.ModelSerializer):
+    images = ItemImageSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Product
+        model = Item
         fields = ('id', 'name', 'images')
 
 
@@ -36,10 +36,10 @@ class AffiliateSimpleSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'images')
 
 class OrderItem2Serializer(serializers.ModelSerializer):
-    product = ProductSimpleSerializer(read_only=True)
+    product = ItemSimpleSerializer(read_only=True)
     product_name = serializers.CharField(required=False, allow_blank=True)
     product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(),
+        queryset=Item.objects.all(),
         source='product',  # Maps to the 'product' FK field
         write_only=True,    # Only used for input, not output
         required=False,
@@ -78,11 +78,11 @@ class OrderItem2Serializer(serializers.ModelSerializer):
             q = self.validated_data.get('quantity', None)
             if product_name:
                 
-                p = Product.objects.get(name=product_name)
+                p = Item.objects.get(name=product_name)
                 o = OrderItem.objects.create(order=order, product=p, quantity=q)
                 return {
 	                "id": o.id,
-	                "product": ProductSimpleSerializer(p).data,
+	                "product": ItemSimpleSerializer(p).data,
 	                "affiliate": None,
 	                "quantity": q
                 }
@@ -109,7 +109,7 @@ class OrderItemUpdateSerializer(serializers.ModelSerializer):
     
     def get_item(self, obj):
         if obj.product:
-            return Product1Serializer(obj.product).data
+            return Item1Serializer(obj.product).data
         elif obj.affiliate:
             return AffiliateProduct1Serializer(obj.affiliate).data
         return None
@@ -153,9 +153,9 @@ class OrderItemUpdateSerializer(serializers.ModelSerializer):
     #         return obj.affiliate.name
     #     return "unknown"
 
-class Product1Serializer(serializers.ModelSerializer):
+class Item1Serializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = Item
         fields = ['id', 'name']  
 
 class AffiliateProduct1Serializer(serializers.ModelSerializer):
@@ -175,7 +175,7 @@ class OrderItem1Serializer(serializers.ModelSerializer):
     
     def get_item(self, obj):
         if obj.product:
-            return Product1Serializer(obj.product).data
+            return Item1Serializer(obj.product).data
         elif obj.affiliate:
             return AffiliateProduct1Serializer(obj.affiliate).data
         return None

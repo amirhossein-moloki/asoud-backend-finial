@@ -3,8 +3,7 @@ from rest_framework.response import Response
 from utils.response import ApiResponse
 from apps.item.models import Item
 from apps.item.serializers.owner_serializers import (
-    ProductDetailSerializer,
-    ProductListSerializer
+    ItemDetailSerializer,
 )
 from apps.affiliate.serializers.user import (
     AffiliateProductCreateSerializer,
@@ -65,7 +64,7 @@ class AffiliateProductDetailBeforeCreateView(views.APIView):
                 )
             )
         
-        serializer = ProductDetailSerializer(product)
+        serializer = ItemDetailSerializer(product)
 
         return Response(
             ApiResponse(

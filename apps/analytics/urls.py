@@ -5,7 +5,7 @@ Analytics URLs for ASOUD Platform
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
-    UserBehaviorEventViewSet, UserSessionViewSet, ProductAnalyticsViewSet,
+    UserBehaviorEventViewSet, UserSessionViewSet, ItemAnalyticsViewSet,
     MarketAnalyticsViewSet, UserAnalyticsViewSet, AnalyticsDashboardViewSet,
     MLRecommendationsViewSet
 )
@@ -26,7 +26,7 @@ router = DefaultRouter()
 # Basic Analytics
 router.register(r'events', UserBehaviorEventViewSet, basename='user-behavior-events')
 router.register(r'sessions', UserSessionViewSet, basename='user-sessions')
-router.register(r'products', ProductAnalyticsViewSet, basename='product-analytics')
+router.register(r'item-analytics', ItemAnalyticsViewSet, basename='item-analytics')
 router.register(r'markets', MarketAnalyticsViewSet, basename='market-analytics')
 router.register(r'users', UserAnalyticsViewSet, basename='user-analytics')
 router.register(r'dashboard', AnalyticsDashboardViewSet, basename='analytics-dashboard')

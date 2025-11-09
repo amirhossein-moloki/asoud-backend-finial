@@ -55,7 +55,7 @@ from django.core.cache import cache
 from typing import List, Dict, Any, Optional, Tuple
 import json
 
-from .models import UserBehaviorEvent, UserSession, ProductAnalytics, UserAnalytics
+from .models import UserBehaviorEvent, UserSession, ItemAnalytics, UserAnalytics
 from .services import AnalyticsService
 
 logger = logging.getLogger(__name__)

@@ -411,53 +411,48 @@ elif not REDIS_URL:
     REDIS_URL = "redis://localhost:6379/0"
 
 # Cache configuration
-try:
-    import django_redis
-    CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': REDIS_URL,
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-                'CONNECTION_POOL_KWARGS': {
-                    'max_connections': 50,
-                    'retry_on_timeout': True,
-                },
-                'COMPRESSOR': 'django_redis.compressors.zlib.ZlibCompressor',
-                'SERIALIZER': 'django_redis.serializers.json.JSONSerializer',
-            },
-            'KEY_PREFIX': 'asoud',
-            'TIMEOUT': 300,  # 5 minutes default timeout
-        }
-    }
-except ImportError:
+# try:
+    # import django_redis
+    # CACHES = {
+    #     'default': {
+    #         'BACKEND': 'django_redis.cache.RedisCache',
+    #         'LOCATION': REDIS_URL,
+    #         'OPTIONS': {
+    #             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+    #             'CONNECTION_POOL_KWARGS': {
+    #                 'max_connections': 50,
+    #                 'retry_on_timeout': True,
+    #             },
+    #             'COMPRESSOR': 'django_redis.compressors.zlib.ZlibCompressor',
+    #             'SERIALIZER': 'django_redis.serializers.json.JSONSerializer',
+    #         },
+    #         'KEY_PREFIX': 'asoud',
+    #     }
+    # }
+# except ImportError:
     # Fallback to default cache when django_redis is not available
-    CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-            'LOCATION': 'unique-snowflake',
-            'TIMEOUT': 300,
-            'OPTIONS': {
-                'MAX_ENTRIES': 1000,
-            }
-        }
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
     }
+}
  
-if REDIS_HOST:
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [(f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0")],
-            },
-        },
+# if REDIS_HOST:
+#     CHANNEL_LAYERS = {
+#         "default": {
+#             "BACKEND": "channels_redis.core.RedisChannelLayer",
+#             "CONFIG": {
+#                 "hosts": [(f"redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/0")],
+#             },
+#         },
+#     }
+# else:
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     }
-else:
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels.layers.InMemoryChannelLayer",
-        }
-    }
+}
 
 
 # comments 

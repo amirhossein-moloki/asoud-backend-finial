@@ -14,11 +14,13 @@ from django.core.cache import cache
 from django.contrib.contenttypes.models import ContentType
 
 from .models import (
-    UserBehaviorEvent, UserSession, ProductAnalytics, 
+    UserBehaviorEvent,
+    UserSession,
+    ItemAnalytics, 
     MarketAnalytics, UserAnalytics, AnalyticsAggregation
 )
 from .serializers import (
-    UserBehaviorEventSerializer, UserSessionSerializer, ProductAnalyticsSerializer,
+    UserBehaviorEventSerializer, UserSessionSerializer, ItemAnalyticsSerializer,
     MarketAnalyticsSerializer, UserAnalyticsSerializer, AnalyticsAggregationSerializer,
     AnalyticsDashboardSerializer, UserBehaviorInsightsSerializer,
     ProductPerformanceSerializer, MarketPerformanceSerializer, RealTimeMetricsSerializer
@@ -147,12 +149,12 @@ class UserSessionViewSet(viewsets.ModelViewSet):
         })
 
 
-class ProductAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
+class ItemAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    ViewSet for product analytics
+    ViewSet for item analytics
     """
-    queryset = ProductAnalytics.objects.all()
-    serializer_class = ProductAnalyticsSerializer
+    queryset = ItemAnalytics.objects.all()
+    serializer_class = ItemAnalyticsSerializer
     permission_classes = [IsAuthenticated]
     
     @action(detail=False, methods=['get'])
@@ -177,10 +179,10 @@ class ProductAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=True, methods=['post'])
     def calculate_metrics(self, request, pk=None):
         """Calculate metrics for a specific product"""
-        product_analytics = self.get_object()
-        product_analytics.calculate_metrics()
+        item_analytics = self.get_object()
+        item_analytics.calculate_metrics()
         
-        serializer = self.get_serializer(product_analytics)
+        serializer = self.get_serializer(item_analytics)
         return Response(serializer.data)
 
 

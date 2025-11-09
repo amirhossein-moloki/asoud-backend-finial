@@ -4,7 +4,7 @@ from apps.affiliate.models import (
     AffiliateProductTheme,
     AffiliateProductImage
 )
-from apps.item.serializers.owner_serializers import ProductListSerializer
+from apps.item.serializers.owner_serializers import ItemListSerializer
 
 class AffiliateProductImageSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
@@ -104,9 +104,9 @@ class AffiliateProductListSerializer(serializers.ModelSerializer):
         ]
 
 class AffiliateProductDetailSerializer(serializers.ModelSerializer):
-    product = ProductListSerializer(read_only=True)
-    required_product = ProductListSerializer(read_only=True)
-    gift_product = ProductListSerializer(read_only=True)
+    product = ItemListSerializer(read_only=True)
+    required_product = ItemListSerializer(read_only=True)
+    gift_product = ItemListSerializer(read_only=True)
     images = AffiliateProductImageSerializer(many=True)
 
     class Meta:

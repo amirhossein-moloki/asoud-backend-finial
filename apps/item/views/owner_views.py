@@ -14,7 +14,7 @@ from apps.item.serializers.owner_serializers import (
     ItemShippingCreateSerializer,
     ItemShipListSerializer
 )
-from apps.item.models import Item, ProductTheme
+from apps.item.models import Item, ItemTheme
 from apps.market.models import Market
 from apps.advertise.core  import AdvertisementCore
 
@@ -221,7 +221,7 @@ class MarketThemeCreateAPIView(views.APIView):
                 )
             )
         
-        serializer = ProductThemeCreateSerializer(
+        serializer = ItemThemeCreateSerializer(
             data=request.data,
             context={'request': request},
         )
@@ -237,7 +237,7 @@ class MarketThemeCreateAPIView(views.APIView):
                 data={
                     **serializer.data,
                 },
-                message='Product theme created successfully.',
+                message='Item theme created successfully.',
             )
 
             return Response(success_response, status=status.HTTP_201_CREATED)
@@ -256,9 +256,9 @@ class MarketThemeListAPIView(views.APIView):
                 )
             )
     
-        product_theme_list = ProductTheme.objects.filter(market=market)
+        product_theme_list = ItemTheme.objects.filter(market=market)
 
-        serializer = ProductThemeListSerializer(
+        serializer = ItemThemeListSerializer(
             product_theme_list,
             many=True,
             context={"request": request},
@@ -277,13 +277,13 @@ class MarketThemeListAPIView(views.APIView):
 class ItemThemeUpdateAPIView(views.APIView):
     def put(self, request, pk):
         try:
-            product_theme = ProductTheme.objects.get(id=pk)
+            product_theme = ItemTheme.objects.get(id=pk)
         except:
             return Response(
                 ApiResponse(
                     success=False,
                     code=404,
-                    error="Product Theme Not Found"
+                    error="Item Theme Not Found"
                 )
             )
         item_id = request.data.get("item")

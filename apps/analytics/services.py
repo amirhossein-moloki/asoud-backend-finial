@@ -53,7 +53,7 @@ from apps.cart.models import Order
 from apps.category.models import Category
 
 from .models import (
-    UserBehaviorEvent, UserSession, ProductAnalytics, 
+    UserBehaviorEvent, UserSession, ItemAnalytics, 
     MarketAnalytics, UserAnalytics, AnalyticsAggregation
 )
 
@@ -115,7 +115,7 @@ class AnalyticsService:
         ).values('user').distinct().count()
         
         # Product metrics
-        total_products = ProductAnalytics.objects.count()
+        total_products = ItemAnalytics.objects.count()
         products_sold = UserBehaviorEvent.objects.filter(
             user=user, event_type='purchase'
         ).values('object_id').distinct().count()

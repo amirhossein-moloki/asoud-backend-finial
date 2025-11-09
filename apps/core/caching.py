@@ -25,6 +25,10 @@ class AdvancedCacheManager:
     """
     
     def __init__(self):
+        if settings.CACHES.get('default', {}).get('BACKEND') != 'django_redis.cache.RedisCache':
+            self.redis_client = None
+            self.redis_available = False
+            return
         try:
             self.redis_client = redis.from_url(settings.REDIS_URL)
             # Test connection
