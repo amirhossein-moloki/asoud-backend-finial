@@ -22,7 +22,7 @@ from django.db.models import Count, Sum, Q
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
 django.setup()
 
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.market.models import Market
 from apps.cart.models import Order
 
@@ -98,50 +98,50 @@ class PerformanceTester:
         
         return test_result
     
-    def test_product_queries(self):
-        """Test Product model queries"""
+    def test_item_queries(self):
+        """Test Item model queries"""
         print("=" * 60)
-        print("PRODUCT MODEL TESTS")
+        print("ITEM MODEL TESTS")
         print("=" * 60)
         
         # Test 1: Filter by market and status
         self.measure_query(
-            "Product: Filter by market and status",
-            lambda: Product.objects.filter(
+            "Item: Filter by market and status",
+            lambda: Item.objects.filter(
                 market_id=1,
-                status=Product.PUBLISHED
+                status=Item.PUBLISHED
             )[:20]
         )
         
         # Test 2: Filter by category and status
         self.measure_query(
-            "Product: Filter by category and status",
-            lambda: Product.objects.filter(
+            "Item: Filter by category and status",
+            lambda: Item.objects.filter(
                 sub_category_id=1,
-                status=Product.PUBLISHED
+                status=Item.PUBLISHED
             )[:20]
         )
         
-        # Test 3: List products with ordering
+        # Test 3: List items with ordering
         self.measure_query(
-            "Product: List with created_at ordering",
-            lambda: Product.objects.filter(
-                status=Product.PUBLISHED
+            "Item: List with created_at ordering",
+            lambda: Item.objects.filter(
+                status=Item.PUBLISHED
             ).order_by('-created_at')[:20]
         )
         
         # Test 4: Filter by tag
         self.measure_query(
-            "Product: Filter by tag (special offers)",
-            lambda: Product.objects.filter(
-                tag=Product.SPECIAL_OFFER
+            "Item: Filter by tag (special offers)",
+            lambda: Item.objects.filter(
+                tag=Item.SPECIAL_OFFER
             )[:20]
         )
         
-        # Test 5: Marketer products
+        # Test 5: Marketer items
         self.measure_query(
-            "Product: Filter marketer products",
-            lambda: Product.objects.filter(
+            "Item: Filter marketer items",
+            lambda: Item.objects.filter(
                 is_marketer=True
             )[:20]
         )
@@ -251,7 +251,7 @@ class PerformanceTester:
         print("=" * 60)
         print()
         
-        self.test_product_queries()
+        self.test_item_queries()
         self.test_market_queries()
         self.test_order_queries()
         

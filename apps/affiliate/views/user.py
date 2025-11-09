@@ -1,8 +1,8 @@
 from rest_framework import views, status
 from rest_framework.response import Response
 from utils.response import ApiResponse
-from apps.product.models import Product
-from apps.product.serializers.owner_serializers import (
+from apps.item.models import Item
+from apps.item.serializers.owner_serializers import (
     ProductDetailSerializer,
     ProductListSerializer
 )

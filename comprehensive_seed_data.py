@@ -21,7 +21,7 @@ from django.contrib.auth import get_user_model
 from apps.region.models import Country, Province, City
 from apps.category.models import Group, Category, SubCategory
 from apps.market.models import Market, MarketLocation, MarketContact, MarketSchedule
-from apps.product.models import Product, ProductImage
+from apps.item.models import Item, ItemImage
 from apps.cart.models import Order, OrderItem
 from apps.payment.models import Payment
 from apps.comment.models import Comment

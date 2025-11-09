@@ -46,13 +46,13 @@
             object-fit: cover;
         }
         
-        .products-grid {
+        .items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 10px;
         }
         
-        .product-card {
+        .item-card {
             background: white;
             border-radius: 8px;
             padding: 10px;
@@ -61,11 +61,11 @@
             transition: transform 0.2s;
         }
         
-        .product-card:hover {
+        .item-card:hover {
             transform: translateY(-2px);
         }
         
-        .product-image {
+        .item-image {
             width: 100%;
             height: 80px;
             object-fit: cover;
@@ -73,14 +73,14 @@
             margin-bottom: 8px;
         }
         
-        .product-title {
+        .item-title {
             font-size: 0.8rem;
             font-weight: 600;
             margin-bottom: 5px;
             color: #333;
         }
         
-        .product-price {
+        .item-price {
             color: {{ market.theme_color|default:"#007bff" }};
             font-weight: bold;
             font-size: 0.9rem;
@@ -143,8 +143,8 @@
     <!-- Stats -->
     <div class="stats-row">
         <div class="stat-item">
-            <div class="stat-number">{{ products|length }}</div>
-            <div class="stat-label">Products</div>
+            <div class="stat-number">{{ items|length }}</div>
+            <div class="stat-label">Items</div>
         </div>
         <div class="stat-item">
             <div class="stat-number">{{ slider_images|length }}</div>
@@ -163,27 +163,27 @@
     </div>
     {% endif %}
 
-    <!-- Products Preview -->
-    {% if products %}
-    <div class="products-grid">
-        {% for product in products|slice:":6" %}
-        <div class="product-card">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+    <!-- Items Preview -->
+    {% if items %}
+    <div class="items-grid">
+        {% for item in items|slice:":6" %}
+        <div class="item-card">
+            {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-image">
             {% else %}
-                <div class="product-image d-flex align-items-center justify-content-center bg-light">
+                <div class="item-image d-flex align-items-center justify-content-center bg-light">
                     <i class="fas fa-image text-muted"></i>
                 </div>
             {% endif %}
-            <div class="product-title">{{ product.title|truncatechars:20 }}</div>
-            <div class="product-price">${{ product.price|default:"0" }}</div>
+            <div class="item-title">{{ item.title|truncatechars:20 }}</div>
+            <div class="item-price">${{ item.price|default:"0" }}</div>
         </div>
         {% endfor %}
     </div>
     {% else %}
     <div class="text-center text-muted py-4">
         <i class="fas fa-box-open fa-2x mb-2"></i>
-        <p>No products added yet</p>
+        <p>No items added yet</p>
     </div>
     {% endif %}
 

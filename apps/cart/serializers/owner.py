@@ -3,7 +3,7 @@ from apps.cart.models import (
     Order,
     OrderItem
 )
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.affiliate.models import AffiliateProduct
 
 

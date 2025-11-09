@@ -18,7 +18,7 @@ from apps.market.upload import (
     upload_market_slider,
     upload_market_userOnly,
 )
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.region.models import City
 from apps.users.models import User
 from utils.validators import (

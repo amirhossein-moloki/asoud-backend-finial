@@ -3,21 +3,21 @@ from rest_framework.response import Response
 
 from utils.response import ApiResponse
 
-from apps.product.models import Product
-from apps.product.serializers.marketer_serializers import (
-    ProductListSerializer,
-    ProductCreateSerializer,
+from apps.item.models import Item
+from apps.item.serializers.marketer_serializers import (
+    ItemListSerializer,
+    ItemCreateSerializer,
 )
 
 
-class ProductListAPIView(views.APIView):
+class ItemListAPIView(views.APIView):
     def get(self, request, pk):
-        product_list = Product.objects.filter(
+        item_list = Item.objects.filter(
             is_marketer=True,
         )
 
-        serializer = ProductListSerializer(
-            product_list,
+        serializer = ItemListSerializer(
+            item_list,
             many=True,
             context={"request": request},
         )
@@ -32,23 +32,23 @@ class ProductListAPIView(views.APIView):
         return Response(success_response)
 
 
-class ProductCreateAPIView(views.APIView):
+class ItemCreateAPIView(views.APIView):
     def post(self, request):
-        serializer = ProductCreateSerializer(
+        serializer = ItemCreateSerializer(
             data=request.data,
             context={'request': request},
         )
 
         if serializer.is_valid(raise_exception=True):
-            product = serializer.save()
+            item = serializer.save()
 
-            product_id = product.id
+            item_id = item.id
 
             success_response = ApiResponse(
                 success=True,
                 code=200,
                 data={
-                    'product': product_id,
+                    'item': item_id,
                     **serializer.data,
                 },
                 message='Product created successfully.',

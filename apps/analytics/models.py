@@ -121,13 +121,13 @@ class UserSession(models.Model):
         return f"Session {self.session_id} - {self.user or 'Anonymous'}"
 
 
-class ProductAnalytics(models.Model):
+class ItemAnalytics(models.Model):
     """
-    Product-specific analytics
+    Item-specific analytics
     """
-    from apps.product.models import Product
+    from apps.item.models import Item
     
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='analytics')
+    item = models.OneToOneField(Item, on_delete=models.CASCADE, related_name='analytics')
     
     # View metrics
     total_views = models.PositiveIntegerField(default=0)
@@ -167,7 +167,7 @@ class ProductAnalytics(models.Model):
         ordering = ['-popularity_score']
     
     def __str__(self):
-        return f"Analytics for {self.product.name}"
+        return f"Analytics for {self.item.name}"
     
     def calculate_metrics(self):
         """Calculate all analytics metrics"""
@@ -180,21 +180,21 @@ class ProductAnalytics(models.Model):
         week_ago = now - timedelta(days=7)
         month_ago = now - timedelta(days=30)
         
-        # Get events for this product
+        # Get events for this item
         events = UserBehaviorEvent.objects.filter(
-            content_type__model='product',
-            object_id=self.product.id
+            content_type__model='item',
+            object_id=self.item.id
         )
         
         # Calculate view metrics
-        self.total_views = events.filter(event_type='product_view').count()
-        self.unique_views = events.filter(event_type='product_view').values('user').distinct().count()
-        self.views_today = events.filter(event_type='product_view', timestamp__date=today).count()
-        self.views_this_week = events.filter(event_type='product_view', timestamp__gte=week_ago).count()
-        self.views_this_month = events.filter(event_type='product_view', timestamp__gte=month_ago).count()
+        self.total_views = events.filter(event_type='item_view').count()
+        self.unique_views = events.filter(event_type='item_view').values('user').distinct().count()
+        self.views_today = events.filter(event_type='item_view', timestamp__date=today).count()
+        self.views_this_week = events.filter(event_type='item_view', timestamp__gte=week_ago).count()
+        self.views_this_month = events.filter(event_type='item_view', timestamp__gte=month_ago).count()
         
         # Calculate interaction metrics
-        self.total_clicks = events.filter(event_type='product_click').count()
+        self.total_clicks = events.filter(event_type='item_click').count()
         if self.total_views > 0:
             self.click_through_rate = (self.total_clicks / self.total_views) * 100
         

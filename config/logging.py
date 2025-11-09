@@ -180,7 +180,7 @@ LOGGING_LOGGERS = {
         'level': LOG_LEVEL,
         'propagate': False,
     },
-    'apps.product': {
+    'apps.item': {
         'handlers': ['console', 'business_file'],
         'level': LOG_LEVEL,
         'propagate': False,

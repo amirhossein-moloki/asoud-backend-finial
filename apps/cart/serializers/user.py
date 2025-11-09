@@ -3,7 +3,7 @@ from apps.cart.models import (
     Order, 
     OrderItem
 )
-from apps.product.models import Product, ProductImage
+from apps.item.models import Item, ItemImage
 from apps.affiliate.models import AffiliateProduct, AffiliateProductImage
 from django.db import transaction
 

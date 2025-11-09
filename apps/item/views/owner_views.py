@@ -4,17 +4,17 @@ from django.utils.translation import gettext_lazy as _
 
 from utils.response import ApiResponse
 
-from apps.product.serializers.owner_serializers import (
-    ProductCreateSerializer,
-    ProductDiscountCreateSerializer,
-    ProductDetailSerializer,
-    ProductListSerializer,
-    ProductThemeListSerializer,
-    ProductThemeCreateSerializer,
-    ProductShippingCreateSerializer,
-    ProductShipListSerializer
+from apps.item.serializers.owner_serializers import (
+    ItemCreateSerializer,
+    ItemDiscountCreateSerializer,
+    ItemDetailSerializer,
+    ItemListSerializer,
+    ItemThemeListSerializer,
+    ItemThemeCreateSerializer,
+    ItemShippingCreateSerializer,
+    ItemShipListSerializer
 )
-from apps.product.models import Product, ProductTheme
+from apps.item.models import Item, ProductTheme
 from apps.market.models import Market
 from apps.advertise.core  import AdvertisementCore
 
@@ -28,103 +28,103 @@ from apps.affiliate.serializers.user import (
     AffiliateProductListSerializer
 )
 
-class ProductCreateAPIView(views.APIView):
+class ItemCreateAPIView(views.APIView):
     def post(self, request):
-        serializer = ProductCreateSerializer(
+        serializer = ItemCreateSerializer(
             data=request.data,
             context={'request': request},
         )
 
         if serializer.is_valid(raise_exception=True):
-            product = serializer.save()
+            item = serializer.save()
 
-            product_id = product.id
+            item_id = item.id
 
-            if product.is_requirement:
-                ad_data = AdvertisementCore.create_advertisement_for_product(product)
+            if item.is_requirement:
+                ad_data = AdvertisementCore.create_advertisement_for_item(item)
 
 
             success_response = ApiResponse(
                 success=True,
                 code=200,
                 data={
-                    'product': product_id,
+                    'item': item_id,
                     **serializer.data,
                 },
-                message='Product created successfully.',
+                message='Item created successfully.',
             )
 
             return Response(success_response, status=status.HTTP_201_CREATED)
 
 
-class ProductDiscountCreateAPIView(views.APIView):
+class ItemDiscountCreateAPIView(views.APIView):
     def post(self, request, pk):
-        product = Product.objects.get(id=pk)
+        item = Item.objects.get(id=pk)
 
-        serializer = ProductDiscountCreateSerializer(
+        serializer = ItemDiscountCreateSerializer(
             data=request.data,
             context={'request': request},
         )
         serializer.is_valid()
-        serializer.save(product=product)
+        serializer.save(item=item)
         percentage = serializer.validated_data.get('percentage')
-        product.main_price = product.main_price - (product.main_price * percentage / 100)
-        product.save()
+        item.main_price = item.main_price - (item.main_price * percentage / 100)
+        item.save()
         success_response = ApiResponse(
                 success=True,
                 code=200,
                 data={
                     **serializer.data,
                     },
-                message='ProductDiscount created successfully.',
+                message='ItemDiscount created successfully.',
                 )
 
         return Response(success_response, status=status.HTTP_201_CREATED)
     
-class ProductShippingCreateAPIView(views.APIView):
+class ItemShippingCreateAPIView(views.APIView):
     def post(self, request, pk):
         try:
-            product = Product.objects.get(id=pk)
-        except  Product.DoesNotExist:
+            item = Item.objects.get(id=pk)
+        except  Item.DoesNotExist:
             return Response(
                 ApiResponse(
                     success=False,
                     code=404,
-                    error="Product Not Found"
+                    error="Item Not Found"
                 )
             )
-        serializer = ProductShippingCreateSerializer(
+        serializer = ItemShippingCreateSerializer(
             data=request.data,
             context={'request': request},
         )
         serializer.is_valid()
-        serializer.save(product=product)
+        serializer.save(item=item)
         success_response = ApiResponse(
                 success=True,
                 code=200,
                 data={
                     **serializer.data,
                     },
-                message='Product ship created successfully.',
+                message='Item ship created successfully.',
                 )
 
         return Response(success_response, status=status.HTTP_201_CREATED)
 
 
-class ProductShippingListAPIView(views.APIView):
+class ItemShippingListAPIView(views.APIView):
     def get(self, request, pk):
         try:
-            product = Product.objects.get(id=pk)
-            shipping_options = product.ships.all()
-        except Product.DoesNotExist:
+            item = Item.objects.get(id=pk)
+            shipping_options = item.ships.all()
+        except Item.DoesNotExist:
             return Response(
                 ApiResponse(
                     success=False,
                     code=404,
-                    error="Product Not Found"
+                    error="Item Not Found"
                 )
             )
-        serializer = ProductShipListSerializer(
+        serializer = ItemShipListSerializer(
             shipping_options,
             many=True,
             context={"request": request},
@@ -137,14 +137,14 @@ class ProductShippingListAPIView(views.APIView):
         )
         return Response(success_response)
 
-class ProductListAPIView(views.APIView):
+class ItemListAPIView(views.APIView):
     def get(self, request, pk):
-        product_list = Product.objects.filter(
+        item_list = Item.objects.filter(
             market=pk
         )
 
-        serializer = ProductListSerializer(
-            product_list,
+        serializer = ItemListSerializer(
+            item_list,
             many=True,
             context={"request": request},
         )
@@ -180,49 +180,21 @@ class ProductListAPIView(views.APIView):
         return Response(success_response)
 
 
-class ProductDetailAPIView(views.APIView):
+class ItemDetailAPIView(views.APIView):
     def get(self, request, pk):
         try:
-            product = Product.objects.get(id=pk)
+            item = Item.objects.get(id=pk)
         except:
             return Response(
                 ApiResponse(
                     success=False,
                     code=404,
-                    error="Product Not Found"
+                    error="Item Not Found"
                 )
             )
         
-        serializer = ProductDetailSerializer(
-            product,
-            context={"request": request},
-        )
-
-        success_response = ApiResponse(
-            success=True,
-            code=200,
-            data=serializer.data,
-            message='Data retrieved successfully',
-        )
-
-        return Response(success_response)
-    
-    
-class ProductDetailAPIView(views.APIView):
-    def get(self, request, pk):
-        try:
-            product = Product.objects.get(id=pk)
-        except:
-            return Response(
-                ApiResponse(
-                    success=False,
-                    code=404,
-                    error="Product Not Found"
-                )
-            )
-        
-        serializer = ProductDetailSerializer(
-            product,
+        serializer = ItemDetailSerializer(
+            item,
             context={"request": request},
         )
 
@@ -236,7 +208,7 @@ class ProductDetailAPIView(views.APIView):
         return Response(success_response)
 
 
-class ProductThemeCreateAPIView(views.APIView):
+class MarketThemeCreateAPIView(views.APIView):
     def post(self, request, pk):
         try:
             market = Market.objects.get(id=pk)
@@ -271,7 +243,7 @@ class ProductThemeCreateAPIView(views.APIView):
             return Response(success_response, status=status.HTTP_201_CREATED)
 
 
-class ProductThemeListAPIView(views.APIView):
+class MarketThemeListAPIView(views.APIView):
     def get(self, request, pk):
         try:
             market = Market.objects.get(id=pk)
@@ -302,7 +274,7 @@ class ProductThemeListAPIView(views.APIView):
         return Response(success_response)
 
 
-class ProductThemeUpdateAPIView(views.APIView):
+class ItemThemeUpdateAPIView(views.APIView):
     def put(self, request, pk):
         try:
             product_theme = ProductTheme.objects.get(id=pk)
@@ -314,25 +286,25 @@ class ProductThemeUpdateAPIView(views.APIView):
                     error="Product Theme Not Found"
                 )
             )
-        product = request.data.get("product")
+        item_id = request.data.get("item")
         index = request.data.get("index")
 
-        if not product or not index:
+        if not item_id or not index:
             response = ApiResponse(
                 success=False,
                 code=400,
                 error={
                     'code': 'bad_request',
-                    'detail': 'Invalid format. "both product and index must be provided"',
+                    'detail': 'Invalid format. "both item and index must be provided"',
                 }
             )
             return Response(response)
 
         try:
-            product = Product.objects.get(id=product)
-            product.theme = product_theme
-            product.theme_index = index
-            product.save()
+            item = Item.objects.get(id=item_id)
+            item.theme = product_theme
+            item.theme_index = index
+            item.save()
         except Exception as e:
             fail_response = ApiResponse(
                 success=False,
@@ -349,18 +321,18 @@ class ProductThemeUpdateAPIView(views.APIView):
             success=True,
             code=200,
             data={},
-            message='Product theme updated successfully.',
+            message='Item theme updated successfully.',
         )
         return Response(success_response, status=status.HTTP_200_OK)
 
-class ProductThemeDeleteAPIView(views.APIView):
+class ItemThemeDeleteAPIView(views.APIView):
     def delete(self, request, pk):
 
         try:
-            product = Product.objects.get(id=pk)
-            product.theme = None
-            product.theme_index = None
-            product.save()
+            item = Item.objects.get(id=pk)
+            item.theme = None
+            item.theme_index = None
+            item.save()
         except:
             pass
             
@@ -368,6 +340,6 @@ class ProductThemeDeleteAPIView(views.APIView):
             success=True,
             code=200,
             data={},
-            message='Product theme removed successfully.',
+            message='Item theme removed successfully.',
         )
         return Response(success_response, status=status.HTTP_200_OK)

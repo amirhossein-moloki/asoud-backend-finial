@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'apps.gateway',
     'apps.information',
     'apps.market',
-    'apps.product',
+    'apps.item',
     'apps.region',
     'apps.users.apps.UsersConfig',
     'apps.discount',

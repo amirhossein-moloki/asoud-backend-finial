@@ -11,7 +11,7 @@ from rest_framework import status
 from apps.users.models import User
 from apps.cart.models import Order, OrderItem
 from apps.users.models import UserBankInfo, BankInfo
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.office_registration.models.office_registration_models import OfficeRegistration
 from rest_framework.test import APITestCase
 

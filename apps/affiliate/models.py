@@ -2,7 +2,7 @@ from apps.base.models import models, BaseModel
 from django.utils.translation import gettext_lazy as _
 from apps.market.models import Market
 from apps.category.models import SubCategory
-from apps.product.models import ProductKeyword, Product
+from apps.item.models import ItemKeyword, Item
 
 # Create your models here.
 
@@ -99,7 +99,7 @@ class AffiliateProduct(BaseModel):
     )
 
     product = models.ForeignKey(
-        Product,
+        Item,
         related_name="affiliates",
         on_delete=models.CASCADE,
         verbose_name=_('Product')
@@ -134,7 +134,7 @@ class AffiliateProduct(BaseModel):
     )
 
     keywords = models.ManyToManyField(
-        ProductKeyword,
+        ItemKeyword,
         related_name='affiliate_products',
         blank=True,
         verbose_name=_('Keywords'),

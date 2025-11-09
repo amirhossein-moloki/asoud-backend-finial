@@ -34,7 +34,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"items\": [{\n    \"product\": \"PRODUCT_UUID\",\n    \"quantity\": 1,\n    \"market\": \"MARKET_UUID\"\n  }],\n  \"shipping_address\": \"addr\"\n}"
+          "raw": "{\n  \"items\": [{\n    \"item\": \"ITEM_UUID\",\n    \"quantity\": 1,\n    \"market\": \"MARKET_UUID\"\n  }],\n  \"shipping_address\": \"addr\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/user/order/create/",

@@ -21,7 +21,7 @@
     },
     {
       "file": ".\\apps\\analytics\\dashboard_urls.py",
-      "pattern": "product/"
+      "pattern": "item/"
     },
     {
       "file": ".\\apps\\analytics\\dashboard_urls.py",
@@ -73,15 +73,15 @@
     },
     {
       "file": ".\\apps\\category\\urls\\general_urls.py",
-      "pattern": "product-group/list/"
+      "pattern": "item-group/list/"
     },
     {
       "file": ".\\apps\\category\\urls\\general_urls.py",
-      "pattern": "product/list/<str:pk>/"
+      "pattern": "item/list/<str:pk>/"
     },
     {
       "file": ".\\apps\\category\\urls\\general_urls.py",
-      "pattern": "product/sub/list/<str:pk>/"
+      "pattern": "item/sub/list/<str:pk>/"
     },
     {
       "file": ".\\apps\\chat\\urls.py",
@@ -137,7 +137,7 @@
     },
     {
       "file": ".\\apps\\flutter\\urls.py",
-      "pattern": "products"
+      "pattern": "items"
     },
     {
       "file": ".\\apps\\flutter\\urls.py",
@@ -257,11 +257,11 @@
     },
     {
       "file": ".\\apps\\market_subdomain\\urls.py",
-      "pattern": "products"
+      "pattern": "items"
     },
     {
       "file": ".\\apps\\market_subdomain\\urls.py",
-      "pattern": "products/<str:pk>"
+      "pattern": "items/<str:pk>"
     },
     {
       "file": ".\\apps\\notification\\urls.py",

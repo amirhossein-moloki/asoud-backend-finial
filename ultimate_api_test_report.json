@@ -84,7 +84,7 @@
       },
       {
         "method": "GET",
-        "url": "/api/v1/user/affiliate/products/",
+        "url": "/api/v1/user/affiliate/items/",
         "status": 200,
         "category": "user"
       },
@@ -102,7 +102,7 @@
       },
       {
         "method": "GET",
-        "url": "/api/v1/user/comment/product/550e8400-e29b-41d4-a716-446655440000/",
+        "url": "/api/v1/user/comment/item/550e8400-e29b-41d4-a716-446655440000/",
         "status": 200,
         "category": "user"
       },
@@ -120,7 +120,7 @@
       },
       {
         "method": "GET",
-        "url": "/api/v1/owner/product/list/550e8400-e29b-41d4-a716-446655440000",
+        "url": "/api/v1/owner/item/list/550e8400-e29b-41d4-a716-446655440000",
         "status": 200,
         "category": "owner"
       },
@@ -138,7 +138,7 @@
       },
       {
         "method": "GET",
-        "url": "/api/v1/analytics/products/",
+        "url": "/api/v1/analytics/items/",
         "status": 200,
         "category": "analytics"
       },
@@ -170,7 +170,7 @@
       },
       {
         "method": "GET",
-        "url": "/flutter/products",
+        "url": "/flutter/items",
         "status": 400,
         "category": "flutter"
       },

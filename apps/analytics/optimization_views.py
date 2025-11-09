@@ -28,7 +28,7 @@ class PriceOptimizationViewSet(viewsets.ViewSet):
         """Get price optimization overview"""
         try:
             # Get all products that need price optimization
-            from apps.product.models import Product
+            from apps.item.models import Item
             
             products = Product.objects.all()[:10]  # Limit for overview
             
@@ -216,7 +216,7 @@ class DemandForecastingViewSet(viewsets.ViewSet):
         """Get demand forecasting overview"""
         try:
             # Get all products that need demand forecasting
-            from apps.product.models import Product
+            from apps.item.models import Item
             
             products = Product.objects.all()[:10]  # Limit for overview
             
@@ -420,7 +420,7 @@ class MLOptimizationViewSet(viewsets.ViewSet):
             forecast_engine = DemandForecastingEngine()
             
             # Get products that need optimization
-            from apps.product.models import Product
+            from apps.item.models import Item
             products = Product.objects.all()[:20]  # Limit for summary
             
             price_optimizations = []
@@ -508,7 +508,7 @@ class MLOptimizationViewSet(viewsets.ViewSet):
                         # Apply price optimization
                         new_price = optimization.get('recommended_price')
                         if new_price and new_price > 0:
-                            from apps.product.models import Product
+                            from apps.item.models import Item
                             product = Product.objects.get(id=product_id)
                             old_price = product.price
                             product.price = new_price

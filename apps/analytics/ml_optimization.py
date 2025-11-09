@@ -225,7 +225,7 @@ class PriceOptimizationEngine:
     def _get_current_product_data(self, product_id: int) -> Dict[str, Any]:
         """Get current product data"""
         try:
-            from apps.product.models import Product
+            from apps.item.models import Item
             product = Product.objects.get(id=product_id)
             
             return {

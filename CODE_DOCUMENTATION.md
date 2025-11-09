@@ -127,7 +127,7 @@ urlpatterns = [
     # API endpoints
     path('api/v1/', include('apps.users.urls')),
     path('api/v1/', include('apps.market.urls')),
-    path('api/v1/', include('apps.product.urls')),
+    path('api/v1/', include('apps.item.urls')),
     path('api/v1/', include('apps.order.urls')),
     path('api/v1/', include('apps.payment.urls')),
     path('api/v1/', include('apps.chat.urls')),

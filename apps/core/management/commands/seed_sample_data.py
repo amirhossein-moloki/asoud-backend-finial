@@ -180,7 +180,7 @@ class Command(BaseCommand):
     def create_sample_products(self):
         """Create sample products if Product model exists"""
         try:
-            from apps.product.models import Product
+            from apps.item.models import Item
             self.stdout.write('Creating sample products...')
             
             # Get some stores and subcategories

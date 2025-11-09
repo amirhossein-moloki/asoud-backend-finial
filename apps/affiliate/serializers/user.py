@@ -4,7 +4,7 @@ from apps.affiliate.models import (
     AffiliateProductTheme,
     AffiliateProductImage
 )
-from apps.product.serializers.owner_serializers import ProductListSerializer
+from apps.item.serializers.owner_serializers import ProductListSerializer
 
 class AffiliateProductImageSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)

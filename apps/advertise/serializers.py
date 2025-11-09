@@ -6,8 +6,8 @@ from apps.advertise.models import (
 )
 from drf_spectacular.utils import extend_schema_field
 from typing import Dict, Any, Optional
-from apps.product.models import Product
-from apps.product.serializers.owner_serializers import ProductDetailSerializer
+from apps.item.models import Item
+from apps.item.serializers.owner_serializers import ItemDetailSerializer
 from apps.users.serializers import UserSerializer
 from jdatetime import datetime as jdatetime
 
@@ -22,7 +22,7 @@ class AdvertiseImageSerializer(serializers.ModelSerializer):
         ]
 
 class AdvertiseSerializer(serializers.ModelSerializer):
-    product = ProductDetailSerializer()
+    item = ItemDetailSerializer()
     user = UserSerializer()
     images = AdvertiseImageSerializer(many=True)
 
@@ -31,7 +31,7 @@ class AdvertiseSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
 class AdvertiseCreateSerializer(serializers.ModelSerializer):
-    product = serializers.UUIDField(required=False)
+    item = serializers.UUIDField(required=False)
     user = serializers.UUIDField(read_only=True)
     keywords = serializers.ListField(child=serializers.CharField(), required=False)
     images = serializers.ListField(child=serializers.ImageField(), required=False)
@@ -69,25 +69,25 @@ class AdvertiseCreateSerializer(serializers.ModelSerializer):
             # remove images from validated_Data
             images = validated_data.pop('images', None)
 
-            if 'product' in list(validated_data.keys()):
+            if 'item' in list(validated_data.keys()):
                 try:
-                    product = Product.objects.get(id=validated_data['product'])
+                    item = Item.objects.get(id=validated_data['item'])
 
-                    fields_to_exclude = ['product', 'name', 'description', 'price', 'category', 'type']
+                    fields_to_exclude = ['item', 'name', 'description', 'price', 'category', 'type']
                     for field in fields_to_exclude:
                         validated_data.pop(field, None)
 
                     advertisement = Advertisement.objects.create(
                         **validated_data,
-                        product=product,
-                        type=product.type,
-                        name=product.name,
-                        description=product.description,
-                        price=product.main_price,
-                        category=product.sub_category.category,
+                        item=item,
+                        type=item.type,
+                        name=item.name,
+                        description=item.description,
+                        price=item.main_price,
+                        category=item.sub_category.category,
                     )
-                except Product.DoesNotExist:
-                    raise serializers.ValidationError({"product": "Product does not exist"})
+                except Item.DoesNotExist:
+                    raise serializers.ValidationError({"item": "Item does not exist"})
             
             else:
                 advertisement = Advertisement.objects.create(**validated_data)

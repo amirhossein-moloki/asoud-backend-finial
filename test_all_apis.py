@@ -262,13 +262,13 @@ class APITester:
             success, message, status = self.test_endpoint(pattern, 'GET', authenticated=needs_auth)
             self._print_result(pattern['path'], message, status, success)
     
-    def test_product_endpoints(self, patterns):
-        """Test product endpoints"""
-        print(colored("\n=== TESTING PRODUCT ENDPOINTS ===", 'cyan', attrs=['bold']))
+    def test_item_endpoints(self, patterns):
+        """Test item endpoints"""
+        print(colored("\n=== TESTING ITEM ENDPOINTS ===", 'cyan', attrs=['bold']))
         
-        product_patterns = [p for p in patterns if 'product' in p['path']]
+        item_patterns = [p for p in patterns if 'item' in p['path']]
         
-        for pattern in product_patterns[:10]:  # Test first 10
+        for pattern in item_patterns[:10]:  # Test first 10
             needs_auth = 'owner' in pattern['path'] or 'create' in pattern['path']
             
             success, message, status = self.test_endpoint(pattern, 'GET', authenticated=needs_auth)
@@ -362,7 +362,7 @@ class APITester:
         self.test_user_auth_endpoints(categories.get('user_api', []))
         self.test_category_endpoints(categories.get('general_api', []))
         self.test_market_endpoints(categories.get('user_api', []) + categories.get('owner_api', []))
-        self.test_product_endpoints(categories.get('owner_api', []))
+        self.test_item_endpoints(categories.get('owner_api', []))
         self.test_order_endpoints(categories.get('user_api', []))
         self.test_payment_endpoints(categories.get('user_api', []))
         

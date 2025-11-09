@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.core.cache import cache
 from apps.core.caching import cache_manager
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.market.models import Market
 from apps.users.models import User
 import logging

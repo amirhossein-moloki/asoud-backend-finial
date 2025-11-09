@@ -2,13 +2,13 @@ from rest_framework import serializers
 from django.urls import reverse
 
 from apps.users.models import User
-from apps.product.models import (
-    Product,
-    ProductShipping,
-    ProductDiscount,
-    ProductTheme,
-    ProductKeyword,
-    ProductImage,
+from apps.item.models import (
+    Item,
+    ItemImage,
+    ItemKeyword,
+    ItemTheme,
+    ItemDiscount,
+    ItemShipping,
 )
 
 class KeywordField(serializers.RelatedField):
@@ -17,7 +17,7 @@ class KeywordField(serializers.RelatedField):
         return value.name
 
     def to_internal_value(self, data):
-        keyword_obj, created = ProductKeyword.objects.get_or_create(name=data.strip())
+        keyword_obj, created = ItemKeyword.objects.get_or_create(name=data.strip())
         return keyword_obj
     
 class UserField(serializers.RelatedField):
@@ -31,40 +31,36 @@ class UserField(serializers.RelatedField):
             raise serializers.ValidationError(f"User with ID {data} does not exist.")
 
 
-class ProductImageSerializer(serializers.ModelSerializer):
+class ItemImageSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
 
     class Meta:
-        model = ProductImage
+        model = ItemImage
         fields = [
             'id',
             'image'
         ]
 
 
-class ProductCreateSerializer(serializers.ModelSerializer):
+class ItemCreateSerializer(serializers.ModelSerializer):
     keywords = KeywordField(
         many=True,
-        queryset=ProductKeyword.objects.all(),
+        queryset=ItemKeyword.objects.all(),
         required=False
     )
     type = serializers.ChoiceField(
-        choices=Product.TYPE_CHOICES,
+        choices=Item.ITEM_TYPE_CHOICES,
     )
     tag = serializers.ChoiceField(
-        choices=Product.TAG_CHOICES,
-        default=Product.NONE,
-    )
-    tag_position = serializers.ChoiceField(
-        choices=Product.TAG_POSITION_CHOICES,
-        default=Product.TOP_LEFT,
+        choices=Item.LABEL_CHOICES,
+        default=Item.NONE,
     )
     sell_type = serializers.ChoiceField(
-        choices=Product.SELL_TYPE_CHOICES,
-        default=Product.ONLINE,
+        choices=Item.SELL_TYPE_CHOICES,
+        default=Item.ONLINE,
     )
     ship_cost_pay_type = serializers.ChoiceField(
-        choices=Product.SHIP_COST_PAY_TYPE_CHOICES,
+        choices=Item.SHIP_COST_PAY_TYPE_CHOICES,
     )
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(allow_empty_file=False), 
@@ -73,7 +69,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Product
+        model = Item
         fields = [
             'market',
             'type',
@@ -87,8 +83,8 @@ class ProductCreateSerializer(serializers.ModelSerializer):
             'colleague_price',
             'marketer_price',
             'maximum_sell_price',
-            'required_product',
-            'gift_product',
+            'required_item',
+            'gift_item',
             'is_marketer',
             'is_requirement',
             'status',
@@ -105,17 +101,17 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         images = validated_data.pop('uploaded_images', [])
 
         keywords_data = validated_data.pop('keywords', [])
-        product = Product.objects.create(**validated_data)
+        item = Item.objects.create(**validated_data)
 
-        product.keywords.set(keywords_data)
+        item.keywords.set(keywords_data)
         
         for image in images:
-            _ = ProductImage.objects.create(
-                product=product,
+            _ = ItemImage.objects.create(
+                item=item,
                 image=image
             )
 
-        return product
+        return item
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -127,47 +123,45 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         return representation
 
 
-class ProductShippingCreateSerializer(serializers.ModelSerializer):
-    product = serializers.UUIDField(read_only=True)
+class ItemShippingCreateSerializer(serializers.ModelSerializer):
+    item = serializers.UUIDField(read_only=True)
     class Meta:
-        model = ProductShipping
-        fields = ('product', 'name', 'price', )
+        model = ItemShipping
+        fields = ('item', 'name', 'price', )
 
-class ProductShipListSerializer(serializers.ModelSerializer):
+class ItemShipListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductShipping
-        fields = ('product','name', 'price', )
+        model = ItemShipping
+        fields = ('item','name', 'price', )
         
-class ProductDiscountCreateSerializer(serializers.ModelSerializer):
+class ItemDiscountCreateSerializer(serializers.ModelSerializer):
     users = UserField(
         many=True,
         queryset=User.objects.all(),
         required=False
     )
-    position = serializers.ChoiceField(choices=ProductDiscount.POSITION_CHOICES)
 
     class Meta:
-        model = ProductDiscount
+        model = ItemDiscount
         fields = [
             'users',
-            'position',
             'percentage',
             'duration',
         ]
 
     def create(self, validated_data):
         users_data = validated_data.pop('users', [])
-        discount = ProductDiscount.objects.create(**validated_data)
+        discount = ItemDiscount.objects.create(**validated_data)
 
         if users_data:
             discount.users.set(users_data)
         return discount
 
 
-class ProductListSerializer(serializers.ModelSerializer):
-    images = ProductImageSerializer(many=True)
+class ItemListSerializer(serializers.ModelSerializer):
+    images = ItemImageSerializer(many=True)
     class Meta:
-        model = Product
+        model = Item
         fields = [
             'id',
             'name',
@@ -177,10 +171,10 @@ class ProductListSerializer(serializers.ModelSerializer):
             'images',
         ]
 
-class ProductWithIndexListSerializer(serializers.ModelSerializer):
-    images = ProductImageSerializer(many=True)
+class ItemWithIndexListSerializer(serializers.ModelSerializer):
+    images = ItemImageSerializer(many=True)
     class Meta:
-        model = Product
+        model = Item
         fields = [
             'id',
             'name',
@@ -191,11 +185,11 @@ class ProductWithIndexListSerializer(serializers.ModelSerializer):
             'theme_index',
         ]
 
-class ProductDetailSerializer(serializers.ModelSerializer):
-    required_product = ProductListSerializer(read_only=True)
-    gift_product = ProductListSerializer(read_only=True)
+class ItemDetailSerializer(serializers.ModelSerializer):
+    required_item = ItemListSerializer(read_only=True)
+    gift_item = ItemListSerializer(read_only=True)
     keywords = KeywordField(many=True, read_only=True)
-    images = ProductImageSerializer(many=True, read_only=True)
+    images = ItemImageSerializer(many=True, read_only=True)
     
     # Handle shipping cost
     shipping_cost = serializers.SerializerMethodField()
@@ -207,7 +201,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     comments_count = serializers.SerializerMethodField()
 
     class Meta:
-        model = Product
+        model = Item
         fields = [
             'id',
             'name',
@@ -219,14 +213,14 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             'colleague_price',
             'marketer_price',
             'maximum_sell_price',
-            'required_product',
-            'gift_product',
+            'required_item',
+            'gift_item',
             'is_marketer',
             'marketer_price',
-            'tag',
+            'label',
             'tag_position',
             'sell_type',
-            'ship_cost_pay_type',
+            'shipping_payment_type',
             'shipping_cost',
             'images',
             'active_discounts',
@@ -271,7 +265,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             return []
 
     def get_comments_count(self, obj):
-        """Get comments count for the product"""
+        """Get comments count for the item"""
         try:
             # Assuming you have a comment model with GenericForeignKey
             from django.contrib.contenttypes.models import ContentType
@@ -286,26 +280,26 @@ class ProductDetailSerializer(serializers.ModelSerializer):
         except:
             return 0
 
-class ProductThemeListSerializer(serializers.ModelSerializer):
-    products = serializers.SerializerMethodField()
+class ItemThemeListSerializer(serializers.ModelSerializer):
+    items = serializers.SerializerMethodField()
 
     class Meta:
-        model = ProductTheme
+        model = ItemTheme
         fields = [
             'id',
             'name',
             'order',
-            'products',
+            'items',
         ]
 
-    def get_products(self, obj):
-        products = obj.products.all()
-        return ProductWithIndexListSerializer(products, many=True, context=self.context).data
+    def get_items(self, obj):
+        items = obj.items.all()
+        return ItemWithIndexListSerializer(items, many=True, context=self.context).data
 
 
-class ProductThemeCreateSerializer(serializers.ModelSerializer):
+class ItemThemeCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ProductTheme
+        model = ItemTheme
         fields = [
             'name',
             'order',

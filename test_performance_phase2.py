@@ -88,9 +88,9 @@ class PerformanceTester:
         """Test database performance"""
         print("Testing database performance...")
         
-        # Test product list endpoint
-        result = self.test_api_response_time('/api/v1/user/products/')
-        print(f"Product list: {result['response_time']:.3f}s")
+        # Test item list endpoint
+        result = self.test_api_response_time('/api/v1/user/items/')
+        print(f"Item list: {result['response_time']:.3f}s")
         
         # Test market list endpoint
         result = self.test_api_response_time('/api/v1/user/markets/')
@@ -105,11 +105,11 @@ class PerformanceTester:
         print("Testing caching performance...")
         
         # Test first request (cache miss)
-        result1 = self.test_api_response_time('/api/v1/user/products/')
+        result1 = self.test_api_response_time('/api/v1/user/items/')
         print(f"First request (cache miss): {result1['response_time']:.3f}s")
         
         # Test second request (cache hit)
-        result2 = self.test_api_response_time('/api/v1/user/products/')
+        result2 = self.test_api_response_time('/api/v1/user/items/')
         print(f"Second request (cache hit): {result2['response_time']:.3f}s")
         
         # Calculate cache improvement
@@ -125,16 +125,16 @@ class PerformanceTester:
         page_sizes = [10, 20, 50, 100]
         
         for page_size in page_sizes:
-            result = self.test_api_response_time(f'/api/v1/user/products/?page_size={page_size}')
+            result = self.test_api_response_time(f'/api/v1/user/items/?page_size={page_size}')
             print(f"Page size {page_size}: {result['response_time']:.3f}s")
     
     def test_search_performance(self):
         """Test search performance"""
         print("Testing search performance...")
         
-        # Test product search
-        result = self.test_api_response_time('/api/v1/user/products/?search=test')
-        print(f"Product search: {result['response_time']:.3f}s")
+        # Test item search
+        result = self.test_api_response_time('/api/v1/user/items/?search=test')
+        print(f"Item search: {result['response_time']:.3f}s")
         
         # Test market search
         result = self.test_api_response_time('/api/v1/user/markets/?search=test')
@@ -144,8 +144,8 @@ class PerformanceTester:
         """Test concurrent load"""
         print("Testing concurrent load...")
         
-        # Test concurrent product requests
-        results = self.test_concurrent_requests('/api/v1/user/products/', num_requests=20)
+        # Test concurrent item requests
+        results = self.test_concurrent_requests('/api/v1/user/items/', num_requests=20)
         
         # Calculate statistics
         response_times = [r['response_time'] for r in results if r['success']]
@@ -172,7 +172,7 @@ class PerformanceTester:
         
         # Make several requests
         for _ in range(10):
-            self.test_api_response_time('/api/v1/user/products/')
+            self.test_api_response_time('/api/v1/user/items/')
         
         memory_after = process.memory_info().rss / 1024 / 1024  # MB
         memory_increase = memory_after - memory_before

@@ -138,7 +138,7 @@ class UltimateValidator:
         """Validate API security"""
         try:
             # Test CSRF protection
-            response = requests.post(f"{self.base_url}/api/v1/user/products/", 
+            response = requests.post(f"{self.base_url}/api/v1/user/items/",
                                    json={'name': 'test'}, timeout=5)
             if response.status_code in [403, 401]:
                 self.validation_results['security']['passes'].append("CSRF protection working")
@@ -167,11 +167,11 @@ class UltimateValidator:
         """Validate database performance"""
         try:
             from django.db import connection
-            from apps.product.models import Product
+            from apps.item.models import Item
             
             # Test simple query
             start_time = time.time()
-            products = list(Product.objects.all()[:10])
+            items = list(Item.objects.all()[:10])
             query_time = (time.time() - start_time) * 1000
             
             if query_time < 100:

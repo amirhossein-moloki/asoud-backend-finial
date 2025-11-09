@@ -67,8 +67,8 @@ urlpatterns = [
         include('apps.market.urls.workflow_urls'),
     ),
     path(
-        'api/v1/owner/product/',
-        include('apps.product.urls.owner_urls'),
+        'api/v1/owner/item/',
+        include('apps.item.urls.owner_urls'),
     ),
     path(
         'api/v1/user/comment/',

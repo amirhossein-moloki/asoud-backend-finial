@@ -1,8 +1,13 @@
 from django.utils.translation import gettext_lazy as _
 
-from apps.base.models import models, BaseModel
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
+from django.db import models, transaction
+from decimal import Decimal
+
+from apps.base.models import BaseModel
 from apps.users.models import User
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.affiliate.models import AffiliateProduct
 
 # Create your models here.
@@ -46,7 +51,7 @@ class CartItem(BaseModel):
         verbose_name=_('Cart')
     )
     product = models.ForeignKey(
-        Product,
+        Item,
         null=True,
         blank=True,
         on_delete=models.CASCADE,
@@ -61,7 +66,46 @@ class CartItem(BaseModel):
     )
     quantity = models.PositiveSmallIntegerField(
         default=1,
+        validators=[MinValueValidator(1)],
         verbose_name=_('Quantity'),
+    )
+    
+    unit_price = models.DecimalField(
+        max_digits=14,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        verbose_name=_('Unit Price'),
+        help_text=_('Price per unit at the time of adding to cart')
+    )
+    
+    shipping_cost = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        null=True,
+        blank=True,
+        verbose_name=_('Shipping Cost')
+    )
+    
+    shipping_method = models.CharField(
+        max_length=50,
+        choices=Item.SHIP_COST_PAY_TYPE_CHOICES,
+        null=True,
+        blank=True,
+        verbose_name=_('Shipping Method')
+    )
+    
+    appointment_datetime = models.DateTimeField(
+        null=True,
+        blank=True,
+        verbose_name=_('Appointment Date & Time'),
+        help_text=_('Required for service items')
+    )
+    
+    applied_discounts = models.JSONField(
+        default=dict,
+        verbose_name=_('Applied Discounts'),
+        help_text=_('Discounts applied to this item')
     )
 
     class Meta:
@@ -69,6 +113,10 @@ class CartItem(BaseModel):
         verbose_name = _('Cart Item')
         verbose_name_plural = _('Cart Items')
         unique_together = ['cart', 'product', 'affiliate']
+        indexes = [
+            models.Index(fields=['cart', 'created_at']),
+            models.Index(fields=['product', 'cart']),
+        ]
 
     def __str__(self):
         if self.product:
@@ -80,14 +128,67 @@ class CartItem(BaseModel):
         return f"{self.quantity} x {name}"
 
     def total_price(self):
-        """Calculate total price for this cart item"""
+        """Calculate total price for this cart item including shipping and discounts"""
+        # Calculate base price
+        base_total = Decimal(str(self.quantity)) * self.unit_price
+        
+        # Add shipping cost if applicable
+        if self.shipping_cost and self.shipping_method != Item.FREE:
+            if self.shipping_method == Item.CUSTOMER:
+                base_total += self.shipping_cost
+        
+        # Apply discounts
+        total_discount = Decimal('0')
+        for discount in self.applied_discounts.values():
+            if discount.get('type') == 'percentage':
+                discount_amount = base_total * (Decimal(str(discount['value'])) / Decimal('100'))
+            else:  # Fixed amount discount
+                discount_amount = Decimal(str(discount['value']))
+            total_discount += discount_amount
+        
+        return base_total - total_discount
+    
+    def clean(self):
+        """Validate cart item"""
+        super().clean()
+        
+        if not self.product and not self.affiliate:
+            raise ValidationError(_('Either product or affiliate product must be specified'))
+        
         if self.product:
-            price = self.product.main_price
-        elif self.affiliate:
-            price = self.affiliate.price
-        else: 
-            price = 0
-        return price * self.quantity
+            # Check if product is available
+            if not self.product.is_active:
+                raise ValidationError(_('This product is not available'))
+            
+            # Validate stock for products
+            if self.product.type == Item.GOOD and self.quantity > self.product.stock:
+                raise ValidationError(_('Requested quantity exceeds available stock'))
+            
+            # Validate appointment for services
+            if self.product.type == Item.SERVICE:
+                if not self.appointment_datetime:
+                    raise ValidationError(_('Services require an appointment datetime'))
+            else:
+                # Products shouldn't have appointment times
+                if self.appointment_datetime:
+                    raise ValidationError(_('Products cannot have appointment times'))
+            
+            # Validate shipping method
+            if self.product.type == Item.SERVICE and self.shipping_method:
+                raise ValidationError(_('Services cannot have shipping methods'))
+            elif self.product.type == Item.GOOD and not self.shipping_method:
+                raise ValidationError(_('Products must have a shipping method'))
+    
+    @transaction.atomic
+    def save(self, *args, **kwargs):
+        if not self.unit_price:
+            if self.product:
+                self.unit_price = self.product.main_price
+            elif self.affiliate:
+                self.unit_price = self.affiliate.price
+        
+        self.full_clean()
+        super().save(*args, **kwargs)
 
 
 class Order(BaseModel):
@@ -148,6 +249,49 @@ class Order(BaseModel):
         verbose_name=_('Is Paid')
     )
     
+    shipping_address = models.JSONField(
+        null=True,
+        blank=True,
+        verbose_name=_('Shipping Address'),
+        help_text=_('Shipping address details')
+    )
+    
+    billing_address = models.JSONField(
+        null=True,
+        blank=True,
+        verbose_name=_('Billing Address'),
+        help_text=_('Billing address details')
+    )
+    
+    payment_method = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        verbose_name=_('Payment Method'),
+        help_text=_('Payment method used for this order')
+    )
+    
+    payment_details = models.JSONField(
+        null=True,
+        blank=True,
+        verbose_name=_('Payment Details'),
+        help_text=_('Additional payment related information')
+    )
+    
+    contact_phone = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+        verbose_name=_('Contact Phone'),
+        help_text=_('Phone number for order-related communication')
+    )
+    
+    applied_discounts = models.JSONField(
+        default=dict,
+        verbose_name=_('Applied Discounts'),
+        help_text=_('Discounts applied to the entire order')
+    )
+    
     class Meta:
         ordering = ['-created_at']
         db_table = 'order'
@@ -165,13 +309,106 @@ class Order(BaseModel):
     def __str__(self):
         return f"Order {str(self.id)[:6]}"
 
+    def calculate_subtotal(self):
+        """Calculate subtotal before order-level discounts"""
+        return sum(item.total_price() for item in self.items.all())
+    
+    def calculate_shipping_total(self):
+        """Calculate total shipping cost"""
+        return sum(
+            item.shipping_cost
+            for item in self.items.all()
+            if item.shipping_cost and item.shipping_method == Item.CUSTOMER
+        )
+    
+    def calculate_order_discount(self):
+        """Calculate discounts at the order level"""
+        subtotal = self.calculate_subtotal()
+        total_discount = Decimal('0')
+        
+        for discount in self.applied_discounts.values():
+            if discount.get('type') == 'percentage':
+                discount_amount = subtotal * (Decimal(str(discount['value'])) / Decimal('100'))
+            else:  # Fixed amount discount
+                discount_amount = Decimal(str(discount['value']))
+            total_discount += discount_amount
+            
+        return total_discount
+    
     def total_price(self):
-        """Calculate total price including discount handling"""
-        subtotal = sum(item.total_price() for item in self.items.all())
-        # Apply discounts here when discount system is implemented
-        # Example: discounted_amount = self.calculate_discount(subtotal)
-        # return subtotal - discounted_amount
-        return subtotal
+        """Calculate final total including shipping and all discounts"""
+        subtotal = self.calculate_subtotal()
+        shipping_total = self.calculate_shipping_total()
+        order_discount = self.calculate_order_discount()
+        
+        return subtotal + shipping_total - order_discount
+    
+    def validate_items(self):
+        """Validate all items in the order"""
+        # Check if we have any items
+        if not self.items.exists():
+            raise ValidationError(_('Order must contain at least one item'))
+            
+        # Validate shipping address for physical products
+        has_physical_items = any(
+            item.product and item.product.type == Item.GOOD
+            for item in self.items.all()
+        )
+        if has_physical_items and not self.shipping_address:
+            raise ValidationError(_('Shipping address is required for orders with physical products'))
+            
+        # Validate appointment times for services
+        service_items = [
+            item for item in self.items.all()
+            if item.product and item.product.type == Item.SERVICE
+        ]
+        if service_items:
+            for item in service_items:
+                if not item.appointment_datetime:
+                    raise ValidationError(_('All service items must have appointment times'))
+    
+    def clean(self):
+        """Validate the order"""
+        super().clean()
+        
+        if self.status not in [self.DRAFT, self.PENDING] and not self.payment_method:
+            raise ValidationError(_('Payment method is required for non-draft orders'))
+            
+        if self.is_paid and self.status not in [self.CONFIRMED, self.COMPLETED]:
+            raise ValidationError(_('Paid orders must be confirmed or completed'))
+            
+        self.validate_items()
+    
+    def confirm_order(self):
+        """Confirm the order after payment"""
+        with transaction.atomic():
+            self.status = self.CONFIRMED
+            self.save()
+            
+            # Update product stock
+            for item in self.items.all():
+                if item.product and item.product.type == Item.GOOD:
+                    item.product.stock -= item.quantity
+                    item.product.save()
+    
+    def cancel_order(self, reason=None):
+        """Cancel the order and restore stock"""
+        if self.status in [self.COMPLETED, self.FAILED]:
+            raise ValidationError(_('Cannot cancel completed or failed orders'))
+            
+        with transaction.atomic():
+            old_status = self.status
+            self.status = self.REJECTED
+            if reason:
+                self.description = f'{self.description}\nCancellation reason: {reason}' if self.description else f'Cancellation reason: {reason}'
+            self.save()
+            
+            # Restore product stock if order was confirmed
+            if old_status == self.CONFIRMED:
+                for item in self.items.all():
+                    if item.product and item.product.type == Item.GOOD:
+                        item.product.stock += item.quantity
+                        item.product.save()
     
     def total_items(self):
         return sum(item.quantity for item in self.items.all())
@@ -197,7 +434,7 @@ class OrderItem(BaseModel):
         verbose_name=_('Order'),
     )
     product = models.ForeignKey(
-        Product,
+        Item,
         null=True,
         blank=True,
         on_delete=models.CASCADE,

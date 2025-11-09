@@ -1,6 +1,6 @@
 from apps.base.models import models, BaseModel
 from django.utils.translation import gettext_lazy as _
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.category.models import Category
 from apps.users.models import User
 from apps.region.models import (
@@ -104,7 +104,7 @@ class Advertisement(BaseModel):
         verbose_name=_('Price')
     )
     product = models.OneToOneField(
-        Product, 
+        Item, 
         on_delete=models.CASCADE, 
         related_name='advertisements',
         null=True, 

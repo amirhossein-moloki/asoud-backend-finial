@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from apps.base.models import BaseModel
 from apps.users.models import User
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.cart.models import Order
 
 class InventoryLog(BaseModel):

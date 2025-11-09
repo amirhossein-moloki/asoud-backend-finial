@@ -70,7 +70,7 @@ class ComprehensivePerformanceTester:
         print("🗄️ Testing database performance...")
         
         from django.db import connection
-        from apps.product.models import Product
+        from apps.item.models import Item
         from apps.market.models import Market
         from apps.cart.models import Order
         
@@ -78,7 +78,7 @@ class ComprehensivePerformanceTester:
         
         # Test 1: Simple query
         start_time = time.time()
-        products = list(Product.objects.all()[:100])
+        items = list(Item.objects.all()[:100])
         simple_query_time = time.time() - start_time
         db_results['simple_query_time'] = round(simple_query_time * 1000, 2)
         
@@ -90,7 +90,7 @@ class ComprehensivePerformanceTester:
         
         # Test 3: Aggregation query
         start_time = time.time()
-        stats = Product.objects.aggregate(
+        stats = Item.objects.aggregate(
             total=Count('id'),
             avg_price=Avg('price'),
             max_price=Max('price')
@@ -207,11 +207,11 @@ class ComprehensivePerformanceTester:
         print("🌐 Testing API performance...")
         
         endpoints = [
-            '/api/v1/user/products/',
+            '/api/v1/user/items/',
             '/api/v1/user/markets/',
             '/api/v1/user/order/',
             '/health/',
-            '/api/v1/user/products/?page=1&page_size=10',
+            '/api/v1/user/items/?page=1&page_size=10',
             '/api/v1/user/markets/?search=test',
         ]
         
@@ -229,7 +229,7 @@ class ComprehensivePerformanceTester:
         print(f"⚡ Testing concurrent load ({num_requests} requests)...")
         
         endpoints = [
-            '/api/v1/user/products/',
+            '/api/v1/user/items/',
             '/api/v1/user/markets/',
             '/health/',
         ]
@@ -286,7 +286,7 @@ class ComprehensivePerformanceTester:
         
         # Perform memory-intensive operations
         for i in range(100):
-            self.test_api_endpoint('/api/v1/user/products/')
+            self.test_api_endpoint('/api/v1/user/items/')
         
         memory_after = process.memory_info().rss / (1024**2)  # MB
         memory_increase = memory_after - memory_before

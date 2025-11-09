@@ -95,11 +95,11 @@
             background: white;
         }
         
-        .products-section {
+        .items-section {
             padding: 3rem 0;
         }
         
-        .product-card {
+        .item-card {
             border: none;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
@@ -108,18 +108,18 @@
             margin-bottom: 2rem;
         }
         
-        .product-card:hover {
+        .item-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
-        .product-image {
+        .item-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
         }
         
-        .product-price {
+        .item-price {
             color: var(--theme-color);
             font-weight: bold;
             font-size: 1.2rem;
@@ -286,39 +286,39 @@
         </div>
         {% endif %}
 
-        <!-- Products Section -->
-        {% if products and market.show_products %}
-        <div class="products-section">
+        <!-- Items Section -->
+        {% if items and market.show_products %}
+        <div class="items-section">
             <div class="row mb-4">
                 <div class="col-md-8">
                     <h2 class="fw-bold">
                         <i class="fas fa-shopping-bag me-2" style="color: var(--theme-color);"></i>
-                        Our Products
+                        Our Items
                     </h2>
-                    <p class="text-muted">Discover our amazing collection of products</p>
+                    <p class="text-muted">Discover our amazing collection of items</p>
                 </div>
                 <div class="col-md-4">
                     <div class="stats-card">
-                        <h4>{{ products|length }}</h4>
-                        <small>Products Available</small>
+                        <h4>{{ items|length }}</h4>
+                        <small>Items Available</small>
                     </div>
                 </div>
             </div>
             
             <div class="row">
-                {% for product in products %}
+                {% for item in items %}
                 <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                    <div class="card product-card h-100">
-                        {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+                    <div class="card item-card h-100">
+                        {% if item.image %}
+                            <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-image">
                         {% else %}
-                            <div class="product-image d-flex align-items-center justify-content-center bg-light">
+                            <div class="item-image d-flex align-items-center justify-content-center bg-light">
                                 <i class="fas fa-image fa-3x text-muted"></i>
                             </div>
                         {% endif %}
                         <div class="card-body">
-                            <h6 class="card-title">{{ product.title }}</h6>
-                            <p class="product-price">${{ product.price|default:"0" }}</p>
+                            <h6 class="card-title">{{ item.title }}</h6>
+                            <p class="item-price">${{ item.price|default:"0" }}</p>
                             <button class="btn btn-sm w-100" style="background-color: var(--theme-color); color: white;">
                                 <i class="fas fa-cart-plus me-1"></i> Add to Cart
                             </button>
@@ -364,9 +364,9 @@
             <div class="mb-4">
                 <label class="form-label fw-bold">Display Options</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="showProducts" {% if market.show_products %}checked{% endif %} onchange="toggleProducts(this.checked)">
-                    <label class="form-check-label" for="showProducts">
-                        Show Products Section
+                    <input class="form-check-input" type="checkbox" id="showItems" {% if market.show_items %}checked{% endif %} onchange="toggleItems(this.checked)">
+                    <label class="form-check-label" for="showItems">
+                        Show Items Section
                     </label>
                 </div>
                 <div class="form-check">
@@ -446,8 +446,8 @@
             document.documentElement.style.setProperty('--text-color', color);
         }
 
-        function toggleProducts(show) {
-            const section = document.querySelector('.products-section');
+        function toggleItems(show) {
+            const section = document.querySelector('.items-section');
             if (section) {
                 section.style.display = show ? 'block' : 'none';
             }
@@ -466,7 +466,7 @@
                 theme_color: document.getElementById('themeColor').value,
                 background_color: document.getElementById('backgroundColor').value,
                 text_color: document.getElementById('textColor').value,
-                show_products: document.getElementById('showProducts').checked,
+                show_items: document.getElementById('showItems').checked,
                 show_slider: document.getElementById('showSlider').checked,
             };
 

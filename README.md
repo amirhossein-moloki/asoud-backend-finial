@@ -205,7 +205,7 @@ flake8 .
 docker-compose exec web python manage.py test
 
 # Run specific app tests
-docker-compose exec web python manage.py test apps.product
+docker-compose exec web python manage.py test apps.item
 
 # Run with coverage
 docker-compose exec web coverage run --source='.' manage.py test

@@ -1,5 +1,5 @@
 from apps.base.models import BaseModel, models
-from apps.product.models import Product
+from apps.item.models import Item
 from apps.users.models import User
 from django.utils.translation import gettext_lazy as _
 # from django.contrib.postgres.fields import ArrayField

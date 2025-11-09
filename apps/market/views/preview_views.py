@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 import json
 
 from ..models import Market, MarketSlider
-from apps.product.models import Product
+from apps.item.models import Item
 
 
 class MarketPreviewView(View):
@@ -32,7 +32,7 @@ class MarketPreviewView(View):
         
         # Get market data
         slider_images = MarketSlider.objects.filter(market=market).order_by('created_at')
-        products = Product.objects.filter(market=market, is_active=True)[:12]  # Limit for preview
+        products = Item.objects.filter(market=market, is_active=True)[:12]  # Limit for preview
         
         # Preview mode context
         context = {
@@ -143,7 +143,7 @@ class MarketLivePreviewAPIView(APIView):
         
         # Get fresh data
         slider_images = MarketSlider.objects.filter(market=market).order_by('created_at')
-        products = Product.objects.filter(market=market, is_active=True)[:12]
+        products = Item.objects.filter(market=market, is_active=True)[:12]
         
         # Serialize data for JSON response
         slider_data = []
@@ -179,8 +179,8 @@ class MarketLivePreviewAPIView(APIView):
             'slider_images': slider_data,
             'products': product_data,
             'stats': {
-                'total_products': Product.objects.filter(market=market).count(),
-                'active_products': Product.objects.filter(market=market, is_active=True).count(),
+                'total_products': Item.objects.filter(market=market).count(),
+                'active_products': Item.objects.filter(market=market, is_active=True).count(),
                 'slider_count': slider_images.count(),
             }
         })
@@ -198,7 +198,7 @@ def market_preview_iframe(request, market_id):
     
     # Get market data
     slider_images = MarketSlider.objects.filter(market=market).order_by('created_at')
-    products = Product.objects.filter(market=market, is_active=True)[:8]  # Fewer for iframe
+    products = Item.objects.filter(market=market, is_active=True)[:8]  # Fewer for iframe
     
     context = {
         'market': market,

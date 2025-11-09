@@ -8,8 +8,8 @@ from apps.market.serializers.user_serializers import (
     MarketListSerializer,
     MarketDetailSerializer
 )
-from apps.product.models import Product
-from apps.product.serializers.owner_serializers import ProductDetailSerializer
+from apps.item.models import Item
+from apps.item.serializers.owner_serializers import ItemDetailSerializer
 from apps.advertise.models import Advertisement
 from apps.advertise.serializers import AdvertiseSerializer
 from apps.users.models import UserBankInfo
@@ -54,34 +54,34 @@ class MarketDetailView(views.APIView):
         )
         
 
-class ProductDetailView(views.APIView):
+class ItemDetailView(views.APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        product_id = request.GET.get('id')
-        if not product_id:
+        item_id = request.GET.get('id')
+        if not item_id:
             return Response(
                 ApiResponse(
                     success=False,
                     code=400,
-                    error="Product Id Not Provided"
+                    error="Item Id Not Provided"
                 ),
                 status=status.HTTP_400_BAD_REQUEST
             )
         
         try:
-            product = Product.objects.get(id=product_id)
-        except Product.DoesNotExist:
+            item = Item.objects.get(id=item_id)
+        except Item.DoesNotExist:
             return Response(
                 ApiResponse(
                     success=False,
                     code=404,
-                    error="Product Not Found"
+                    error="Item Not Found"
                 ),
                 status=status.HTTP_404_NOT_FOUND
             )
         
-        serializer = ProductDetailSerializer(product)
+        serializer = ItemDetailSerializer(item)
 
         return Response(
             ApiResponse(

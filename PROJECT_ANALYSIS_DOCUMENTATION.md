@@ -7,7 +7,7 @@ ASOUD is a sophisticated e-commerce marketplace platform built with Django REST 
 ## 1. Project Overview
 
 ### 1.1 Core Purpose
-- **Multi-vendor E-commerce Platform**: Enables market owners to create digital storefronts and sell products/services
+- **Multi-vendor E-commerce Platform**: Enables market owners to create digital storefronts and sell items/services
 - **B2B/B2C Marketplace**: Supports both business-to-business and business-to-consumer transactions
 - **Persian Market Focus**: Localized for Persian-speaking markets with RTL support and regional features
 
@@ -53,14 +53,14 @@ ASOUD is a sophisticated e-commerce marketplace platform built with Django REST 
   - User engagement tracking (views, likes, bookmarks)
   - Discount and promotion management
 
-#### 2.1.3 Product Management (`apps.product`)
-**Purpose**: Product catalog and inventory management
-- **Models**: Product, ProductKeyword, ProductTheme, ProductShipping, ProductImage, ProductDiscount
-- **Product Types**: Good, Service
+#### 2.1.3 Item Management (`apps.item`)
+**Purpose**: Item catalog and inventory management
+- **Models**: Item, ItemKeyword, ItemTheme, ItemShipping, ItemImage, ItemDiscount
+- **Item Types**: Good, Service
 - **Pricing Tiers**: Main price, Colleague price, Marketer price, Maximum sell price
 - **Key Features**:
   - Multi-tier pricing for different user types
-  - Product relationships (required products, gift products)
+  - Item relationships (required items, gift items)
   - Inventory management with stock tracking
   - Visual customization with themes and tags
   - Shipping cost management
@@ -73,7 +73,7 @@ ASOUD is a sophisticated e-commerce marketplace platform built with Django REST 
 
 #### 2.1.5 Communication & Engagement
 - **Chat System (`apps.chat`)**: Real-time messaging between users and markets
-- **Comment System (`apps.comment`)**: Product and market reviews
+- **Comment System (`apps.comment`)**: Item and market reviews
 - **Notification System (`apps.notification`)**: Push notifications and alerts
 - **SMS Integration (`apps.sms`)**: SMS delivery for authentication and notifications
 
@@ -84,7 +84,7 @@ ASOUD is a sophisticated e-commerce marketplace platform built with Django REST 
 - **Referral System (`apps.referral`)**: User referral tracking and rewards
 
 ### 2.2 Supporting Applications
-- **Category Management (`apps.category`)**: Product categorization hierarchy
+- **Category Management (`apps.category`)**: Item categorization hierarchy
 - **Regional Support (`apps.region`)**: Geographic data for localization
 - **Advertisement (`apps.advertise`)**: Promotional content management
 - **Price Inquiry (`apps.price_inquiry`)**: Quote request system
@@ -136,20 +136,20 @@ ASOUD is a sophisticated e-commerce marketplace platform built with Django REST 
 
 ### 4.2 Multi-Vendor Marketplace
 - **Market Creation**: Comprehensive market setup with branding and customization
-- **Product Management**: Full product lifecycle management with multi-tier pricing
+- **Item Management**: Full item lifecycle management with multi-tier pricing
 - **Order Processing**: Complete order workflow from cart to fulfillment
 - **Payment Integration**: Multiple payment gateway support (personal and platform)
 
 ### 4.3 Business Intelligence
 - **Analytics Dashboard**: Comprehensive business metrics and KPIs
-- **Performance Tracking**: Market and product performance analytics
+- **Performance Tracking**: Market and item performance analytics
 - **User Behavior Analysis**: Customer journey and engagement tracking
 - **Financial Reporting**: Revenue, commission, and transaction reporting
 
 ### 4.4 Communication Platform
 - **Real-time Chat**: Direct communication between customers and market owners
 - **Notification System**: Multi-channel notification delivery (SMS, push, in-app)
-- **Review System**: Product and market rating and review system
+- **Review System**: Item and market rating and review system
 - **Customer Support**: Integrated support ticket system
 
 ## 5. Code Quality Assessment

@@ -4,7 +4,7 @@ Analytics Admin for ASOUD Platform
 
 from django.contrib import admin
 from .models import (
-    UserBehaviorEvent, UserSession, ProductAnalytics, 
+    UserBehaviorEvent, UserSession, ItemAnalytics, 
     MarketAnalytics, UserAnalytics, AnalyticsAggregation
 )
 
@@ -60,16 +60,16 @@ class UserSessionAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(ProductAnalytics)
-class ProductAnalyticsAdmin(admin.ModelAdmin):
-    list_display = ['product', 'total_views', 'conversion_rate', 'revenue', 'popularity_score', 'trending_score']
+@admin.register(ItemAnalytics)
+class ItemAnalyticsAdmin(admin.ModelAdmin):
+    list_display = ['item', 'total_views', 'conversion_rate', 'revenue', 'popularity_score', 'trending_score']
     list_filter = ['created_at', 'updated_at']
-    search_fields = ['product__name', 'product__category__name']
+    search_fields = ['item__name', 'item__subcategory__name']
     readonly_fields = ['created_at', 'updated_at']
     
     fieldsets = (
-        ('Product', {
-            'fields': ('product',)
+        ('Item', {
+            'fields': ('item',)
         }),
         ('View Metrics', {
             'fields': ('total_views', 'unique_views', 'views_today', 'views_this_week', 'views_this_month')
@@ -94,11 +94,11 @@ class ProductAnalyticsAdmin(admin.ModelAdmin):
     actions = ['calculate_metrics']
     
     def calculate_metrics(self, request, queryset):
-        """Calculate metrics for selected products"""
-        for product_analytics in queryset:
-            product_analytics.calculate_metrics()
+        """Calculate metrics for selected items"""
+        for item_analytics in queryset:
+            item_analytics.calculate_metrics()
         
-        self.message_user(request, f'Metrics calculated for {queryset.count()} products.')
+        self.message_user(request, f'Metrics calculated for {queryset.count()} items.')
 
 
 @admin.register(MarketAnalytics)
