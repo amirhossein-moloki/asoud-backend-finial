@@ -9,6 +9,7 @@ from apps.market.models import (
     MarketSlider,
     MarketTheme,
 )
+from apps.category.models import SubCategory
 
 
 class MarketCreateSerializer(serializers.ModelSerializer):
@@ -22,8 +23,8 @@ class MarketCreateSerializer(serializers.ModelSerializer):
             'national_code',
             'sub_category',
             'slogan',
-            'payment_gateway_type',  # New field for PDF compliance
-            'personal_gateway_config',  # New field for PDF compliance
+            'payment_gateway_type',
+            'personal_gateway_config',
         ]
 
     def validate(self, data):
@@ -51,9 +52,20 @@ class MarketCreateSerializer(serializers.ModelSerializer):
         return data
 
 
-class MarketUpdateSerializer(MarketCreateSerializer):
-    def update(self, instance, validated_data):
-        return super().update(instance, validated_data)
+class MarketUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Market
+        fields = [
+            'type',
+            'business_id',
+            'name',
+            'description',
+            'national_code',
+            'sub_category',
+            'slogan',
+            'payment_gateway_type',
+            'personal_gateway_config',
+        ]
 
 
 class MarketLocationCreateSerializer(serializers.ModelSerializer):
@@ -196,12 +208,14 @@ class MarketListSerializer(serializers.ModelSerializer):
             'view_count',
         ]
 
-    def get_created_at(self, obj):
+    def get_created_at(self, obj: Market) -> str:
+        """Returns the creation date in Jalali format."""
         created_at_date = obj.created_at.date()
         jalali_date = jdatetime.date.fromgregorian(date=created_at_date)
         return jalali_date.strftime("%Y/%m/%d")
 
-    def get_inactive_url(self, obj):
+    def get_inactive_url(self, obj: Market) -> str:
+        """Returns the URL to deactivate the market."""
         request = self.context.get('request')
         return request.build_absolute_uri(
             reverse(
@@ -210,7 +224,8 @@ class MarketListSerializer(serializers.ModelSerializer):
             )
         )
 
-    def get_queue_url(self, obj):
+    def get_queue_url(self, obj: Market) -> str:
+        """Returns the URL to queue the market."""
         request = self.context.get('request')
         return request.build_absolute_uri(
             reverse(
@@ -219,10 +234,12 @@ class MarketListSerializer(serializers.ModelSerializer):
             )
         )
 
-    def get_sub_category_title(self, obj):
+    def get_sub_category_title(self, obj: Market) -> str:
+        """Returns the title of the sub-category."""
         return obj.sub_category.title if obj.sub_category else None
 
-    def get_view_count(self, obj):
+    def get_view_count(self, obj: Market) -> int:
+        """Returns the number of views for the market."""
         market_viewed_by = obj.viewed_by.all()
         return market_viewed_by.count()
 
