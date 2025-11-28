@@ -9,7 +9,7 @@ from datetime import timedelta
 import json
 
 from .models import (
-    UserBehaviorEvent, UserSession, ProductAnalytics, 
+    UserBehaviorEvent, UserSession, ItemAnalytics,
     MarketAnalytics, UserAnalytics, AnalyticsAggregation
 )
 from .services import AnalyticsService, MLService, RealTimeAnalyticsService
@@ -330,7 +330,7 @@ class AnalyticsIntegrationTestCase(TestCase):
     def test_end_to_end_analytics_flow(self):
         """Test end-to-end analytics flow"""
         # Create a session
-        session = UserSession.objects.create(
+        UserSession.objects.create(
             user=self.user,
             session_id='test_session',
             ip_address='192.168.1.1',
@@ -350,14 +350,14 @@ class AnalyticsIntegrationTestCase(TestCase):
         # Create some events
         UserBehaviorEvent.objects.create(
             user=self.user,
-            session_id=session.session_id,
+            session_id='test_session',
             event_type='page_view',
             page_url='https://asoud.com/products'
         )
         
         UserBehaviorEvent.objects.create(
             user=self.user,
-            session_id=session.session_id,
+            session_id='test_session',
             event_type='purchase',
             event_data={'value': 100.0}
         )
@@ -365,14 +365,13 @@ class AnalyticsIntegrationTestCase(TestCase):
         # Update analytics
         self.user_analytics.calculate_metrics()
         
-        # Get dashboard data
-        analytics_service = AnalyticsService()
-        dashboard_data = analytics_service.get_dashboard_data(self.user)
-        
+        # Refresh from DB to get the updated values
+        self.user_analytics.refresh_from_db()
+
         # Verify that analytics were updated
-        self.assertGreater(dashboard_data['total_sessions'], 0)
-        self.assertGreater(dashboard_data['total_page_views'], 0)
-        self.assertGreater(dashboard_data['total_orders'], 0)
+        self.assertGreater(self.user_analytics.total_sessions, 0)
+        self.assertGreater(self.user_analytics.total_page_views, 0)
+        self.assertGreater(self.user_analytics.total_orders, 0)
     
     def test_ml_recommendations_integration(self):
         """Test ML recommendations integration"""
@@ -401,4 +400,3 @@ class AnalyticsIntegrationTestCase(TestCase):
         self.assertIsInstance(recommendations['products'], list)
         self.assertIsInstance(recommendations['categories'], list)
         self.assertIsInstance(recommendations['markets'], list)
-

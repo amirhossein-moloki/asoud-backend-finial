@@ -157,10 +157,16 @@ class PinVerifyAPIView(views.APIView):
 
 
 class BanksListView(views.APIView):
-    permission_classes = [AllowAny, ]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
-        objs = BankInfo.objects.all()
-        serializer = serializers.BankInfoSerializer(objs, many=True)
+        user_bank_info_list = UserBankInfo.objects.filter(
+            user=request.user,
+        )
+        serializer = serializers.UserBankInfoListSerializer(
+            user_bank_info_list,
+            many=True,
+            context={"request": request},
+        )
         success_response = ApiResponse(
                 success=True,
                 code=200,

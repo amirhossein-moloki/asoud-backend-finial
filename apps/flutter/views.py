@@ -164,17 +164,17 @@ class BankCardView(BaseDetailView):
     """
     Get bank card information
     """
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     
     def get_queryset(self):
-        return UserBankInfo.objects.all()
+        return UserBankInfo.objects.filter(user=self.request.user)
     
     def get_serializer_class(self):
         return UserBankInfoListSerializer
 
     def get(self, request, pk):
         try:
-            bank_info = UserBankInfo.objects.get(id=pk)
+            bank_info = self.get_queryset().get(id=pk)
             serializer = UserBankInfoListSerializer(bank_info)
             return self.success_response(data=serializer.data)
         
