@@ -17,6 +17,9 @@ from apps.item.serializers.owner_serializers import (
 from apps.item.models import Item, ItemTheme
 from apps.market.models import Market
 from apps.advertise.core  import AdvertisementCore
+from apps.item.services import ItemService
+from apps.base.error_handlers import standard_error_handler
+from django.core.exceptions import ValidationError
 
 # affiliate products
 from apps.affiliate.models import (
@@ -27,37 +30,35 @@ from apps.affiliate.serializers.user import (
     AffiliateProductThemeListSerializer,
     AffiliateProductListSerializer
 )
+from apps.item.serializers.owner_serializers import ItemDetailSerializer
 
 class ItemCreateAPIView(views.APIView):
+    @standard_error_handler
     def post(self, request):
         serializer = ItemCreateSerializer(
             data=request.data,
             context={'request': request},
         )
+        serializer.is_valid(raise_exception=True)
 
-        if serializer.is_valid(raise_exception=True):
-            item = serializer.save()
+        item_service = ItemService()
+        item = item_service.create_item(request.user, serializer.validated_data)
 
-            item_id = item.id
+        item_serializer = ItemDetailSerializer(item)
+        success_response = ApiResponse(
+            success=True,
+            code=200,
+            data=item_serializer.data,
+            message='Item created successfully.',
+        )
 
-            if item.is_requirement:
-                ad_data = AdvertisementCore.create_advertisement_for_item(item)
+        return Response(success_response, status=status.HTTP_201_CREATED)
 
 
-            success_response = ApiResponse(
-                success=True,
-                code=200,
-                data={
-                    'item': item_id,
-                    **serializer.data,
-                },
-                message='Item created successfully.',
-            )
-
-            return Response(success_response, status=status.HTTP_201_CREATED)
-
+from apps.item.services import ItemDiscountService
 
 class ItemDiscountCreateAPIView(views.APIView):
+    @standard_error_handler
     def post(self, request, pk):
         item = Item.objects.get(id=pk)
 
@@ -65,11 +66,11 @@ class ItemDiscountCreateAPIView(views.APIView):
             data=request.data,
             context={'request': request},
         )
-        serializer.is_valid()
-        serializer.save(item=item)
-        percentage = serializer.validated_data.get('percentage')
-        item.main_price = item.main_price - (item.main_price * percentage / 100)
-        item.save()
+        serializer.is_valid(raise_exception=True)
+
+        item_discount_service = ItemDiscountService()
+        item_discount_service.create_item_discount(item, serializer.validated_data)
+
         success_response = ApiResponse(
                 success=True,
                 code=200,
@@ -81,24 +82,21 @@ class ItemDiscountCreateAPIView(views.APIView):
 
         return Response(success_response, status=status.HTTP_201_CREATED)
     
+from apps.item.services import ItemShippingService
+
 class ItemShippingCreateAPIView(views.APIView):
+    @standard_error_handler
     def post(self, request, pk):
-        try:
-            item = Item.objects.get(id=pk)
-        except  Item.DoesNotExist:
-            return Response(
-                ApiResponse(
-                    success=False,
-                    code=404,
-                    error="Item Not Found"
-                )
-            )
+        item = Item.objects.get(id=pk)
         serializer = ItemShippingCreateSerializer(
             data=request.data,
             context={'request': request},
         )
-        serializer.is_valid()
-        serializer.save(item=item)
+        serializer.is_valid(raise_exception=True)
+
+        item_shipping_service = ItemShippingService()
+        item_shipping_service.create_item_shipping(item, serializer.validated_data)
+
         success_response = ApiResponse(
                 success=True,
                 code=200,
@@ -139,7 +137,7 @@ class ItemShippingListAPIView(views.APIView):
 
 class ItemListAPIView(views.APIView):
     def get(self, request, pk):
-        item_list = Item.objects.filter(
+        item_list = Item.objects.select_related('market').filter(
             market=pk
         )
 
@@ -152,7 +150,7 @@ class ItemListAPIView(views.APIView):
         with_affiliate = request.GET.get('affiliate')
 
         if with_affiliate:
-            affiliate_product_list = AffiliateProduct.objects.filter(
+            affiliate_product_list = AffiliateProduct.objects.select_related('market').filter(
                 market=pk
             )
             
@@ -183,8 +181,8 @@ class ItemListAPIView(views.APIView):
 class ItemDetailAPIView(views.APIView):
     def get(self, request, pk):
         try:
-            item = Item.objects.get(id=pk)
-        except:
+            item = Item.objects.select_related('market').get(id=pk)
+        except Item.DoesNotExist:
             return Response(
                 ApiResponse(
                     success=False,

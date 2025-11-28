@@ -53,6 +53,9 @@ from ..serializers.owner_serializers import (
     MarketLocationUpdateSerializer,
     MarketUpdateSerializer,
 )
+from ..services import MarketService
+from apps.base.exceptions import BusinessLogicException
+from apps.base.error_handlers import standard_error_handler
 
 
 class MarketCreate(ErrorHandlerMixin, APIView):
@@ -61,35 +64,30 @@ class MarketCreate(ErrorHandlerMixin, APIView):
     """
     permission_classes = [permissions.IsAuthenticated]
 
+    @standard_error_handler
     def post(self, request):
         serializer = MarketCreateSerializer(data=request.data, context={'request': request})
-        
-        try:
-            with transaction.atomic():
-                if serializer.is_valid():
-                    market = serializer.save(user=request.user)
-                    
-                    log_user_action(
-                        request.user,
-                        'CREATE_MARKET',
-                        model_name='Market',
-                        object_id=market.id,
-                        details={'market_name': market.name}
-                    )
-                    
-                    log_info(f"Market '{market.name}' created successfully.", user=request.user)
-                    
-                    return Response({
-                        'success': True,
-                        'message': 'Market created successfully',
-                        'data': MarketGetSerializer(market).data
-                    }, status=status.HTTP_201_CREATED)
-                
-                return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
-        
-        except Exception as e:
-            log_error(e, context={'request_data': request.data}, user=request.user)
-            return create_error_response(e, status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        serializer.is_valid(raise_exception=True)
+
+        market_service = MarketService()
+        with transaction.atomic():
+            market = market_service.create_market(request.user, serializer.validated_data)
+
+            log_user_action(
+                request.user,
+                'CREATE_MARKET',
+                model_name='Market',
+                object_id=market.id,
+                details={'market_name': market.name}
+            )
+
+            log_info(f"Market '{market.name}' created successfully.", user=request.user)
+
+            return Response({
+                'success': True,
+                'message': 'Market created successfully',
+                'data': MarketGetSerializer(market).data
+            }, status=status.HTTP_201_CREATED)
 
 
 class MarketUpdate(ErrorHandlerMixin, APIView):
@@ -102,36 +100,31 @@ class MarketUpdate(ErrorHandlerMixin, APIView):
         market = get_object_or_404(Market, pk=pk, user=self.request.user)
         return market
 
+    @standard_error_handler
     def put(self, request, pk):
-        try:
-            market = self.get_object(pk)
-            serializer = MarketUpdateSerializer(market, data=request.data, context={'request': request})
+        market = self.get_object(pk)
+        serializer = MarketUpdateSerializer(market, data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
 
-            if serializer.is_valid():
-                with transaction.atomic():
-                    updated_market = serializer.save()
-                    
-                    log_user_action(
-                        request.user,
-                        'UPDATE_MARKET',
-                        model_name='Market',
-                        object_id=updated_market.id,
-                        details={'updated_fields': list(request.data.keys())}
-                    )
-                    
-                    log_info(f"Market '{updated_market.name}' updated successfully.", user=request.user)
-                    
-                    return Response({
-                        'success': True,
-                        'message': 'Market updated successfully',
-                        'data': MarketGetSerializer(updated_market).data
-                    })
+        market_service = MarketService()
+        with transaction.atomic():
+            updated_market = market_service.update_market(market, serializer.validated_data)
             
-            return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
+            log_user_action(
+                request.user,
+                'UPDATE_MARKET',
+                model_name='Market',
+                object_id=updated_market.id,
+                details={'updated_fields': list(request.data.keys())}
+            )
             
-        except Exception as e:
-            log_error(e, context={'market_id': pk, 'request_data': request.data}, user=request.user)
-            return create_error_response(e)
+            log_info(f"Market '{updated_market.name}' updated successfully.", user=request.user)
+
+            return Response({
+                'success': True,
+                'message': 'Market updated successfully',
+                'data': MarketGetSerializer(updated_market).data
+            })
 
 
 class MarketGet(ErrorHandlerMixin, generics.RetrieveAPIView):
@@ -140,10 +133,9 @@ class MarketGet(ErrorHandlerMixin, generics.RetrieveAPIView):
     """
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = MarketGetSerializer
-    queryset = Market.objects.all()
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
+        return Market.objects.select_related('location', 'contact').filter(user=self.request.user)
 
 
 class MarketList(ErrorHandlerMixin, generics.ListAPIView):
@@ -154,7 +146,7 @@ class MarketList(ErrorHandlerMixin, generics.ListAPIView):
     serializer_class = MarketListSerializer
 
     def get_queryset(self):
-        return Market.objects.filter(user=self.request.user).order_by('-created_at')
+        return Market.objects.select_related('sub_category', 'theme').prefetch_related('viewed_by').filter(user=self.request.user).order_by('-created_at')
 
 
 class MarketLocationCreate(ErrorHandlerMixin, APIView):
@@ -163,37 +155,31 @@ class MarketLocationCreate(ErrorHandlerMixin, APIView):
     """
     permission_classes = [permissions.IsAuthenticated]
 
+    @standard_error_handler
     def post(self, request):
         serializer = MarketLocationCreateSerializer(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+
+        market = serializer.validated_data['market']
         
-        try:
-            if serializer.is_valid():
-                market = serializer.validated_data['market']
-                
-                # Check ownership
-                if market.user != request.user:
-                    return create_error_response(PermissionError('You do not own this market.'), status_code=status.HTTP_403_FORBIDDEN)
-                
-                # Prevent duplicate location
-                if MarketLocation.objects.filter(market=market).exists():
-                    return create_error_response(BusinessLogicError('Location for this market already exists.'), status_code=status.HTTP_400_BAD_REQUEST)
+        # Check ownership
+        if market.user != request.user:
+            raise PermissionDenied('You do not own this market.')
 
-                with transaction.atomic():
-                    location = serializer.save()
-                    log_user_action(request.user, 'CREATE_MARKET_LOCATION', 'MarketLocation', location.id)
-                    log_info(f"Location created for market '{market.name}'", user=request.user)
-                    
-                    return Response({
-                        'success': True,
-                        'message': 'Market location created successfully',
-                        'data': MarketLocationCreateSerializer(location).data
-                    }, status=status.HTTP_201_CREATED)
+        # Prevent duplicate location
+        if MarketLocation.objects.filter(market=market).exists():
+            raise BusinessLogicException('Location for this market already exists.')
+
+        with transaction.atomic():
+            location = serializer.save()
+            log_user_action(request.user, 'CREATE_MARKET_LOCATION', 'MarketLocation', location.id)
+            log_info(f"Location created for market '{market.name}'", user=request.user)
             
-            return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
-
-        except Exception as e:
-            log_error(e, context={'request_data': request.data}, user=request.user)
-            return create_error_response(e)
+            return Response({
+                'success': True,
+                'message': 'Market location created successfully',
+                'data': MarketLocationCreateSerializer(location).data
+            }, status=status.HTTP_201_CREATED)
 
 
 class MarketLocationUpdate(ErrorHandlerMixin, APIView):
@@ -205,31 +191,25 @@ class MarketLocationUpdate(ErrorHandlerMixin, APIView):
     def get_object(self, pk):
         location = get_object_or_404(MarketLocation, pk=pk)
         if location.market.user != self.request.user:
-            raise PermissionError('You do not have permission to edit this location.')
+            raise PermissionDenied('You do not have permission to edit this location.')
         return location
 
+    @standard_error_handler
     def put(self, request, pk):
-        try:
-            location = self.get_object(pk)
-            serializer = MarketLocationUpdateSerializer(location, data=request.data, context={'request': request})
+        location = self.get_object(pk)
+        serializer = MarketLocationUpdateSerializer(location, data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
 
-            if serializer.is_valid():
-                with transaction.atomic():
-                    updated_location = serializer.save()
-                    log_user_action(request.user, 'UPDATE_MARKET_LOCATION', 'MarketLocation', updated_location.id)
-                    log_info(f"Location updated for market '{location.market.name}'", user=request.user)
-                    
-                    return Response({
-                        'success': True,
-                        'message': 'Market location updated successfully',
-                        'data': MarketLocationUpdateSerializer(updated_location).data
-                    })
+        with transaction.atomic():
+            updated_location = serializer.save()
+            log_user_action(request.user, 'UPDATE_MARKET_LOCATION', 'MarketLocation', updated_location.id)
+            log_info(f"Location updated for market '{location.market.name}'", user=request.user)
             
-            return Response(handle_validation_errors(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
-
-        except Exception as e:
-            log_error(e, context={'location_id': pk, 'request_data': request.data}, user=request.user)
-            return create_error_response(e)
+            return Response({
+                'success': True,
+                'message': 'Market location updated successfully',
+                'data': MarketLocationUpdateSerializer(updated_location).data
+            })
 
 
 class MarketLocationGetAPIView(generics.RetrieveAPIView):
@@ -285,19 +265,14 @@ class MarketPersonalizationInterfaceView(TemplateView):
         market_id = kwargs.get('pk')
         
         try:
-            market = get_object_or_404(Market, id=market_id, owner=self.request.user)
+            market = get_object_or_404(
+                Market.objects.select_related('theme').prefetch_related('sliders'),
+                id=market_id,
+                owner=self.request.user
+            )
             context['market'] = market
-            
-            # Get existing theme if available
-            try:
-                theme = MarketTheme.objects.get(market=market)
-                context['theme'] = theme
-            except MarketTheme.DoesNotExist:
-                context['theme'] = None
-                
-            # Get existing sliders
-            sliders = MarketSlider.objects.filter(market=market)
-            context['sliders'] = sliders
+            context['theme'] = market.theme
+            context['sliders'] = market.sliders.all()
             
         except Market.DoesNotExist:
             context['error'] = 'Market not found or you do not have permission to edit it.'

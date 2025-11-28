@@ -4,6 +4,65 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .models import Market, MarketSubscription
+from apps.users.models import User
+from typing import Dict
+from apps.base.exceptions import BusinessLogicException
+from .serializers.owner_serializers import MarketCreateSerializer, MarketUpdateSerializer
+
+class MarketService:
+    """Business logic service for market operations"""
+
+    def create_market(self, user: User, market_data: Dict) -> Market:
+        """
+        Create new market with validation
+
+        Args:
+            user: Market owner user
+            market_data: Market creation data
+
+        Returns:
+            Created Market instance
+
+        Raises:
+            BusinessLogicException: If validation fails
+        """
+        # Validate user permissions
+        self._validate_market_creation_permissions(user)
+
+        # Create market
+        serializer = MarketCreateSerializer(data=market_data)
+        if serializer.is_valid(raise_exception=True):
+            market = serializer.save(user=user)
+            return market
+
+    def update_market(self, market: Market, market_data: Dict) -> Market:
+        """
+        Update market with validation
+
+        Args:
+            market: Market instance to update
+            market_data: Market update data
+
+        Returns:
+            Updated Market instance
+        """
+        serializer = MarketUpdateSerializer(market, data=market_data, partial=True)
+        if serializer.is_valid(raise_exception=True):
+            return serializer.save()
+
+    def _validate_market_creation_permissions(self, user: User) -> None:
+        """Validate user can create market"""
+        if user.type != 'owner':
+            raise BusinessLogicException(
+                code='INVALID_USER_TYPE',
+                message='Only owners can create markets'
+            )
+
+        if Market.objects.filter(user=user).count() >= 5:
+            raise BusinessLogicException(
+                code='MARKET_LIMIT_EXCEEDED',
+                message='Maximum market limit reached'
+            )
 
 
 class SubscriptionService:
