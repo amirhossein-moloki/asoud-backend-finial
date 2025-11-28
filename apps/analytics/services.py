@@ -119,7 +119,7 @@ class AnalyticsService:
         products_sold = UserBehaviorEvent.objects.filter(
             user=user, event_type='purchase'
         ).values('object_id').distinct().count()
-        top_products = self._get_top_products(limit=5)
+        top_products = self._get_top_items(limit=5)
         
         # Market metrics
         total_markets = MarketAnalytics.objects.count()
@@ -222,12 +222,12 @@ class AnalyticsService:
             return cached_data
         
         if entity_type == 'products':
-            performers = ProductAnalytics.objects.order_by('-popularity_score')[:limit]
+            performers = ItemAnalytics.objects.order_by('-popularity_score')[:limit]
             data = []
             for performer in performers:
                 data.append({
-                    'id': performer.product.id,
-                    'name': performer.product.name,
+                    'id': performer.item.id,
+                    'name': performer.item.name,
                     'score': performer.popularity_score,
                     'views': performer.total_views,
                     'revenue': float(performer.revenue)
@@ -372,10 +372,10 @@ class AnalyticsService:
         
         return (bounced_sessions / total_sessions * 100) if total_sessions > 0 else 0
     
-    def _get_top_products(self, limit=5):
-        """Get top products"""
-        return list(ProductAnalytics.objects.order_by('-popularity_score')[:limit].values(
-            'product__name', 'popularity_score', 'total_views', 'revenue'
+    def _get_top_items(self, limit=5):
+        """Get top items"""
+        return list(ItemAnalytics.objects.order_by('-popularity_score')[:limit].values(
+            'item__name', 'popularity_score', 'total_views', 'revenue'
         ))
     
     def _get_top_markets(self, limit=5):
@@ -590,8 +590,8 @@ class MLService:
         
         if not user_events:
             # If no purchase history, return popular products
-            return list(ProductAnalytics.objects.order_by('-popularity_score')[:limit].values(
-                'product__name', 'product__main_price', 'popularity_score'
+            return list(ItemAnalytics.objects.order_by('-popularity_score')[:limit].values(
+                'item__name', 'item__base_price', 'popularity_score'
             ))
         
         # Find similar users based on purchase history
@@ -771,9 +771,9 @@ class MLService:
 
         # 2. If not available, get categories from user's purchase history
         purchased_categories = Category.objects.filter(
-            subcategory__product__orderitem__order__user_id=user_id
+            subcategory__item__orderitem__order__user_id=user_id
         ).annotate(
-            purchase_count=Count('subcategory__product__orderitem')
+            purchase_count=Count('subcategory__item__orderitem')
         ).order_by('-purchase_count')[:5]
 
         if purchased_categories.exists():
@@ -781,7 +781,7 @@ class MLService:
 
         # 3. As a fallback, return globally popular categories
         popular_categories = Category.objects.annotate(
-            product_count=Count('subcategory__product')
+            product_count=Count('subcategory__item')
         ).order_by('-product_count')[:5]
 
         return list(popular_categories)

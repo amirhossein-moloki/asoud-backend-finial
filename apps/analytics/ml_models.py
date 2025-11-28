@@ -51,7 +51,7 @@ import logging
 import json
 from typing import List, Dict, Any, Optional, Tuple
 
-from .models import UserBehaviorEvent, UserSession, ProductAnalytics, UserAnalytics
+from .models import UserBehaviorEvent, UserSession, ItemAnalytics, UserAnalytics
 
 logger = logging.getLogger(__name__)
 
@@ -216,10 +216,10 @@ class CollaborativeFilteringModel:
     def _get_popular_items(self, n: int) -> List[Dict[str, Any]]:
         """Get popular items for new users"""
         try:
-            popular_products = ProductAnalytics.objects.order_by('-popularity_score')[:n]
+            popular_products = ItemAnalytics.objects.order_by('-popularity_score')[:n]
             return [
                 {
-                    'product_id': product.product_id,
+                    'product_id': product.item_id,
                     'predicted_rating': float(product.popularity_score) / 100.0
                 }
                 for product in popular_products

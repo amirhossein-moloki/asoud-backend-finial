@@ -153,9 +153,18 @@ class ItemAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for item analytics
     """
-    queryset = ItemAnalytics.objects.all()
     serializer_class = ItemAnalyticsSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Filter events based on user permissions"""
+        queryset = ItemAnalytics.objects.all()
+
+        # If user is not admin, only show their own events
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(item__owner=self.request.user)
+
+        return queryset
     
     @action(detail=False, methods=['get'])
     def top_products(self, request):
@@ -190,9 +199,18 @@ class MarketAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for market analytics
     """
-    queryset = MarketAnalytics.objects.all()
     serializer_class = MarketAnalyticsSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Filter events based on user permissions"""
+        queryset = MarketAnalytics.objects.all()
+
+        # If user is not admin, only show their own events
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(market__owner=self.request.user)
+
+        return queryset
     
     @action(detail=False, methods=['get'])
     def top_markets(self, request):
@@ -224,9 +242,18 @@ class UserAnalyticsViewSet(viewsets.ReadOnlyModelViewSet):
     """
     ViewSet for user analytics
     """
-    queryset = UserAnalytics.objects.all()
     serializer_class = UserAnalyticsSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """Filter events based on user permissions"""
+        queryset = UserAnalytics.objects.all()
+
+        # If user is not admin, only show their own events
+        if not self.request.user.is_staff:
+            queryset = queryset.filter(user=self.request.user)
+
+        return queryset
     
     @action(detail=False, methods=['get'])
     def top_customers(self, request):
